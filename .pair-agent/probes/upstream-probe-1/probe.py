@@ -8,8 +8,14 @@
 
 使い方:
   python probe.py --dry-run                 # m01 だけ・読み手 1 体・標本 1
-  python probe.py                           # 全題材・既定の読み手 2 体・標本 2
+  python probe.py --fake                    # 全題材・既定の読み手 2 体・標本 2・偽読み手つき
   python probe.py --cache-only              # LLM を呼ばず、キャッシュから再集約だけ
+
+p1 → p2 の変更（空撃ち 1 周目の計器の検めで発覚）:
+  - 問いを「〜か」の疑問文から平叙文の記述に変え、答えを 述べている／否定している／触れていない の 3 値にした。
+    否定形の疑問文への Yes/No は日本語で二通りに読め、対の矛盾率が言語慣習で汚れていた
+  - 根拠 id を照合前に正規化する（読み手が「[s5]」と角括弧付きで返す。捏造ではない）
+  - 回答が空／JSON でないときは 1 回だけ再送する（設計 L0「再送 1 回」）
 """
 from __future__ import annotations
 
@@ -32,7 +38,7 @@ OLLAMA = "http://localhost:11434/api/chat"
 DEFAULT_PLANNER = "gemma4:12b"
 DEFAULT_READERS = ["qwen3.5:4b", "gemma3:4b"]
 AXES_PER_SIDE = 4
-PROMPT_VERSION = "p1"
+PROMPT_VERSION = "p2"
 
 # ---------------------------------------------------------------- 単位化（決定論）
 
@@ -103,8 +109,8 @@ class Port:
             payload = {"ok": False, "content": None, "error": f"{type(e).__name__}: {e}"}
         self.calls_live += 1
         with self.cache_path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps({"key": key, "model": model, "sample": sample, "payload": payload},
-                               ensure_ascii=False) + "\n")
+            f.write(json.dumps({"key": key, "model": model, "sample": sample, "version": version,
+                                "payload": payload}, ensure_ascii=False) + "\n")
         self.cache[key] = payload
         return {**payload, "cached": False}
 
@@ -121,10 +127,10 @@ PLAN_SCHEMA = {
                 "properties": {
                     "axis": {"type": "string"},
                     "viewpoint": {"type": "string", "enum": ["support", "refute"]},
-                    "q_affirm": {"type": "string"},
-                    "q_negate": {"type": "string"},
+                    "stmt": {"type": "string"},
+                    "stmt_neg": {"type": "string"},
                 },
-                "required": ["axis", "viewpoint", "q_affirm", "q_negate"],
+                "required": ["axis", "viewpoint", "stmt", "stmt_neg"],
             },
         }
     },
@@ -134,22 +140,23 @@ PLAN_SCHEMA = {
 
 def plan_prompt(units_text: str, proposition: str, per_side: int) -> list[dict]:
     sys_msg = (
-        "あなたは、命題を検証するための問いを設計する係です。文章を書く係ではありません。"
+        "あなたは、命題を検証するための「記述」を設計する係です。文章を書く係ではありません。"
         "出力は指定の JSON だけを返してください。"
     )
-    user = f"""以下の本文について、命題「{proposition}」を検証するための問いを作ってください。
+    user = f"""以下の本文について、命題「{proposition}」を検証するための記述を作ってください。
 
 ## 規則
-1. 問いは「本文の中に、ある出来事・発話・記述が有るか無いか」を Yes / No で答えられる 1 文にする。
-2. 「悪いか」「正しいか」「優れているか」のような評価語で問わない。本文に当てれば決まる問いだけにする。
-3. 命題そのものの言い換えを問いにしない。
-4. viewpoint が "support" の問いは、Yes と答えられたら命題を支持する問い。
-   viewpoint が "refute" の問いは、Yes と答えられたら命題を反証する問い。
+1. 記述は、本文と突き合わせて「本文がそう述べているか、否定しているか、触れていないか」を判定できる平叙文 1 文にする
+   （例: 「太郎は手紙を出した」）。疑問文にしない。
+2. 「悪い」「正しい」「優れている」のような評価語で書かない。本文中の出来事・発話・記述の有無で決まる記述だけにする。
+3. 命題そのものの言い換えにしない。
+4. viewpoint が "support" の記述は、本文がそう述べていれば命題を支持する記述。
+   viewpoint が "refute" の記述は、本文がそう述べていれば命題を反証する記述。
 5. "support" をちょうど {per_side} 件、"refute" をちょうど {per_side} 件。合計 {per_side * 2} 件。
-6. それぞれの問いは別の事実を扱う。同じ事実を言い換えて重ねない。
-7. q_affirm は肯定形の問い。q_negate は同じ事実を否定形で問うたもの
-   （例: q_affirm「太郎は手紙を出したか」→ q_negate「太郎は手紙を出さなかったか」）。
-8. axis は問いが扱う事実の短い名前。
+6. それぞれの記述は別の事実を扱う。同じ事実を言い換えて重ねない。
+7. stmt は肯定形の記述。stmt_neg は同じ事実を否定した記述
+   （例: stmt「太郎は手紙を出した」→ stmt_neg「太郎は手紙を出さなかった」）。
+8. axis は記述が扱う事実の短い名前。
 
 ## 本文
 {units_text}
@@ -179,16 +186,16 @@ def check_plan(axes: list[dict], proposition: str, per_side: int) -> list[str]:
         v.append(f"H1 両観点同数: support={n_s} refute={n_r} (期待 {per_side}/{per_side})")
     seen = set()
     for a in axes:
-        if not a["q_affirm"].strip() or not a["q_negate"].strip():
-            v.append(f"H7 空の問い: {a.get('axis')}")
-        key = _norm(a["q_affirm"])
+        if not a["stmt"].strip() or not a["stmt_neg"].strip():
+            v.append(f"H7 空の記述: {a.get('axis')}")
+        key = _norm(a["stmt"])
         if key in seen:
-            v.append(f"H4 非重複: {a['q_affirm']}")
+            v.append(f"H4 非重複: {a['stmt']}")
         seen.add(key)
-        if _bigram_jaccard(a["q_affirm"], proposition) >= 0.6:
-            v.append(f"H3 非自明（命題の言い換え）: {a['q_affirm']}")
-        if a["q_affirm"] == a["q_negate"]:
-            v.append(f"H7 肯定形と否定形が同一: {a['q_affirm']}")
+        if _bigram_jaccard(a["stmt"], proposition) >= 0.6:
+            v.append(f"H3 非自明（命題の言い換え）: {a['stmt']}")
+        if _norm(a["stmt"]) == _norm(a["stmt_neg"]):
+            v.append(f"H7 肯定形と否定形が同一: {a['stmt']}")
     return v
 
 
@@ -218,66 +225,91 @@ def plan(port: Port, planner: str, units_text: str, proposition: str, per_side: 
 
 # ---------------------------------------------------------------- L2 回答
 
+VERDICTS = ["述べている", "否定している", "触れていない"]
 ANSWER_SCHEMA = {
     "type": "object",
     "properties": {
-        "answer": {"type": "string", "enum": ["Yes", "No", "判定不能"]},
-        "negation_type": {"type": "string", "enum": ["explicit", "absent", "n/a"]},
+        "verdict": {"type": "string", "enum": VERDICTS},
         "evidence": {"type": "array", "items": {"type": "string"}},
     },
-    "required": ["answer", "negation_type", "evidence"],
+    "required": ["verdict", "evidence"],
 }
+_VERDICT_TO_ANSWER = {"述べている": "Yes", "否定している": "No", "触れていない": "判定不能"}
+_VERDICT_TO_NEG = {"述べている": "n/a", "否定している": "explicit", "触れていない": "absent"}
 
 
-def answer_prompt(units_text: str, question: str) -> list[dict]:
+def answer_prompt(units_text: str, statement: str) -> list[dict]:
     sys_msg = (
-        "あなたは、与えられた本文だけを根拠に問いに答える係です。"
+        "あなたは、与えられた本文だけを根拠に、記述が本文とどう関係するかを判定する係です。"
         "本文に書かれていないことを、自分の知識や推測で補ってはいけません。"
         "出力は指定の JSON だけを返してください。"
     )
     user = f"""## 本文（各文に [id] が付いています）
 {units_text}
 
-## 問い
-{question}
+## 記述
+{statement}
 
-## 答え方
-- 本文がその内容を述べているなら answer は "Yes"。evidence に根拠の文の id を 1 つ以上入れる。negation_type は "n/a"。
-- 本文がその内容を明示的に否定しているなら answer は "No"、negation_type は "explicit"。evidence に根拠の文の id を入れる。
-- 本文にその内容についての記述が無いなら answer は "判定不能"、negation_type は "absent"、evidence は空。
-  （記述が無いことを "No" で表さない。）
-- evidence の id は本文に実在する [id] だけを使う。
+## 判定の仕方
+- 本文がこの記述の内容を述べているなら verdict は "述べている"。evidence に根拠の文の id を 1 つ以上入れる。
+- 本文がこの記述の内容を明示的に否定している（反対のことを述べている）なら verdict は "否定している"。evidence に根拠の文の id を入れる。
+- 本文にこの内容についての記述が無い、または本文からは決められないなら verdict は "触れていない"。evidence は空にする。
+- evidence の id は、本文の [ ] の中の文字列（例: s3）だけを使う。
 """
     return [{"role": "system", "content": sys_msg}, {"role": "user", "content": user}]
 
 
-def answer(port: Port, reader: str, units: list[tuple[str, str]], units_text: str, question: str,
+_ID_CLEAN = re.compile(r"[\[\]\s「」]")
+
+
+def normalize_ids(ev: list) -> list[str]:
+    out = []
+    for e in ev:
+        if not isinstance(e, str):
+            continue
+        e2 = _ID_CLEAN.sub("", e)
+        if e2:
+            out.append(e2)
+    return out
+
+
+def answer(port: Port, reader: str, units: list[tuple[str, str]], units_text: str, statement: str,
            sample: int) -> dict:
-    """戻り値: {"answer": Yes|No|判定不能|無効, "negation_type": ..., "evidence": [...], "valid": bool, "raw_answer": ...}"""
+    """戻り値: {"answer": Yes|No|判定不能|無効, "negation_type": ..., "evidence": [...], "valid": bool, "raw_answer": ..., "why": ...}"""
     if reader.startswith("fake:"):
         return fake_answer(reader, units)
-    r = port.chat(reader, answer_prompt(units_text, question), ANSWER_SCHEMA, sample=sample, version=PROMPT_VERSION)
-    if not r["ok"]:
+    msgs = answer_prompt(units_text, statement)
+    obj = None
+    last_err = None
+    for attempt in range(2):  # L0: 再送 1 回
+        ver = PROMPT_VERSION if attempt == 0 else f"{PROMPT_VERSION}:retry"
+        r = port.chat(reader, msgs, ANSWER_SCHEMA, sample=sample, version=ver)
+        if not r["ok"]:
+            last_err = r["error"]
+            continue
+        try:
+            o = json.loads(r["content"])
+            if o.get("verdict") not in VERDICTS:
+                raise ValueError(f"verdict 不正: {o.get('verdict')!r}")
+            obj = o
+            break
+        except Exception as e:  # noqa: BLE001
+            last_err = f"parse: {e} / content={(r['content'] or '')[:80]!r}"
+    if obj is None:
         return {"answer": "無効", "negation_type": None, "evidence": [], "valid": False, "raw_answer": None,
-                "why": r["error"]}
-    try:
-        obj = json.loads(r["content"])
-        ans, neg, ev = obj["answer"], obj["negation_type"], list(obj.get("evidence") or [])
-    except Exception as e:  # noqa: BLE001
-        return {"answer": "無効", "negation_type": None, "evidence": [], "valid": False, "raw_answer": None,
-                "why": f"parse: {e}"}
+                "why": f"L0 失敗（再送後）: {last_err}"}
+    verdict = obj["verdict"]
+    ev_raw = list(obj.get("evidence") or [])
+    ev = normalize_ids(ev_raw)
     ids = {u for u, _ in units}
-    raw = {"answer": ans, "negation_type": neg, "evidence": ev}
-    # H9: 記述が無い No は判定不能へ落とす
-    if ans == "No" and neg == "absent":
-        return {**raw, "answer": "判定不能", "valid": True, "raw_answer": raw, "why": "H9 absent→判定不能"}
+    raw = {"verdict": verdict, "evidence": ev_raw}
+    ans = _VERDICT_TO_ANSWER[verdict]
+    neg = _VERDICT_TO_NEG[verdict]
     if ans in ("Yes", "No"):
         if not ev or any(e not in ids for e in ev):
-            return {**raw, "answer": "無効", "valid": False, "raw_answer": raw, "why": "根拠 id が無い/実在しない"}
-        if ans == "No" and neg != "explicit":
-            # negation_type が n/a の No。明示的否定と主張していないので判定不能に落とす（保守側）
-            return {**raw, "answer": "判定不能", "valid": True, "raw_answer": raw, "why": "No だが explicit でない"}
-    return {**raw, "valid": True, "raw_answer": raw, "why": None}
+            return {"answer": "無効", "negation_type": neg, "evidence": ev, "valid": False, "raw_answer": raw,
+                    "why": "根拠 id が無い/実在しない"}
+    return {"answer": ans, "negation_type": neg, "evidence": ev, "valid": True, "raw_answer": raw, "why": None}
 
 
 def fake_answer(reader: str, units: list[tuple[str, str]]) -> dict:
@@ -302,7 +334,7 @@ def direction(viewpoint: str, ans: str, negated_form: bool) -> int:
         base = -1
     else:
         return 0
-    if negated_form:  # 否定形の問いに Yes ＝ 肯定形に No
+    if negated_form:  # 否定形の記述を「述べている」＝ 肯定形を「否定している」
         base = -base
     return orient * base
 
@@ -387,6 +419,15 @@ def label(c: dict, invalid_rate: float, iota: float = 0.3, rho: float = 0.5, ome
 
 # ---------------------------------------------------------------- 走行
 
+def _answer_all(port: Port, reader: str, axes: list[dict], units, units_text: str, samples: int) -> dict:
+    answers = {}
+    for a in axes:
+        for form, stmt in (("affirm", a["stmt"]), ("negate", a["stmt_neg"])):
+            for s in range(samples):
+                answers[(a["id"], form, s)] = answer(port, reader, units, units_text, stmt, s)
+    return answers
+
+
 def run_material(port: Port, m: dict, planner: str, readers: list[str], samples: int, per_side: int,
                  log) -> dict:
     units = segment(m["text"])
@@ -395,17 +436,13 @@ def run_material(port: Port, m: dict, planner: str, readers: list[str], samples:
     pl = plan(port, planner, units_text, m["proposition"], per_side)
     if pl["axes"] is None:
         log(f"[{m['id']}] 問い生成に失敗（F3）: {pl['attempts']}")
-        return {"id": m["id"], "plan": pl, "readers": {}}
-    log(f"[{m['id']}] 問い {len(pl['axes'])} 件 (ok={pl['ok']}, 試行 {len(pl['attempts'])})")
+        return {"id": m["id"], "title": m["title"], "plan": pl, "readers": {}, "counterfactual": None}
+    log(f"[{m['id']}] 記述 {len(pl['axes'])} 件 (ok={pl['ok']}, 試行 {len(pl['attempts'])})")
     result = {"id": m["id"], "title": m["title"], "proposition": m["proposition"], "expected_lean": m.get("expected_lean"),
               "n_units": len(units), "plan": pl, "readers": {}, "counterfactual": None}
     for reader in readers:
-        answers = {}
         t0 = time.time()
-        for a in pl["axes"]:
-            for form, q in (("affirm", a["q_affirm"]), ("negate", a["q_negate"])):
-                for s in range(samples):
-                    answers[(a["id"], form, s)] = answer(port, reader, units, units_text, q, s)
+        answers = _answer_all(port, reader, pl["axes"], units, units_text, samples)
         agg = aggregate(pl["axes"], answers, samples)
         agg["seconds"] = round(time.time() - t0, 1)
         result["readers"][reader] = agg
@@ -420,16 +457,13 @@ def run_material(port: Port, m: dict, planner: str, readers: list[str], samples:
         for reader in readers:
             if reader.startswith("fake:"):
                 continue
-            answers = {}
-            for a in pl["axes"]:
-                for form, q in (("affirm", a["q_affirm"]), ("negate", a["q_negate"])):
-                    for s in range(samples):
-                        answers[(a["id"], form, s)] = answer(port, reader, cunits, ctext, q, s)
+            answers = _answer_all(port, reader, pl["axes"], cunits, ctext, samples)
             agg = aggregate(pl["axes"], answers, samples)
             orig = result["readers"][reader]
             changed_axes = sum(1 for x, y in zip(orig["per_axis"], agg["per_axis"]) if x["d_aff"] != y["d_aff"])
             result["counterfactual"]["readers"][reader] = {"A": agg["A"], "label": agg["label"], "changed_axes": changed_axes,
-                                                           "p_orig": orig["A"]["p"], "p_cf": agg["A"]["p"]}
+                                                           "p_orig": orig["A"]["p"], "p_cf": agg["A"]["p"],
+                                                           "per_axis": agg["per_axis"]}
             log(f"[{m['id']}] 反事実 {reader}: p {fmt(orig['A']['p'])} → {fmt(agg['A']['p'])}、方向が変わった軸 {changed_axes}/{len(pl['axes'])}")
     return result
 
@@ -440,7 +474,7 @@ def fmt(x) -> str:
 
 def summarize(results: list[dict], readers: list[str], samples: int) -> str:
     L = []
-    L.append(f"# 空撃ち結果（読み手 {', '.join(readers)} / 標本 {samples} / 観点ごと {AXES_PER_SIDE} 軸 ＋ 肯定形・否定形の対）\n")
+    L.append(f"# 空撃ち結果（読み手 {', '.join(readers)} / 標本 {samples} / 観点ごと {AXES_PER_SIDE} 軸 ＋ 記述の肯定形・否定形の対 / 指示 {PROMPT_VERSION}）\n")
     L.append("## 題材ごと\n")
     L.append("| 題材 | 想定 | 読み手 | p | w | 札 | 矛盾率 | 判定不能率 | 無効率 | 標本間 |p差| |")
     L.append("|---|---|---|---|---|---|---|---|---|---|")
@@ -454,21 +488,22 @@ def summarize(results: list[dict], readers: list[str], samples: int) -> str:
     L.append("| 題材 | " + " | ".join(readers) + " | Δ(max−min) | 段(5)の一致 |")
     L.append("|---|" + "---|" * (len(readers) + 2))
     deltas, within = [], []
+    real_readers = [rd for rd in readers if not rd.startswith("fake:")]
     for r in results:
         ps = {rd: r["readers"][rd]["A"]["p"] for rd in readers if rd in r["readers"]}
-        vals = [p for p in ps.values() if p is not None]
+        vals = [ps[rd] for rd in real_readers if ps.get(rd) is not None]
         d = (max(vals) - min(vals)) if len(vals) >= 2 else None
         levels = {level5(p) for p in vals}
         if d is not None:
             deltas.append(d)
-        for rd in readers:
+        for rd in real_readers:
             if rd in r["readers"]:
                 pbs = [p for p in r["readers"][rd]["p_by_sample"] if p is not None]
                 if len(pbs) >= 2:
                     within.append(max(pbs) - min(pbs))
         L.append(f"| {r['id']} | " + " | ".join(fmt(ps.get(rd)) for rd in readers) + f" | {fmt(d)} | {'一致' if len(levels) <= 1 else '不一致'} |")
     if deltas:
-        L.append(f"\n- 読み手間 Δ: 平均 {statistics.mean(deltas):.2f}、最大 {max(deltas):.2f}（n={len(deltas)}）")
+        L.append(f"\n- 読み手間 Δ（実読み手のみ）: 平均 {statistics.mean(deltas):.2f}、最大 {max(deltas):.2f}（n={len(deltas)}）")
     if within:
         L.append(f"- 標本間 |p差|（同じ読み手）: 平均 {statistics.mean(within):.2f}、最大 {max(within):.2f}（n={len(within)}）")
     L.append("\n## 対の矛盾率（U1）\n")
@@ -553,7 +588,7 @@ def main() -> int:
         with log_path.open("a", encoding="utf-8") as f:
             f.write(line + "\n")
 
-    log(f"=== 開始 planner={args.planner} readers={readers} samples={samples} per_side={args.per_side} 題材={[m['id'] for m in mats]}")
+    log(f"=== 開始 planner={args.planner} readers={readers} samples={samples} per_side={args.per_side} 指示={PROMPT_VERSION} 題材={[m['id'] for m in mats]}")
     results = []
     for m in mats:
         results.append(run_material(port, m, args.planner, readers, samples, args.per_side, log))
