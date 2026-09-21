@@ -121,4 +121,5 @@ Structural Distillation は、判断を次の形に変えます:
 
 ## 出典
 
-概念は `Structural Distillation (構造的蒸留)` の設計メモ（2026-09-20）に基づきます。
+概念は設計メモ [`doc/structural_distillation.md`](doc/structural_distillation.md)（2026-09-20）に基づきます。
+⚠ 同じ内容が Mnemo 側にも残っています（**二重管理**。書き換えるときは両方を見てください）。
