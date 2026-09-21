@@ -119,6 +119,20 @@ Structural Distillation は、判断を次の形に変えます:
   —— 手続きは汎用ですが、**割り方の良し悪しはドメインを知らないと決まりません**
 - 蒸留（レイヤー 3）に使う学習基盤
 
+## ライセンス
+
+[MIT License](LICENSE). Copyright (c) 2026 ShinichiOkas.
+
+自由に使ってください。許諾を求める必要はありません。
+
+## 貢献について
+
+⚠ **このリポジトリは個人用途を主目的としており、Issue / Pull Request は受け付けていません。**
+方針・API・ライセンスは予告なく変わります。フォークはご自由にどうぞ。
+
+> **Contributions**: This is a personal project. Issues and pull requests are not accepted.
+> Direction, API and licensing may change without notice. Feel free to fork.
+
 ## 出典
 
 概念は設計メモ [`doc/structural_distillation.md`](doc/structural_distillation.md)（2026-09-20）に基づきます。
