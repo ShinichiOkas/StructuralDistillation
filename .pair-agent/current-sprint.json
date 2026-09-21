@@ -1,0 +1,4 @@
+{
+  "_moved": "現在地は .pair-agent/current/<鍵>-<末尾ディレクトリ名>.json（作業ツリーごと）、経過は .pair-agent/sprints/<sprint_id>.json。CLAUDE.md『スプリントの現在地は作業ツリーごと』を読むこと",
+  "status": "moved"
+}

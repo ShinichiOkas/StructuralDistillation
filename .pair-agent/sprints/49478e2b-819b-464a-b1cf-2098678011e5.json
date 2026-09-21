@@ -1,0 +1,22 @@
+{
+  "sprint_id": "49478e2b-819b-464a-b1cf-2098678011e5",
+  "status": "deliberating",
+  "goal": "本プロジェクトのコンセプトを理解して上流設計を固める（当面は LLM を用いて判断の精度を上げる。専用モデルは先の段階）",
+  "created_at": "2026-09-21T21:05:20+09:00",
+  "agreement_path": ".pair-agent/agreements/upstream-design.md",
+  "slice_size": "M（合意ドキュメント＋上流設計文書。実装なし）",
+  "経過": [
+    {
+      "at": "2026-09-21T20:40:00+09:00",
+      "event": "依頼受領。README・doc/ を読んだあと確認せずに隣のプロジェクトを読み、師匠に止められた（corrections/2026-09-21-read-other-projects-without-asking.md）"
+    },
+    {
+      "at": "2026-09-21T20:55:00+09:00",
+      "event": "師匠がコンセプトと規則を宣言（原文は合意ドキュメント §0）。規則は confirmed Skill design-basic-logic-without-reading-other-projects として登録"
+    },
+    {
+      "at": "2026-09-21T21:05:20+09:00",
+      "event": ".pair-agent/ 初期化を承認。Python。問いは LLM が生成しハーネスは本プロジェクトに含む。分布は 1 出力ごとの幅。対立は Y/N 両観点で偏りを打ち消す"
+    }
+  ]
+}
