@@ -63,9 +63,46 @@ def meta_answer_prompt(units_text: str, statement: str) -> list[dict]:
     return [{"role": "system", "content": sys_msg}, {"role": "user", "content": user}]
 
 
+MEMORY_TITLE = ""
+_CURRENT = {"id": None}  # --axes-from のとき、いま処理中の題材 id
+
+
+def memory_answer(port: P.Port, reader: str, units, units_text: str, statement: str, sample: int) -> dict:  # noqa: ARG001
+    """本文を渡さない腕（M5）。読み手の記憶だけで記述を判定させる。根拠は取らない。"""
+    if reader.startswith("fake:"):
+        return P.fake_answer(reader, units)
+    sys_msg = "あなたは、自分の知識だけで、記述が作品の内容と合っているかを判定する係です。本文は与えられません。出力は指定の JSON だけを返してください。"
+    user = f"""作品: 『{MEMORY_TITLE}』
+
+## 記述
+{statement}
+
+## 判定の仕方
+- あなたの知識で、作品がこの記述の内容を述べているなら verdict は "述べている"。
+- 作品が明示的に否定している（反対のことを述べている）なら "否定している"。
+- 作品にこの内容についての記述が無い、または分からないなら "触れていない"。
+- evidence は常に空にする。
+"""
+    msgs = [{"role": "system", "content": sys_msg}, {"role": "user", "content": user}]
+    r = port.chat(reader, msgs, P.ANSWER_SCHEMA, sample=sample, version="p4mem")
+    if not r["ok"]:
+        return {"answer": "無効", "negation_type": None, "evidence": [], "valid": False, "raw_answer": None, "why": r["error"]}
+    try:
+        v = json.loads(r["content"])["verdict"]
+        if v not in P.VERDICTS:
+            raise ValueError(v)
+    except Exception as e:  # noqa: BLE001
+        return {"answer": "無効", "negation_type": None, "evidence": [], "valid": False, "raw_answer": None, "why": f"parse: {e}"}
+    return {"answer": P._VERDICT_TO_ANSWER[v], "negation_type": P._VERDICT_TO_NEG[v], "evidence": [], "valid": True,
+            "raw_answer": {"verdict": v}, "why": "memory"}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--materials", nargs="+", default=[str(P.HERE / "materials.json"), str(P.HERE / "materials2.json")])
+    ap.add_argument("--axes-from", default=None, help="軸を生成せず、この results.json の軸を題材 id で引いて使う（記憶腕・別読み手で同じ軸を使う）")
+    ap.add_argument("--no-text", action="store_true", help="本文を渡さない腕（M5）。--axes-from が必須")
+    ap.add_argument("--no-cf", action="store_true", help="反事実を回さない（標本内ばらつきの腕など）")
     ap.add_argument("--out", required=True)
     ap.add_argument("--planner", default=P.DEFAULT_PLANNER)
     ap.add_argument("--readers", nargs="*", default=P.DEFAULT_READERS)
@@ -81,6 +118,17 @@ def main() -> int:
     if args.meta_rule:
         P.answer_prompt = meta_answer_prompt
         P.PROMPT_VERSION = "p4m"
+    if args.axes_from:
+        stored = {r["id"]: r["plan"] for r in json.loads(Path(args.axes_from).read_text(encoding="utf-8"))}
+
+        def plan_from_store(*_args, **_kwargs):
+            pl = stored[_CURRENT["id"]]
+            return {"ok": pl["ok"], "axes": pl["axes"], "attempts": [{"from": args.axes_from}]}
+        P3.plan = plan_from_store
+    if args.no_text:
+        if not args.axes_from:
+            ap.error("--no-text には --axes-from が要る")
+        P.answer = memory_answer
 
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -105,6 +153,14 @@ def main() -> int:
         f"meta_rule={args.meta_rule} num_ctx={args.num_ctx} 題材={[m['id'] for m in mats]}")
     results = []
     for m in mats:
+        if args.axes_from:
+            _CURRENT["id"] = m["id"]
+        if args.no_text:
+            global MEMORY_TITLE
+            MEMORY_TITLE = m["title"]
+            m = {**m, "counterfactual": None}  # 記憶腕に反事実は無い
+        if args.no_cf:
+            m = {**m, "counterfactual": None}
         results.append(P3.run_material(port, m, args.planner, readers, args.samples, args.axes, log))
         (out / "results.json").write_text(json.dumps(results, ensure_ascii=False, indent=1), encoding="utf-8")
     summary = P3.summarize(results, readers, args.samples, args.axes)
