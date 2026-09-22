@@ -125,13 +125,23 @@ class Port:
             return {"ok": False, "content": None, "error": "cache-only miss", "cached": False}
         payload: dict
         try:
-            try:
-                raw = self._post(model, messages, schema, think=False)
-            except urllib.error.HTTPError as e:  # 思考を持たないモデルは think を拒むことがある
-                if e.code == 400 and "think" in e.read().decode("utf-8", "ignore"):
-                    raw = self._post(model, messages, schema, think=None)
-                else:
+            raw = None
+            for attempt in range(4):  # クラウドの 429 / 5xx は少し待って再送（最大 3 回）
+                try:
+                    try:
+                        raw = self._post(model, messages, schema, think=False)
+                    except urllib.error.HTTPError as e:  # 思考を持たないモデルは think を拒むことがある
+                        if e.code == 400 and "think" in e.read().decode("utf-8", "ignore"):
+                            raw = self._post(model, messages, schema, think=None)
+                        else:
+                            raise
+                    break
+                except urllib.error.HTTPError as e:
+                    if e.code in (429, 500, 502, 503, 504) and attempt < 3:
+                        time.sleep(5 * (attempt + 1))
+                        continue
                     raise
+            assert raw is not None
             content = strip_fence((raw.get("message") or {}).get("content") or "")
             payload = {"ok": True, "content": content, "error": None,
                        "eval_count": raw.get("eval_count"), "total_duration": raw.get("total_duration")}
