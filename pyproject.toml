@@ -23,6 +23,11 @@ version = { attr = "structural_distillation.__version__" }
 [tool.setuptools.package-data]
 structural_distillation = ["prompt_sets/*/*.json"]
 
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+extraPaths = ["tools", "tests"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = [
