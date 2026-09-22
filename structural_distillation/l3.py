@@ -58,14 +58,15 @@ def _p_w(s: int, r: int) -> tuple[float | None, float | None]:
 
 def label(s: int, r: int, n: int, w: float | None, p: float | None, *, invalid_rate: float,
           contradiction_rate: float, t: Thresholds) -> Label:
-    """札（上流 §7.4）。順序 ι → κ → ρ → ω。"""
+    """札（上流 §7.4）。順序 ι → κ → ρ → ω。s + r = 0 は ρ に関わらず NO_EVIDENCE（上流 F4。受入 M3: ρ = 0 で落ちていた）。"""
     if invalid_rate >= t.iota:
         return Label.INSTRUMENT_FAULT
     if contradiction_rate >= t.kappa:
         return Label.INSTRUMENT_FAULT
-    if n == 0 or (s + r) / n < t.rho:
+    if n == 0 or s + r == 0 or (s + r) / n < t.rho:
         return Label.NO_EVIDENCE
-    assert w is not None and p is not None
+    if w is None or p is None:   # s + r > 0 なら定義されている。ここに来るのはプログラムの誤り
+        raise ValueError("p / w が未定義のまま ω の判定に来た")
     if w <= t.omega and p > 0.5:
         return Label.LEAN_SUPPORT
     if w <= t.omega and p < 0.5:
@@ -125,8 +126,9 @@ def aggregate(matrix: AnswerMatrix, axis_ids: Sequence[str], thresholds: Thresho
         valid_rate = (counts.s + counts.r) / n
         by_side = {side: side_valid[side] / (samples * n) for side in SIDES}
     else:
-        invalid_rate = silent_rate = contradiction_rate = agreement_mean = valid_rate = 0.0
-        by_side = {side: 0.0 for side in SIDES}
+        # 有効な軸が 0 本: 率は測れていない（None）。札は NO_EVIDENCE（上流 F4）。原因の注記は合成が付ける
+        invalid_rate = silent_rate = contradiction_rate = agreement_mean = valid_rate = None
+        by_side = {side: None for side in SIDES}
     p_by_sample = []
     for i in range(samples):
         ds = [a.d_samples[i] for a in axes]
@@ -134,8 +136,8 @@ def aggregate(matrix: AnswerMatrix, axis_ids: Sequence[str], thresholds: Thresho
     diag = Diagnostics(valid_rate=valid_rate, valid_rate_by_side=by_side, silent_rate=silent_rate,
                        invalid_rate=invalid_rate, agreement_mean=agreement_mean, contradiction_rate=contradiction_rate,
                        retries=retries, p_by_sample=p_by_sample)
-    lab = label(counts.s, counts.r, n, w, p, invalid_rate=invalid_rate, contradiction_rate=contradiction_rate,
-                t=thresholds)
+    lab = label(counts.s, counts.r, n, w, p, invalid_rate=invalid_rate or 0.0,
+                contradiction_rate=contradiction_rate or 0.0, t=thresholds)
     return Reading(reader=matrix.reader, calibration=matrix.calibration, counts=counts, p=p, w=w, label=lab,
                    value=None, diagnostics=diag, axes=axes)
 

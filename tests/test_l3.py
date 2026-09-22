@@ -90,9 +90,19 @@ def test_label_order():
     assert f(3, 3, 6, 1.0, 0.5, invalid_rate=0.0, contradiction_rate=0.0, t=t) == Label.SPLIT
 
 
-def test_no_axes_is_no_evidence():
+def test_no_axes_is_no_evidence_and_rates_are_not_measured():
     r = l3.aggregate(mx({}), [], T)
     assert r.p is None and r.w is None and r.label == Label.NO_EVIDENCE and r.counts.n == 0
+    d = r.diagnostics   # 測って 0 だったのと区別する（受入 M5）
+    assert d.valid_rate is None and d.invalid_rate is None and d.contradiction_rate is None and d.silent_rate is None
+    assert d.valid_rate_by_side == {"support": None, "refute": None}
+
+
+@pytest.mark.parametrize("rho", [0.0, 1e-9])
+def test_no_definite_axis_is_no_evidence_whatever_rho(rho):
+    """s + r = 0 は ρ に関わらず NO_EVIDENCE（受入 M3: ρ = 0 で AssertionError だった）。"""
+    rows = {"a": [("SILENT", "SILENT")], "b": [("INVALID", "SILENT")]}
+    assert l3.aggregate(mx(rows), list(rows), Thresholds(rho=rho, iota=1.0)).label == Label.NO_EVIDENCE
 
 
 def test_fake_like_readers():
@@ -131,6 +141,8 @@ def test_s12_width_does_not_depend_on_axis_count():
         assert (a.p, a.w, a.label) == (b.p, b.w, b.label)
         assert b.diagnostics.contradiction_rate == pytest.approx(a.diagnostics.contradiction_rate)
         assert b.diagnostics.invalid_rate == pytest.approx(a.diagnostics.invalid_rate)
+        assert b.diagnostics.silent_rate == pytest.approx(a.diagnostics.silent_rate)
+        assert b.diagnostics.valid_rate_by_side == pytest.approx(a.diagnostics.valid_rate_by_side)
 
 
 def test_summarize_readers_excludes_calibration_and_valueless():
@@ -174,9 +186,12 @@ def test_s0a_fixture_m01(base21_m01):
         _check_row(agg, reading, full=scope == "main")
 
 
+ROWS = {"base21": 143, "s4": 30, "mono": 103, "meta2": 59, "m3arm": 96, "mem": 10, "rashomon": 14, "mono_rashomon": 10}
+
+
 @pytest.mark.parametrize("arm", AGG_ARMS)
 def test_s0a_measurement_records(arm):
-    """S0a: 測定 2 周目の 8 腕の主走行と反事実の全行を引き直し、p・w・札・軸ごとの向きと率が記録と一致する。"""
+    """S0a: 測定 2 周目の 8 腕の主走行と反事実の全行（計 465）を引き直し、p・w・札・軸ごとの向きと率が記録と一致する。"""
     need_out4()
     n = 0
     for mid, scope, rd, agg in iter_rows(load_results(arm)):
@@ -186,4 +201,5 @@ def test_s0a_measurement_records(arm):
         except AssertionError as e:
             raise AssertionError(f"{arm} {mid} {scope} {rd}: {e}") from e
         n += 1
-    assert n > 0
+    assert n == ROWS[arm]   # 行数も固定する（受入 m9: 「465 行」はテストで固定されていなかった）
+    assert sum(ROWS.values()) == 465

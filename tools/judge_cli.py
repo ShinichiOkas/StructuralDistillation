@@ -12,7 +12,7 @@ from __future__ import annotations
 import argparse
 import time
 
-from _cli import LABEL_JA, fmt, read_text, utf8_io
+from _cli import LABEL_JA, fmt, guard_write_path, read_text, utf8_io
 
 from structural_distillation import judge_sync
 from structural_distillation.contracts import Budget, InputError, Ordinal, PlanningFailed, Probability, Thresholds
@@ -43,6 +43,8 @@ def main() -> int:
     for k, v in Thresholds().to_dict().items():
         ap.add_argument(f"--{k}", type=float, default=v)
     args = ap.parse_args()
+    guard_write_path(args.cache)
+    guard_write_path(args.record)
 
     def mk(model: str):
         r = OllamaReader(model, num_ctx=args.num_ctx)
@@ -78,7 +80,7 @@ def main() -> int:
         dirs = " ".join(f"{x.axis_id}{ {1: '＋', -1: '－', 0: '・'}[x.d] }" for x in r.axes)
         tag = "（偽読み手）" if r.calibration else ""
         d = r.diagnostics
-        print(f"■ {name}{tag}: {val}・札 {LABEL_JA[r.label.value]}・p={fmt(r.p)} w={fmt(r.w)}")
+        print(f"■ {name}{tag}: {val}・札 {LABEL_JA[r.label.value]}・p={fmt(r.p)} w={fmt(r.w)}" + (f"・注記 {r.note}" if r.note else ""))
         print(f"   {dirs}")
         print(f"   有効率 {fmt(d.valid_rate)} 沈黙率 {fmt(d.silent_rate)} 無効率 {fmt(d.invalid_rate)} 矛盾率 {fmt(d.contradiction_rate)}"
               f" 一致率 {fmt(d.agreement_mean)}")

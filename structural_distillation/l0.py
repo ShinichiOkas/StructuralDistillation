@@ -140,7 +140,8 @@ async def structured(reader: Reader, messages: list[dict], schema: dict, *, vers
         reply = await reader.complete(msgs, schema, sample=sample, version=v)
         attempts += 1
         used = v
-        key = reply.meta.get("key", key)
+        key = reply.meta.get("key")          # 生応答と鍵は同じ試行のものを組にする（受入 m3）
+        last_content = None
         if reply.meta.get("cached"):
             cached += 1
         elif reply.meta.get("cache_miss"):
@@ -150,7 +151,9 @@ async def structured(reader: Reader, messages: list[dict], schema: dict, *, vers
         if not reply.ok:
             last_err = reply.error or "失敗"
             continue
-        content = strip_fence(reply.content or "")   # アダプタが剥がし済みでも冪等
+        # アダプタも剥がして返すが、利用側の Reader が剥がさなくても通るようにもう一度。
+        # ⚠ 入れ子のフェンスは空撃ちと違って通る（差分表 P17）
+        content = strip_fence(reply.content or "")
         last_content = content
         try:
             obj = json.loads(content)
@@ -215,22 +218,32 @@ class CachedPort:
     def _load(self, p: Path) -> None:
         if not p.exists():
             return
+        skipped = 0
         with p.open(encoding="utf-8") as f:
             for line in f:
                 if line.strip():
                     row = json.loads(line)
+                    if not row["payload"].get("ok"):
+                        skipped += 1          # 失敗は当たりにしない（I19。空撃ちのキャッシュには失敗の行がある。受入 m1）
+                        continue
                     self._cache[row["key"]] = row["payload"]
+        if skipped:
+            log.info("L0: %s の失敗の行 %d を読み飛ばした", p, skipped)
 
     def __len__(self) -> int:
         return len(self._cache)
 
     def _append(self, key: str, sample: int, version: str, payload: dict) -> None:
+        """1 行を同期で追記する。単一のイベントループでは await を挟まないので排他は要らない。書けなければログに残して続ける。"""
         if self.path is None or self.read_only:
             return
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        with self.path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps({"key": key, "model": self.name, "sample": sample, "version": version,
-                                "payload": payload}, ensure_ascii=False) + "\n")
+        try:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            with self.path.open("a", encoding="utf-8") as f:
+                f.write(json.dumps({"key": key, "model": self.name, "sample": sample, "version": version,
+                                    "payload": payload}, ensure_ascii=False) + "\n")
+        except OSError as e:
+            log.warning("L0: キャッシュに書けなかった（%s）: %s", self.path, e)
 
     async def complete(self, messages: list[dict], schema: dict, *, sample: int, version: str) -> RawReply:
         key = cache_key(self.name, messages, schema, sample, version)
@@ -256,13 +269,13 @@ class CachedPort:
             except Exception as e:  # noqa: BLE001 — 口の約束違反も失敗として返す
                 reply = RawReply(False, None, f"{type(e).__name__}: {e}", {})
             self.calls_live += 1
+            fut.set_result(reply)             # 合流して待っている側を先に放す（追記の失敗で巻き込まない。受入 m2）
             if reply.ok:
                 payload = {"ok": True, "content": reply.content, "error": None,
                            "eval_count": reply.meta.get("eval_count"), "total_duration": reply.meta.get("total_duration"),
                            "prompt_eval_count": reply.meta.get("prompt_eval_count")}
                 self._cache[key] = payload
                 self._append(key, sample, version, payload)
-            fut.set_result(reply)
             return RawReply(reply.ok, reply.content, reply.error, {**reply.meta, "cached": False, "key": key})
         finally:
             if not fut.done():

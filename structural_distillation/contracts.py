@@ -246,7 +246,7 @@ class QuestionSet:
 
     @property
     def retries(self) -> int:
-        """採用した試行の番号（＝ 再試行の回数）。渡された問いの集合では 0。"""
+        """採用した試行の番号（＝ 再試行の回数）。渡された問いの集合は元の試行の記録を引き継ぐ。記録が無ければ 0。"""
         ok = [a.index for a in self.attempts if not a.violations and not a.error]
         return ok[-1] if ok else 0
 
@@ -346,13 +346,14 @@ class AxisReading:
 
 @dataclass
 class Diagnostics:
-    """確からしさの材料（上流 §7.5）。1 つの数に畳まない（J6′）。率の定義は空撃ちと同一（実装判断 I4）。"""
-    valid_rate: float
-    valid_rate_by_side: dict[str, float]
-    silent_rate: float
-    invalid_rate: float
-    agreement_mean: float
-    contradiction_rate: float
+    """確からしさの材料（上流 §7.5）。1 つの数に畳まない（J6′）。率の定義は空撃ちと同一（実装判断 I4）。
+    有効な軸が 0 本のときは率を None にする（測って 0 だったのと区別する。受入 M5）。"""
+    valid_rate: float | None
+    valid_rate_by_side: dict[str, float | None]
+    silent_rate: float | None
+    invalid_rate: float | None
+    agreement_mean: float | None
+    contradiction_rate: float | None
     retries: int
     p_by_sample: list[float | None]
 
@@ -377,6 +378,7 @@ class Reading:
     value: Value | None
     diagnostics: Diagnostics
     axes: list[AxisReading]
+    note: str | None = None   # "no_active_axes" / "all_axes_flagged"（札の原因が本文でなく問いの集合のとき）
 
 
 @dataclass

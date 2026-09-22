@@ -36,6 +36,12 @@ def test_undefined_p_has_no_value():
     assert l4.to_value(None, OK, Probability()) is None
 
 
+@pytest.mark.parametrize("p", [-0.01, 1.01])
+def test_p_outside_the_unit_interval_is_a_program_error(p):
+    with pytest.raises(ValueError):
+        l4.to_value(p, OK, Ordinal(5))
+
+
 def test_values_never_leave_the_type():
     """S2: どの p でも値は型の中（段は 1..K、確率は [0, 1]）。"""
     rng = random.Random(0)

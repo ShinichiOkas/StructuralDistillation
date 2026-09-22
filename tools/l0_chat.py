@@ -14,7 +14,7 @@ import asyncio
 import json
 from pathlib import Path
 
-from _cli import utf8_io
+from _cli import guard_write_path, utf8_io
 
 from structural_distillation import prompts
 from structural_distillation.l0 import CachedPort, FakeReader, OllamaReader, structured
@@ -43,7 +43,7 @@ def main() -> int:
         schema = json.loads(Path(args.schema).read_text(encoding="utf-8"))
     reader = FakeReader(args.fake) if args.fake else OllamaReader(args.model, num_ctx=args.num_ctx)
     if args.cache:
-        reader = CachedPort(reader, args.cache)
+        reader = CachedPort(reader, guard_write_path(args.cache))
     print(f"読み手 {reader.name}・スキーマ {args.schema}。空行で終わる。")
     while True:
         try:

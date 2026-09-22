@@ -11,7 +11,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 
-from _cli import read_text, utf8_io
+from _cli import guard_write_path, read_text, utf8_io
 
 from structural_distillation import l1
 from structural_distillation.contracts import Budget, PlanningFailed
@@ -42,6 +42,7 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--num-ctx", type=int, default=8192)
     args = ap.parse_args()
+    guard_write_path(args.cache)
 
     p = PromptSet.builtin("ja")
     units = segment(read_text(args.text))

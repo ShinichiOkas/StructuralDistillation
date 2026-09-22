@@ -31,6 +31,6 @@ extraPaths = ["tools", "tests"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = [
-  "integration: 実 LLM に接続するテスト。SD_LIVE=1 と SD_LIVE_MODEL が無ければ skip する",
+  "integration: 実 LLM に接続するテスト。SD_LIVE=1 と SD_LIVE_MODEL が無ければ理由つきで skip する",
 ]
-addopts = "-m \"not integration\""
+addopts = "-rs"

@@ -102,7 +102,10 @@ def test_structured_accepts_fenced_and_counts():
     assert r.calls[0]["version"] == "p2" and r.calls[0]["sample"] == 0
 
 
-@pytest.mark.parametrize("bad", ["散文です", '{"verdict": "たぶん", "evidence": []}', '{"verdict": "述べている"}', None, "[1, 2]"])
+@pytest.mark.parametrize("bad", ["散文です", '{"verdict": "たぶん", "evidence": []}', '{"verdict": "述べている"}', None, "[1, 2]",
+                                 "", "null", '{"verdict": null, "evidence": []}', '{"verdict": ["述べている"], "evidence": []}',
+                                 '{"verdict": "述べている", "evidence": [null]}', '前置き {"verdict": "述べている", "evidence": ["s1"]}',
+                                 '```json\n{"verdict": "述べている", "evidence": ["s1"]}\n``` 後書き', '{"verdict": "述べている",'])
 def test_structured_never_turns_garbage_into_a_value(bad):
     """S2: 壊れた応答は再送後も駄目なら ok=False。型の外の値に化けない。"""
     r = ScriptedReader("m", [bad, bad])
@@ -154,6 +157,43 @@ def test_cached_port_reads_measurement_rows_read_only(tmp_path, cache_cases):
     msgs = with_schema(P.answer_messages(render(segment("甲。")), "乙"), ANSWER_SCHEMA, NOTICE)
     r = run(port.complete(msgs, ANSWER_SCHEMA, sample=0, version="p2"))   # 外れ → 呼ぶが書かない
     assert r.ok and src.read_bytes() == before
+
+
+def test_failed_rows_in_an_existing_cache_are_not_hits(tmp_path):
+    """空撃ちのキャッシュには失敗の行がある。当たりにすると失敗が固定される（受入 m1・I19）。"""
+    msgs = [{"role": "user", "content": "U"}]
+    k = cache_key("m", msgs, ANSWER_SCHEMA, 0, "p2")
+    old = tmp_path / "old.jsonl"
+    old.write_text(json.dumps({"key": k, "model": "m", "sample": 0, "version": "p2",
+                               "payload": {"ok": False, "content": None, "error": "timeout"}}) + "\n", encoding="utf-8")
+    port = CachedPort(ScriptedReader("m", ['{"verdict": "触れていない", "evidence": []}']), None, extra=[old])
+    r = run(port.complete(msgs, ANSWER_SCHEMA, sample=0, version="p2"))
+    assert r.ok and not r.meta["cached"] and port.calls_live == 1
+
+
+def test_raw_and_key_come_from_the_same_attempt(tmp_path):
+    """失敗した回答の生応答と鍵は同じ試行のもの（受入 m3）。1 回目は散文、再送は通信の失敗。"""
+    port = CachedPort(ScriptedReader("m", ["散文", None]), None)
+    s = run(structured(port, [{"role": "user", "content": "U"}], ANSWER_SCHEMA, version="p2", sample=0, notice=NOTICE,
+                       retry=True))
+    assert not s.ok and s.content is None and s.version == "p2:retry"
+    assert s.key == cache_key("m", with_schema([{"role": "user", "content": "U"}], ANSWER_SCHEMA, NOTICE), ANSWER_SCHEMA,
+                              0, "p2:retry")
+
+
+def test_prompt_set_rejects_duplicate_words_and_missing_slots():
+    src = json.loads((l0.Path(prompts.__file__).parent / "prompt_sets" / "ja" / "set.json").read_text(encoding="utf-8"))
+    ok = PromptSet.from_json(json.dumps(src, ensure_ascii=False))
+    assert ok.verdict_words() == ["述べている", "否定している", "触れていない"]
+    dup = json.loads(json.dumps(src))
+    dup["verdicts"]["DENIES"] = "述べている"
+    with pytest.raises(ValueError):
+        PromptSet.from_json(json.dumps(dup, ensure_ascii=False))
+    hole = json.loads(json.dumps(src))
+    hole["answer"]["user"] = hole["answer"]["user"].replace("$claim", "（記述）")
+    hole["answer"].pop("digest")
+    with pytest.raises(ValueError):
+        PromptSet.from_json(json.dumps(hole, ensure_ascii=False))
 
 
 def test_cached_port_cache_only_miss_and_extra(tmp_path):
@@ -210,6 +250,11 @@ def test_fake_random_is_deterministic_regardless_of_order():
     a = run(go(range(30)))
     b = run(go(reversed(range(30))))
     assert a == b and len({json.loads(v)["verdict"] for v in a.values()}) == 3
+
+    async def parallel():
+        outs = await asyncio.gather(*[f.complete(msgs[i], ANSWER_SCHEMA, sample=0, version="p2") for i in range(30)])
+        return {i: o.content for i, o in enumerate(outs)}
+    assert run(parallel()) == a
 
 
 def test_meter_counts_by_role_and_calibration():

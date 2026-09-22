@@ -23,6 +23,9 @@ log = logging.getLogger("structural_distillation.prompts")
 
 ORIENT_CODES = ("SUPPORT", "REFUTE", "NEITHER")
 EXCL_CODES = ("COMPATIBLE", "EXCLUSIVE")
+# 各テンプレートの user が必ず持つ差し込み口（無いと本文や記述が指示に入らない。受入 m7）
+REQUIRED = {"plan": {"units_text", "proposition", "n_axes"}, "answer": {"units_text", "claim"},
+            "orient": {"proposition", "claim", "options"}, "exclusive": {"claim_a", "claim_b"}}
 
 
 def _digest(*parts: str) -> str:
@@ -70,6 +73,9 @@ class PromptSet:
             for s in (pt.system, pt.user, *pt.options):
                 if not string.Template(s).is_valid():
                     raise ValueError(f"指示 {origin}:{key} に不正な $ がある")
+            missing = REQUIRED[key] - set(string.Template(pt.user).get_identifiers())
+            if missing:
+                raise ValueError(f"指示 {origin}:{key} の user に差し込み口 {sorted(missing)} が無い")
             return pt
 
         verdicts = {Verdict[k]: v for k, v in d["verdicts"].items()}
@@ -77,6 +83,9 @@ class PromptSet:
             raise ValueError(f"指示 {origin}: verdicts は STATES/DENIES/SILENT の 3 つ")
         if set(d["orientations"]) != set(ORIENT_CODES) or set(d["exclusivity"]) != set(EXCL_CODES):
             raise ValueError(f"指示 {origin}: orientations / exclusivity の鍵が足りない")
+        for group in (list(verdicts.values()), list(d["orientations"].values()), list(d["exclusivity"].values())):
+            if len(set(group)) != len(group):
+                raise ValueError(f"指示 {origin}: 語が重複している {group}（語から符号を一意に引けない）")
         if len(d["orient"].get("options") or ()) != 3:
             raise ValueError(f"指示 {origin}: orient.options は SUPPORT・REFUTE・NEITHER の 3 行")
         return cls(name=d["name"], verdicts=verdicts, orientations=dict(d["orientations"]),

@@ -10,7 +10,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 
-from _cli import read_text, utf8_io
+from _cli import guard_write_path, read_text, utf8_io
 
 from structural_distillation import l2
 from structural_distillation.contracts import Axis, Budget, QuestionSet
@@ -35,7 +35,7 @@ def main() -> int:
     units = segment(read_text(args.text))
     reader = FakeReader(args.fake) if args.fake else OllamaReader(args.reader, num_ctx=args.num_ctx)
     # 1 軸の両側に同じ記述を置くので、同じ鍵の要求はキャッシュ（ファイルが無ければメモリだけ）で 1 回にまとまる
-    reader = CachedPort(reader, args.cache)
+    reader = CachedPort(reader, guard_write_path(args.cache))
     print(render(units))
     print(f"# 読み手 {reader.name}・標本 {args.samples}。記述を 1 行ずつ。空行で終わる。")
     while True:

@@ -29,7 +29,10 @@ def check_output(output: OutputType) -> None:
 
 
 def type_value(p: float, output: OutputType) -> Value:
-    """p を型の値にする（札は見ない。代表値にも使う）。"""
+    """p を型の値にする（札は見ない。代表値にも使う）。
+    ⚠ K 等分は空撃ち level5 と同じ式（int(p·K)）。浮動小数で境界の p が 1 段下に落ちうる（例 1/49·49）が、測った計器と揃える"""
+    if not 0.0 <= p <= 1.0:
+        raise ValueError(f"度合いは [0, 1]: {p!r}")
     if isinstance(output, Probability):
         return Value(p=p)
     if output.bounds is None:

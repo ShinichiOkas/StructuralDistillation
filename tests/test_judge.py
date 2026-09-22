@@ -67,6 +67,63 @@ def test_input_errors(kw):
         asyncio.run(judge(args.pop("text"), args.pop("proposition"), args.pop("output"), **args))
 
 
+@pytest.mark.parametrize("t", [Thresholds(rho=0.0), Thresholds(iota=1.5), Thresholds(kappa=-0.1), Thresholds(omega=0.0),
+                               Thresholds(delta=-0.01)])
+def test_threshold_range_is_checked(t, tmp_path):
+    """閾値の値域（受入 M3: ρ = 0 で札の規則が落ちた）。judge の入口と replay の両方で。"""
+    with pytest.raises(InputError):
+        run(readers=[reader("r", 3)], planner=planner(), thresholds=t)
+    path = tmp_path / "r.jsonl"
+    run(readers=[reader("r", 3)], planner=planner(), record_path=path)
+    with pytest.raises(InputError):
+        replay(json.loads(path.read_text(encoding="utf-8")), thresholds=t)
+
+
+def test_axes_must_lie_within_min_and_max():
+    with pytest.raises(InputError):
+        run(readers=[reader("r", 3)], planner=planner(), budget=Budget(axes=6, axes_min=2, axes_max=4, crosscheck=False))
+
+
+def test_duplicate_verifiers_and_duplicate_axis_ids_are_rejected():
+    with pytest.raises(InputError):
+        run(readers=[reader("r", 3)], planner=planner(), verifiers=[reader("v", 1), reader("v", 1)], budget=Budget())
+    j = run(readers=[reader("r", 3)], planner=planner())
+    qs = j.question_set
+    dup = type(qs)(axes=qs.axes + qs.axes[:1], active_ids=qs.active_ids, planner=qs.planner, prompt=qs.prompt,
+                   budget=qs.budget)
+    with pytest.raises(InputError):
+        run(readers=[reader("r", 3)], question_set=dup)
+    dup2 = type(qs)(axes=qs.axes, active_ids=qs.active_ids + qs.active_ids[:1], planner=qs.planner, prompt=qs.prompt,
+                    budget=qs.budget)
+    with pytest.raises(InputError):
+        run(readers=[reader("r", 3)], question_set=dup2)
+
+
+def test_public_judge_is_the_function_whatever_the_import_order():
+    """受入 M4: 合成を judge.py に置いていたとき、judge_sync を先に import すると judge がモジュールに化けた。"""
+    import subprocess
+    code = ("from structural_distillation import judge_sync, replay, judge; assert callable(judge), type(judge); "
+            "import structural_distillation as sd; assert callable(sd.judge); "
+            "import structural_distillation.compose as c; assert c.judge is judge")
+    r = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, cwd=str(Path(__file__).parent))
+    assert r.returncode == 0, r.stderr
+
+
+def test_all_axes_flagged_is_no_evidence_with_a_note():
+    """交差検証で全軸が外れたとき: 札は上流 F4 どおり NO_EVIDENCE・値なし。率は測っていないので None、注記で原因を区別する（受入 M5）。"""
+    def against(messages, schema, sample, version):
+        if "orientation" in schema["properties"]:
+            c = re.search(r"記述: 「(.*)」", messages[-1]["content"]).group(1)
+            return json.dumps({"orientation": "支持" if c.endswith("しなかった") else "反証"}, ensure_ascii=False)
+        return json.dumps({"compatible": "両立しない"}, ensure_ascii=False)
+    j = asyncio.run(judge(TEXT, PROP, Probability(), readers=[reader("r1", 4)], planner=planner(),
+                          verifiers=[ScriptedReader("v1", against), ScriptedReader("v2", against)]))
+    r = j.readings["r1"]
+    assert j.question_set.active_ids == [] and r.label == Label.NO_EVIDENCE and r.value is None
+    assert r.note == "all_axes_flagged" and r.diagnostics.valid_rate is None and j.matrices[0].answers == []
+    assert j.cost.answer.live == 0
+
+
 def test_duplicate_reader_names_and_fake_planner_are_rejected():
     with pytest.raises(InputError):
         run(readers=[reader("r", 3), reader("r", 4)], planner=planner())

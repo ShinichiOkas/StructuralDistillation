@@ -171,6 +171,18 @@ def test_crosscheck_weak_and_nonexclusive_are_diagnostics_only():
     assert len(qs.active_ids) == 6
 
 
+def test_nonexclusive_is_a_majority_of_the_valid_votes_only():
+    """排他性の票が 1 つ失敗しても、有効な票の過半数で決める（空撃ちと同じ。受入 m9）。"""
+    def half_broken(messages, schema, sample, version):
+        if "compatible" in schema["properties"]:
+            return None
+        return verifier("x", {})._script(messages, schema, sample, version)
+    axes = [dict(a) for a in GOOD]
+    axes[2] = ax("並", "ゲンは並存の場で人を傷つけた", "ゲンは並存の場で人を傷つけなかった")
+    qs = plan_with([verifier("v1", {}), ScriptedReader("v2", half_broken)], axes)
+    assert qs.crosscheck.nonexclusive == ["a03"] and qs.crosscheck.votes[2]["exclusivity"] == ["COMPATIBLE"]
+
+
 def test_crosscheck_needs_two_verifiers():
     qs = plan_with([verifier("v1", {})])
     assert qs.crosscheck is None and len(qs.active_ids) == 6

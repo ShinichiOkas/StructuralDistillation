@@ -1,5 +1,7 @@
 """合成（実装設計 §4.5）: 本文・命題・型 → 判定（読み手ごとの値と診断値・読み手間の要約・記録）。
 
+公開名 judge と同じ名前のモジュールにしない（__init__ の注記。受入 M4）。
+
 変換の並びは依存関係だけで決まる: 入口の検査 → 単位化 → L1（問いの集合。渡されていれば飛ばす）→
 読み手ごとに L2 → L3 → L4（読み手は 1 体ずつ、記述は workers 並列。I11）→ 読み手間の要約 → 記録。
 """
@@ -7,6 +9,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import os
 from dataclasses import replace
 from datetime import datetime
@@ -21,10 +24,21 @@ from .prompts import PromptSet, get_prompts
 from .units import RULES, rule_version, segment
 
 AGGREGATION_VERSION = "l3/v1"
+log = logging.getLogger("structural_distillation.compose")
+
+
+def check_thresholds(t: Thresholds) -> None:
+    """閾値の値域（F2）。ι・κ・ρ・ω は (0, 1]、δ は 0 以上。ρ = 0 のような値は札の規則を壊す（受入 M3）。"""
+    for k in ("iota", "kappa", "rho", "omega"):
+        v = getattr(t, k)
+        if not isinstance(v, (int, float)) or not 0.0 < v <= 1.0:
+            raise InputError(f"閾値 {k} は (0, 1] の中: {v!r}")
+    if not isinstance(t.delta, (int, float)) or t.delta < 0.0:
+        raise InputError(f"閾値 delta は 0 以上: {t.delta!r}")
 
 
 def _check_input(text: str, proposition: str, output: OutputType, readers: Sequence[Reader], budget: Budget,
-                 segmentation: str, question_set: QuestionSet | None) -> None:
+                 segmentation: str, question_set: QuestionSet | None, thresholds: Thresholds) -> None:
     if not isinstance(text, str) or not text.strip():
         raise InputError("本文が空（F2）")
     if not isinstance(proposition, str) or not proposition.strip():
@@ -33,8 +47,10 @@ def _check_input(text: str, proposition: str, output: OutputType, readers: Seque
         raise InputError(f"本文が {len(text)} 字で上限 {budget.max_chars} 字を超える（F1）。分割は判断を生成に委ねるので"
                          "ライブラリはしない")
     l4.check_output(output)
-    if budget.axes < 1 or budget.lo < 1 or budget.lo > budget.hi:
-        raise InputError(f"軸数の予算が不正: axes={budget.axes} 下限={budget.lo} 上限={budget.hi}（F2）")
+    check_thresholds(thresholds)
+    if budget.axes < 1 or budget.lo < 1 or budget.lo > budget.hi or not budget.lo <= budget.axes <= budget.hi:
+        raise InputError(f"軸数の予算が不正: axes={budget.axes} 下限={budget.lo} 上限={budget.hi}（F2。"
+                         "頼む軸数が下限と上限の間に無いと、生成は必ず規則違反になる）")
     if budget.samples < 1 or budget.workers < 1 or budget.plan_retries < 0:
         raise InputError("標本数・並列数は 1 以上、再試行は 0 以上（F2）")
     if not readers:
@@ -45,8 +61,10 @@ def _check_input(text: str, proposition: str, output: OutputType, readers: Seque
     if segmentation not in RULES:
         raise InputError(f"未知の単位化規則: {segmentation!r}")
     if question_set is not None:
-        ids = {a.id for a in question_set.axes}
-        if not set(question_set.active_ids) <= ids:
+        ids = [a.id for a in question_set.axes]
+        if len(set(ids)) != len(ids) or len(set(question_set.active_ids)) != len(question_set.active_ids):
+            raise InputError("問いの集合の軸 id か active_ids が重複している（集約で二重に数える）")
+        if not set(question_set.active_ids) <= set(ids):
             raise InputError("問いの集合の active_ids が軸に無い")
 
 
@@ -60,9 +78,12 @@ def _summary(readings: dict[str, Reading], output: OutputType, t: Thresholds) ->
     return replace(s, representative=rep, levels_agree=levels_agree)
 
 
-def _read(matrix: AnswerMatrix, active_ids: list[str], retries: int, output: OutputType, t: Thresholds) -> Reading:
-    r = l3.aggregate(matrix, active_ids, t, retries=retries)
+def _read(matrix: AnswerMatrix, qs: QuestionSet, output: OutputType, t: Thresholds) -> Reading:
+    r = l3.aggregate(matrix, qs.active_ids, t, retries=qs.retries)
     r.value = l4.to_value(r.p, r.label, output)
+    if not qs.active_ids:
+        # 有効な軸が 0 本: 札は上流 F4 どおり「本文に根拠が無い」だが、原因は本文ではなく問いの集合（受入 M5・師匠に確認中）
+        r.note = "all_axes_flagged" if qs.crosscheck and qs.crosscheck.flagged else "no_active_axes"
     return r
 
 
@@ -99,7 +120,7 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     - record_path: 記録（JSONL）を追記する先
     """
     p = get_prompts(prompts)
-    _check_input(text, proposition, output, readers, budget, segmentation, question_set)
+    _check_input(text, proposition, output, readers, budget, segmentation, question_set, thresholds)
     units = segment(text, segmentation)
     real = [r for r in readers if not r.calibration]
     meter = Meter()
@@ -113,6 +134,8 @@ async def judge(text: str, proposition: str, output: OutputType, *,
         vs = list(verifiers) if verifiers is not None else real
         if any(v.calibration for v in vs):
             raise InputError("偽読み手は検証役になれない")
+        if len({v.name for v in vs}) != len(vs):
+            raise InputError("検証役の名前が重複している（1 体が過半数を作ってしまう）")
         qs = await l1.plan(gen, units, proposition, budget=budget, prompts=p, verifiers=vs, sem=sem, meter=meter)
     else:
         qs = replace(question_set, source="given")
@@ -121,7 +144,7 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     for r in readers:
         m = await l2.answer_all(r, units, qs, prompts=p, samples=budget.samples, sem=sem, meter=meter)
         matrices.append(m)
-        readings[r.name] = _read(m, qs.active_ids, qs.retries, output, thresholds)
+        readings[r.name] = _read(m, qs, output, thresholds)
     j = Judgment(proposition=proposition, output=output, units=units, segmentation=segmentation, question_set=qs,
                  matrices=matrices, readings=readings, summary=_summary(readings, output, thresholds),
                  cost=meter.cost, versions=_versions(p, segmentation), budget=budget, thresholds=thresholds, at=_now())
@@ -147,13 +170,23 @@ def replay(record: dict, *, thresholds: Thresholds | None = None, output: Output
     qs = QuestionSet.from_dict(record["question_set"])
     matrices = [AnswerMatrix.from_dict(m) for m in record["matrices"]]
     if reparse:
-        p = get_prompts(prompts or qs.prompt.set)
+        if prompts is None:
+            try:
+                p = PromptSet.builtin(qs.prompt.set)
+            except FileNotFoundError as e:
+                raise InputError(f"記録の指示の集合 {qs.prompt.set!r} は組み込みに無い。prompts= で渡すこと") from e
+        else:
+            p = get_prompts(prompts)
+        if p.digest != qs.prompt.digest:
+            log.warning("replay(reparse): 指示の集合の digest が記録と違う（記録 %s / 今 %s）。語が変わっていれば解釈も変わる",
+                        qs.prompt.digest[:8], p.digest[:8])
         ids = {u.id for u in units}
         matrices = [replace(m, answers=[l2.reinterpret(a, p, ids) for a in m.answers]) for m in matrices]
     t = thresholds or Thresholds.from_dict(inp["thresholds"])
+    check_thresholds(t)
     out = output or output_from_dict(inp["output"])
     l4.check_output(out)
-    readings = {m.reader: _read(m, qs.active_ids, qs.retries, out, t) for m in matrices}
+    readings = {m.reader: _read(m, qs, out, t) for m in matrices}
     versions = dict(record.get("versions") or {})
     versions.update({"library": __version__, "aggregation": AGGREGATION_VERSION, "replayed_from": record.get("at", "")})
     return Judgment(proposition=inp["proposition"], output=out, units=units, segmentation=inp["segmentation"],
