@@ -1,9 +1,9 @@
 ---
 sprint_id: f9554c9d-aaa9-437d-8deb-a687dbaab8a0
-version: 1
-status: executing
+version: 2
+status: retrospecting
 created_at: 2026-09-23T08:10:00+09:00
-updated_at: 2026-09-23T08:10:00+09:00
+updated_at: 2026-09-23T09:10:00+09:00
 domain_tags: [implementation, python-library, contracts]
 slice_size: XS（親が実装し、受入だけ別コンテキストの協議エンジンで検める）
 change_count_premise: 0
@@ -25,13 +25,25 @@ change_count_improvement: 0
 
 ## タスク
 
-- [ ] T1 札に理由を付ける（`Reading.reason`）。計器不良と本文に根拠が無いのどちらも、なぜそうなったかを符号で返す
-- [ ] T2 有効な軸 0 本 → 札は「計器不良」・理由 `no_active_axes`（上流設計の F4 を師匠決定で改める）
-- [ ] T3 リトライの材料（`Judgment.retry`）: 理由・どこが壊れているか・次に取る手・外れた軸と検証役の票・保存庫の鍵
-- [ ] T4 CLI がリトライの手（打つべきコマンド）を出す
-- [ ] T5 テストと変異試験
-- [ ] T6 上流設計・実装設計・README の書き戻し
-- [ ] T7 受入（協議エンジン）
+- [x] T1 札に理由を付ける（`Reading.reason`。6 種の符号）
+- [x] T2 有効な軸 0 本 → 札は「計器不良」・理由 `no_active_axes`（上流 v3.6 の F4′・J20）
+- [x] T3 リトライの材料（`Judgment.retry`）
+- [x] T4 CLI がリトライの手（打てるコマンド）を出す。終了コード 3
+- [x] T5 テストと変異試験（202 緑・変異 53 通りすべて殺）
+- [x] T6 上流設計 v3.6・実装設計 v3.4 / v3.5・README・examples
+- [x] T7 受入（協議エンジン: critical 0・major 7・minor 13）→ すべて処理
+
+## 完了条件の判定
+
+| 条件 | 判定 | 根拠 |
+|---|---|---|
+| 全軸が外れたとき、札が計器不良・値なし・理由 `no_active_axes` | ✅ | `test_all_axes_flagged_is_an_instrument_fault_with_a_reason_and_retry_hint` |
+| 上位が作り直せるだけの情報が載る | ✅ | `RetryHint`（理由・場所・次の手・外れた軸・弱・非排他・生成器・指示の版・試行数・保存庫の鍵・作り直し回数・票の在りか・キャッシュ由来か） |
+| 他の計器不良と「本文に根拠が無い」にも理由が付く | ✅ | `test_label_order_and_reason`・`test_reader_failure_and_fabricated_evidence_get_different_reasons` |
+| CLI がそのまま打てるリトライのコマンドを出す | ✅ | `test_retry_command_is_runnable` 3 通り。実行して終了コード 3 を確認 |
+| 記録に理由と材料が残り、`replay` でも同じ理由 | ✅ | `test_retry_hint_and_reason_survive_the_record`。記録の版は 2（古い版も読める） |
+| `pytest` 緑・変異・適合検査 ①②③ 一致 | ✅ | 202 緑・1 skip、変異 53 通りすべて殺、適合検査 3 種とも一致 |
+| 受入で critical 0 | ✅ | critical 0（major 7・minor 13 を処理） |
 
 ## スコープ
 
@@ -60,12 +72,42 @@ change_count_improvement: 0
 
 ## 既知リスク
 
-- 上流設計 §4.4 の F4 は「有効な軸が 0 → 本文に根拠が無い」と書いてある。師匠決定で改めるので、上流設計に決定を明記する（仮説が実測ではなく決定で変わる場合の書き方）
+- 上流設計 §4.4 の F4 は「有効な軸が 0 → 本文に根拠が無い」と書いてある。師匠決定で改めるので、上流設計に決定を明記する（済。v3.6 の F4′・J20）
+
+## 受入（協議エンジン・2026-09-23 09:00）の指摘と処理
+
+critical 0・major 7・minor 13。評価者はシェルが使えず静的に評価した。処理の後は AI がテスト・変異・実行で確かめた。
+
+| # | severity | 指摘（要旨） | 処理 |
+|---|---|---|---|
+| M1 | major | 保存庫なしの「もう一度呼べば作り直される」は、生応答のキャッシュを使っていると嘘（同じ問いが返る） | `plan_from_cache` を見て文言を変え、`question_store` を勧める。CLI の作り直しコマンドも `--questions` を足す形に。テスト・変異 |
+| M2 | major | 外れたのが一部でも「全 N 軸が外れた」と言う | 外れた数で文言を 3 通りに分けた。テスト・変異 |
+| M3 | major | 読み手の故障と根拠の捏造が同じ理由（`INVALID_EVIDENCE`） | `READER_FAILED` と `Diagnostics.error_rate` を足し、読み手の失敗だけで ι を超えるときは読み手の側の理由に。テスト・変異 |
+| M4 | major | 上流 §7.4 は「計器不良ごとに次の手が違う」と書くのに、材料は軸 0 本のときだけ。契約の `scope="readers"` は死んだ値 | 上流 §7.4 に「v1 は軸 0 本だけ材料を返す」と但し書き。`RetryHint` の docstring も v1 の範囲を明記（ι・κ に材料を返すかは §13 の題） |
+| M5 | major | CLI のリトライのコマンドにテストも変異も無い | `retry_command` のテスト 3 通り・語の対応表のテスト・終了コードのテスト |
+| M6 | major | 終了コード 2 が argparse の引数エラーと衝突 | 作り直しは 3 に。docstring に一覧 |
+| M7 | major | `regenerate` ＋ `question_set` ＋ 保存庫の組み合わせが黙って無視される | `question_set` と `regenerate` の併用は `InputError`。保存庫と併用したら注記 |
+| m1・m2 | minor | l3 のコメントと docstring が古い決定のまま | 直した |
+| m3 | minor | 理由が 1 つしか返らない | 「先に当たった 1 つだけ」と設計に明記 |
+| m4 | minor | 材料に `weak` / `nonexclusive` / `planner` / 作り直し回数が無い | 足した（上位が試行上限を自前で数えずに切れる） |
+| m5 | minor | `RetryHint.from_dict` が無い | 足した。`replay` は記録の材料をそのまま復元する |
+| m6 | minor | 欄が増えたのに記録の版が 1 のまま | `schema_version: 2`。古い版も `replay` できる |
+| m8 | minor | 作り直しコマンドの引用が甘い | 実行ファイルも括り、`;&()|` などを含む引数も括る |
+| m9 | minor | `LABEL_JA` は KeyError・`REASON_JA` は素通しで不揃い | 両方 `.get` に。列挙と対応表が一致することをテスト |
+| m10 | minor | 保存庫ありの枝に変異が無い | 足した（53 通りに） |
+| m11・m12 | minor | README と合意が未更新 | この版で更新 |
+| m13 | minor | 「有効な軸 0 本」を注記と材料の両方で言う | 注記をやめ、材料（次の手つき）だけにした |
+| m7 | minor | 古い記録の `source` 既定で稀に `REPLAN` が出る | 直さない（保存庫導入前の記録で `active_ids` が空という組み合わせ。実害が無く、直すと既定の推測が増える） |
+
+却下した指摘: m7 のみ（理由は上表）。評価者の Q1（ι・κ にも材料を返すか）は上流 §7.4 の但し書きで v1 の範囲を明示し、実データで型を見てから決める題として §13 に残す。
+Q2（終了コード）は 3 に。Q3（キャッシュ越しの作り直し）は「告げる ＋ `--questions` を勧める」まで（ライブラリは作り直しに関与しない。上流 J20）。Q4（`generations` と `weak`）は載せた。
 
 ## 協議ログ
 
 - v1 [2026-09-23 08:10] 起草
+- v2 [2026-09-23 09:10] 実装・受入・処理
 
 ## 変更ログ
 
+- v2 [2026-09-23T09:10:00+09:00]: 完了。**より良い方法 1**（受入 M3: 読み手の故障と根拠の捏造を別の理由に分けた）。前提崩壊 0。status → retrospecting
 - v1 [2026-09-23T08:10:00+09:00]: 初版

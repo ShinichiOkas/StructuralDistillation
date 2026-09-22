@@ -117,12 +117,16 @@ j = judge_sync(本文, "老婆は悪人である", Ordinal(5), readers=readers,
                planner=CachedPort(OllamaReader("gemma4:31b-cloud"), "cache.jsonl"),
                budget=Budget(workers=6), record_path="records.jsonl")
 for name, r in j.readings.items():
-    print(name, r.value, r.label, r.p, r.w)      # 読み手ごとの値・札・度合い・幅
-print(j.summary.delta, j.summary.representative)  # 読み手間の差と代表値
+    print(name, r.value, r.label, r.reason, r.p, r.w)   # 読み手ごとの値・札・理由・度合い・幅
+print(j.summary.delta, j.summary.representative)        # 読み手間の差と代表値
+if j.retry:                                             # 判定に使える軸が 0 本だったとき
+    print(j.retry.action, j.retry.message, j.retry.details)
 ```
 
 - 読み手ごとに値を返し、読み手間の差（Δ）を隠しません。札が「本文に根拠が無い」「計器不良」のときは値を返しません
 - 記録（`record_path`）には本文の単位列・問いの集合・回答（生応答つき）・集約が残り、`replay()` で LLM を呼ばずに引き直せます
+- 札には理由が付きます。判定に使える軸が 0 本になったときは、札は「計器不良」で、`judge()` は**作り直しの材料**を返します。
+  どこが壊れたか・次に取る手・外れた軸・検証役の票の在りかが入っています。作り直すかどうかは利用側の判断で、ライブラリは自動では作り直しません
 - 問いの保存庫（`question_store="questions"`）を渡すと、同じ命題と本文では過去に作った問いの集合を再利用します。
   生成器も交差検証も呼ばず、同じ問いで答えさせます。保存庫の中身は 1 本文 × 1 命題 ＝ 1 JSON で、開いて読めます
 - 各層を単独で触る CLI が `tools/` にあります（`l0_chat.py`・`units_chat.py`・`l1_chat.py`・`l2_chat.py`・`l3_chat.py`・`l4_chat.py`・`judge_cli.py`、保存庫を見る `questions_cli.py`）。

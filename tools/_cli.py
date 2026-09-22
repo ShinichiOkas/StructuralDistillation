@@ -25,7 +25,8 @@ def utf8_io() -> None:
 
 REASON_JA = {
     "no_active_axes": "判定に使える軸が 0 本",
-    "invalid_evidence": "根拠 id が実在しない回答が多い",
+    "reader_failed": "読み手が答えられなかった回答が多い",
+    "invalid_evidence": "根拠 id が実在しない・根拠が無い回答が多い",
     "contradictory_axes": "両側に証拠が出た軸が多い",
     "no_definite_axis": "向きの定まった軸が 0",
     "low_valid_rate": "向きの定まった軸の割合が低い",

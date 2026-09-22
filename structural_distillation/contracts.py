@@ -40,7 +40,8 @@ class Reason(str, enum.Enum):
     師匠 2026-09-23:「(b)『計器不良』にする。ただし理由をつけて。」
     """
     NO_ACTIVE_AXES = "no_active_axes"          # 計器不良: 判定に使える軸が 0 本（交差検証で全軸が外れた・渡された問いが空）
-    INVALID_EVIDENCE = "invalid_evidence"      # 計器不良: 根拠 id が実在しない回答が多い（無効率 ≥ ι）
+    READER_FAILED = "reader_failed"            # 計器不良: 読み手が答えられなかった回答が多い（通信・形式の失敗だけで ι を超える）
+    INVALID_EVIDENCE = "invalid_evidence"      # 計器不良: 根拠 id が実在しない・根拠が無い回答が多い（無効率 ≥ ι）
     CONTRADICTORY_AXES = "contradictory_axes"  # 計器不良: 軸の両側に証拠が出た軸が多い（矛盾率 ≥ κ）
     NO_DEFINITE_AXIS = "no_definite_axis"      # 本文に根拠が無い: 向きの定まった軸が 0（s + r = 0）
     LOW_VALID_RATE = "low_valid_rate"          # 本文に根拠が無い: 向きの定まった軸の割合が低い（有効率 < ρ）
@@ -56,12 +57,23 @@ class RetryAction(str, enum.Enum):
 
 @dataclass
 class RetryHint:
-    """作り直しの材料。どこが壊れていて、次に何をすればよいか、判断の材料はどこにあるか。"""
+    """作り直しの材料。どこが壊れていて、次に何をすればよいか、判断の材料はどこにあるか。
+
+    ⚠ v1 が材料を返すのは「判定に使える軸が 0 本」のときだけ（scope は `"question_set"`）。
+    無効率・矛盾率による計器不良は、札と理由と診断値までで、次の手は返さない（上流 §7.4 の但し書き）。
+    """
     reason: Reason
-    scope: str          # "question_set"（問いの集合の問題）/ "readers"（読み手の問題）
+    scope: str          # "question_set"（問いの集合の問題）
     action: RetryAction
     message: str        # 人が読む一言
-    details: dict       # flagged（外れた軸）・verifiers・n_axes・store_key・readers など
+    details: dict       # flagged・n_axes・verifiers・weak・nonexclusive・planner・store_key・generations など
+
+    @classmethod
+    def from_dict(cls, d: dict | None) -> RetryHint | None:
+        if not d:
+            return None
+        return cls(reason=Reason(d["reason"]), scope=d["scope"], action=RetryAction(d["action"]),
+                   message=d["message"], details=dict(d.get("details") or {}))
 
 
 # ---------------------------------------------------------------- 例外
@@ -388,6 +400,7 @@ class Diagnostics:
     valid_rate_by_side: dict[str, float | None]
     silent_rate: float | None
     invalid_rate: float | None
+    error_rate: float | None      # 読み手が答えられなかった（通信・形式の失敗）回答の割合。無効率の内訳
     agreement_mean: float | None
     contradiction_rate: float | None
     retries: int
@@ -476,9 +489,10 @@ class Judgment:
     retry: RetryHint | None = None                   # 作り直しの材料（判定できなかったとき）
 
     def to_record(self) -> dict:
-        """追記のみの記録 1 行（実装設計 §6。schema_version 1）。"""
+        """追記のみの記録 1 行（実装設計 §6）。
+        schema_version 2: 札の理由（readings[*].reason）と作り直しの材料（retry）が増えた（2026-09-23）。"""
         return {
-            "schema_version": 1,
+            "schema_version": 2,
             "at": self.at,
             "input": {"proposition": self.proposition, "output": output_to_dict(self.output),
                       "budget": self.budget.to_dict(), "thresholds": self.thresholds.to_dict(),

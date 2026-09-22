@@ -18,7 +18,7 @@ from typing import Sequence
 
 from . import __version__, l1, l2, l3, l4
 from .contracts import (AnswerMatrix, Budget, Cost, InputError, Judgment, Ordinal, OutputType, QuestionSet, Reading,
-                        ReaderSummary, Reason, RetryAction, RetryHint, Thresholds, Unit, output_from_dict)
+                        ReaderSummary, Reason, RetryAction, RetryHint, RoleCost, Thresholds, Unit, output_from_dict)
 from .l0 import Meter, Reader
 from .prompts import PromptSet, get_prompts
 from .store import QuestionStore, question_key
@@ -85,27 +85,45 @@ def _read(matrix: AnswerMatrix, qs: QuestionSet, output: OutputType, t: Threshol
     return r
 
 
-def _retry_hint(qs: QuestionSet, readings: dict[str, Reading], store_used: bool) -> RetryHint | None:
-    """作り直しの材料（師匠 2026-09-23「上位がリトライできるだけの情報を返す」）。ライブラリは自動でリトライしない。"""
+def _retry_hint(qs: QuestionSet, readings: dict[str, Reading], store: QuestionStore | None,
+                plan_cost: RoleCost | None = None) -> RetryHint | None:
+    """作り直しの材料（師匠 2026-09-23「上位がリトライできるだけの情報を返す」）。ライブラリは自動でリトライしない。
+
+    ⚠ 材料を返すのは「判定に使える軸が 0 本」のときだけ（上流 §7.4 の但し書き）。
+    """
     if qs.active_ids:
         return None
-    flagged = list(qs.crosscheck.flagged) if qs.crosscheck else []
+    cc = qs.crosscheck
+    flagged = list(cc.flagged) if cc else []
+    plan_from_cache = bool(plan_cost and plan_cost.live == 0 and plan_cost.cached > 0)
     if qs.source == "given":
         action = RetryAction.SUPPLY_QUESTION_SET
-        how = "渡した問いの集合に有効な軸が無い。作り直した問いの集合を渡す"
-    elif store_used:
+        how = "作り直した問いの集合を渡す"
+    elif store is not None:
         action = RetryAction.REGENERATE
-        how = "judge(..., regenerate=True) で問いを作り直す（保存庫の古い問いは別名で残る）"
+        how = "judge(..., regenerate=True) で問いを作り直す（古い問いは別名で残る）"
     else:
         action = RetryAction.REPLAN
-        how = "judge をもう一度呼べば問いは作り直される（生成器を替えるのも手）"
-    why = (f"向きの交差検証で全 {len(qs.axes)} 軸が外れた（検証役 {', '.join(qs.crosscheck.verifiers)}）"
-           if flagged else f"判定に使える軸が 0 本（軸 {len(qs.axes)}）")
+        how = "judge をもう一度呼ぶ（生成器を替えるのも手）"
+        if plan_from_cache:
+            # 生応答のキャッシュを使っていると、同じ鍵で呼び直しても同じ問いが返る（受入 M1）
+            how = ("judge をもう一度呼んでも、生成の応答はキャッシュから返るので同じ問いになる。"
+                   "生成器を替えるか、question_store を渡して regenerate=True で作り直す")
+    if flagged and len(flagged) == len(qs.axes):
+        why = f"向きの交差検証で全 {len(qs.axes)} 軸が外れた（検証役 {', '.join(cc.verifiers) if cc else ''}）"
+    elif flagged:
+        why = f"判定に使える軸が 0 本（軸 {len(qs.axes)}・うち交差検証で外れたのは {len(flagged)} 本）"
+    else:
+        why = f"判定に使える軸が 0 本（軸 {len(qs.axes)}）"
     return RetryHint(reason=Reason.NO_ACTIVE_AXES, scope="question_set", action=action,
                      message=f"{why}。判定は計器不良（値なし）。{how}",
                      details={"flagged": flagged, "n_axes": len(qs.axes),
-                              "verifiers": list(qs.crosscheck.verifiers) if qs.crosscheck else [],
+                              "verifiers": list(cc.verifiers) if cc else [],
+                              "weak": list(cc.weak) if cc else [], "nonexclusive": list(cc.nonexclusive) if cc else [],
+                              "planner": qs.planner, "prompt_plan": qs.prompt.plan, "attempts": len(qs.attempts),
                               "store_key": qs.store_key, "source": qs.source,
+                              "generations": store.generations(qs.store_key) if (store and qs.store_key) else 0,
+                              "plan_from_cache": plan_from_cache,
                               "votes_in": "question_set.crosscheck.votes",
                               "readers": sorted(readings)})
 
@@ -124,8 +142,7 @@ def _note_differences(stored: QuestionSet, p: PromptSet, budget: Budget, want_pl
         notes.append(f"保存された問いは軸 {len(stored.axes)} 本（今回の予算は {want} 本）")
     if stored.crosscheck is None and budget.crosscheck and n_verifiers >= 2:
         notes.append("保存された問いは交差検証していない（今回は交差検証を求めているが、保存された問いをそのまま使う）")
-    if not stored.active_ids:
-        notes.append("保存された問いは有効な軸が 0 本（作り直すなら regenerate）")
+    # ⚠ 有効な軸 0 本は Judgment.retry が次の手つきで返すので、ここでは言わない（同じことを 2 つの欄で言わない）
     for n in notes:
         log.warning("問いの保存庫: %s。再利用する", n)
     return notes
@@ -170,6 +187,8 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     _check_input(text, proposition, output, readers, budget, segmentation, question_set, thresholds)
     if regenerate and question_store is None:
         raise InputError("regenerate は question_store と一緒に使う（作り直した問いの置き場が無い）")
+    if question_set is not None and regenerate:
+        raise InputError("question_set を渡すときに regenerate は使えない（渡された問いは利用側の持ち物）")
     units = segment(text, segmentation)
     real = [r for r in readers if not r.calibration]
     meter = Meter()
@@ -178,6 +197,8 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     store: QuestionStore | None = None
     key: str | None = None
     stored: QuestionSet | None = None
+    if question_set is not None and question_store is not None:
+        notes.append("問いの集合を渡されたので、問いの保存庫は見ない（保存もしない）")
     if question_set is None and question_store is not None:
         store = question_store if isinstance(question_store, QuestionStore) else QuestionStore(question_store)
         key = question_key(units, rule_version(segmentation), proposition)
@@ -225,7 +246,7 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     j = Judgment(proposition=proposition, output=output, units=units, segmentation=segmentation, question_set=qs,
                  matrices=matrices, readings=readings, summary=_summary(readings, output, thresholds),
                  cost=meter.cost, versions=_versions(p, segmentation), budget=budget, thresholds=thresholds, at=_now(),
-                 notes=notes, retry=_retry_hint(qs, readings, store is not None))
+                 notes=notes, retry=_retry_hint(qs, readings, store, meter.cost.plan))
     if record_path is not None:
         _append(record_path, j.to_record())
     return j
@@ -265,10 +286,10 @@ def replay(record: dict, *, thresholds: Thresholds | None = None, output: Output
     out = output or output_from_dict(inp["output"])
     l4.check_output(out)
     readings = {m.reader: _read(m, qs, out, t) for m in matrices}
-    store_used = bool(qs.store_key)
     versions = dict(record.get("versions") or {})
     versions.update({"library": __version__, "aggregation": AGGREGATION_VERSION, "replayed_from": record.get("at", "")})
     return Judgment(proposition=inp["proposition"], output=out, units=units, segmentation=inp["segmentation"],
                     question_set=qs, matrices=matrices, readings=readings, summary=_summary(readings, out, t),
                     cost=Cost(), versions=versions, budget=Budget.from_dict(inp["budget"]), thresholds=t, at=_now(),
-                    notes=list(record.get("notes") or []), retry=_retry_hint(qs, readings, store_used))
+                    notes=list(record.get("notes") or []),
+                    retry=RetryHint.from_dict(record.get("retry")) or _retry_hint(qs, readings, None))

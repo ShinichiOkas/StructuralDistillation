@@ -113,8 +113,8 @@ pyproject.toml                    # 実行時依存なし。開発依存は pyte
 | `Diagnostics` | `valid_rate`・`valid_rate_by_side: {support, refute}`・`silent_rate`・`invalid_rate`・`agreement_mean`・`contradiction_rate`（有効な軸が 0 本なら率はすべて `None`。測って 0 だったのと区別する。受入 M5）・`retries`（生成の再試行回数 ＝ 採用した試行の `index`）・`p_by_sample: list[float | None]` | §7.5 |
 | `Label` | `LEAN_SUPPORT`／`LEAN_REFUTE`／`SPLIT`／`NO_EVIDENCE`／`INSTRUMENT_FAULT` | §7.4 の 5 値 |
 | `Reading` | 読み手 1 体の判定: `reader`・`calibration`・`counts`・`p`・`w`・`label`・`value: Value | None`・`diagnostics`・`axes: list[AxisReading]`・`reason: Reason | None`（札がその値になった理由。偏り・割れるでは `None`） | §4.2 読み手ごと |
-| `Reason` | `NO_ACTIVE_AXES`（軸 0 本）／`INVALID_EVIDENCE`（無効率 ≥ ι）／`CONTRADICTORY_AXES`（矛盾率 ≥ κ）／`NO_DEFINITE_AXIS`（s + r = 0）／`LOW_VALID_RATE`（有効率 < ρ）。機械が読む符号。人が読む文は CLI と `RetryHint.message` | §4.2 理由・師匠決定 2026-09-23 |
-| `RetryHint` | `reason`・`scope`（`"question_set"`）・`action`（`REGENERATE` / `REPLAN` / `SUPPLY_QUESTION_SET`）・`message`（人が読む一言）・`details`（`flagged`・`n_axes`・`verifiers`・`store_key`・`source`・`votes_in`・`readers`）。**ライブラリは自動で作り直さない**（上流 J20） | §4.4 F4′ |
+| `Reason` | `NO_ACTIVE_AXES`（軸 0 本）／`READER_FAILED`（読み手が答えられなかった回答だけで ι を超える）／`INVALID_EVIDENCE`（無効率 ≥ ι）／`CONTRADICTORY_AXES`（矛盾率 ≥ κ）／`NO_DEFINITE_AXIS`（s + r = 0）／`LOW_VALID_RATE`（有効率 < ρ）。機械が読む符号。人が読む文は CLI と `RetryHint.message` | §4.2 理由・師匠決定 2026-09-23 |
+| `RetryHint` | `reason`・`scope`（v1 は `"question_set"` だけ）・`action`（`REGENERATE` / `REPLAN` / `SUPPLY_QUESTION_SET`）・`message`（人が読む一言）・`details`（`flagged`・`n_axes`・`verifiers`・`weak`・`nonexclusive`・`planner`・`prompt_plan`・`attempts`・`store_key`・`source`・`generations`・`plan_from_cache`・`votes_in`・`readers`）・`from_dict`。**ライブラリは自動で作り直さない**（上流 J20） | §4.4 F4′ |
 | `Value` | `Probability` なら `p`、`Ordinal` なら `level: int`（1..K）と `label: str | None` | §7.6 |
 | `ReaderSummary` | `delta: float | None`（実読み手のうち**値を持つ**ものの p の最大 − 最小）・`levels_agree: bool | None`（順序尺度で値を持つ読み手が 2 体以上のときだけ）・`readers_split: bool | None`（Δ > δ）・`representative: Value | None`（⚠ I10: 同じ読み手集合の p の平均。U3 仮置き）・`readers: list[str]`（要約の対象にした読み手）・`note: str | None`（`"single reader"` / `"no reader with a value"`） | §4.2 要約 |
 | `Cost` | 役割別 `{plan, crosscheck, answer}` × `{live, cached, missed}`（missed ＝ cache-only で外れた。LLM は呼んでいない）と合計。`calibration_calls`（偽読み手の呼び出し。LLM は呼んでいない） | §4.2 費用・Q8 |
@@ -271,7 +271,7 @@ id は採用した試行の順に `a01`…。`origin` は `index == 0` で採用
 札と理由（`label` は `(Label, Reason | None)` を返す。順序 軸 0 → ι → κ → ρ → ω。空撃ち `probe.label` に軸 0 本の行を足したもの）:
 
     n == 0                     → INSTRUMENT_FAULT / NO_ACTIVE_AXES（師匠決定 2026-09-23・上流 F4′）
-    invalid_rate ≥ ι           → INSTRUMENT_FAULT / INVALID_EVIDENCE
+    invalid_rate ≥ ι           → INSTRUMENT_FAULT / READER_FAILED（error_rate ≥ ι のとき）または INVALID_EVIDENCE
     contradiction_rate ≥ κ     → INSTRUMENT_FAULT / CONTRADICTORY_AXES
     s + r == 0                 → NO_EVIDENCE / NO_DEFINITE_AXIS（ρ に関わらず。受入 M3）
     (s+r)/n < ρ                → NO_EVIDENCE / LOW_VALID_RATE
@@ -280,6 +280,9 @@ id は採用した試行の順に `a01`…。`origin` は `index == 0` で採用
     それ以外                    → SPLIT
 
 ⚠ 軸 0 本の行は空撃ちには無い（空撃ちは軸 0 本で落ちる）。測定の記録は軸 6 本なので S0a・適合検査に影響しない。
+⚠ **理由は先に当たった 1 つだけ**を返す（無効率と矛盾率が同時に閾値を超えても `INVALID_EVIDENCE` だけ）。内訳は診断値で見る。
+⚠ `error_rate`（読み手が答えられなかった回答の割合）は無効率の内訳。同じ「無効」でも、読み手・接続の故障（作り直しても直らない）と
+根拠の不在（問いや読み手を替える余地がある）を分けるために足した（受入 M3）。空撃ちの記録から起こした行には `error` が無いので 0。
 
 ⚠ `out4/*/results.json` の `label` は走行時の既定 κ = 0.5 で付いている（`probe3.aggregate` が κ を渡していない）。
 矛盾率が [0.5, 0.667) の行は **1 行ある**（mono の m17・除外題材。v2 の「無い」は誤り）。S0a は**走行時の閾値（κ = 0.5）で比べる**（v3）。
@@ -327,7 +330,9 @@ def replay(record: dict, *, thresholds=None, output=None, reparse=False, prompts
 5. `l3.summarize_readers`
 5.5 判定に使える軸が 0 本なら `RetryHint` を作る（上流 F4′）。`action` は問いの出どころで決まる:
    保存庫を使っていれば `REGENERATE`（`regenerate=True` で作り直す）、使っていなければ `REPLAN`（もう一度 `judge` を呼ぶ）、
-   `question_set` を渡されていれば `SUPPLY_QUESTION_SET`（渡す側が作り直す）。`details` に外れた軸・検証役・軸数・保存庫の鍵・票の在りかを入れる。
+   `question_set` を渡されていれば `SUPPLY_QUESTION_SET`（渡す側が作り直す）。`details` に外れた軸・弱・非排他・検証役・軸数・生成器・
+   指示の版・試行数・保存庫の鍵・これまでの作り直しの回数・票の在りかを入れる。
+   ⚠ 保存庫なしで**生成の応答がキャッシュから返っていたら**（`plan_from_cache`）、呼び直しても同じ問いになるので、そう書く（受入 M1）。
    **自動では作り直さない**（何回試すか・生成器を替えるかは用途ごとの判断）
 6. `Cost`: `judge` が `structured()` の戻り（`cached`）を役割別に数える（`plan` / `crosscheck` / `answer`）。偽読み手の呼び出しは `calibration_calls` に別枠で数える（LLM ではない）
 7. `record_path` があれば `Judgment.to_record()` を JSONL に追記（§6）
@@ -374,7 +379,7 @@ def replay(record: dict, *, thresholds=None, output=None, reparse=False, prompts
 | 形 | JSONL 追記のみ。`{"key","model","sample","version","payload":{"ok":true,"content","error":null,"eval_count","total_duration","prompt_eval_count"}}`（`prompt_eval_count` はライブラリで足す欄。空撃ちの行には無い。読むときは無くてよい） | JSONL 追記のみ。1 行 = `Judgment.to_record()` |
 | 誰が読むか | `CachedPort` | `replay()`・蒸留（後段）・人 |
 
-記録の形（`schema_version: 1`）:
+記録の形（`schema_version: 2`。1 は札の理由と作り直しの材料が無い版。`replay` はどちらも読める）:
 
 ```
 {"schema_version":1, "at":<ISO8601>,
@@ -561,7 +566,8 @@ L0 のキャッシュとの違い: キャッシュは「同じ指示・同じモ
 | R13 | 師匠の依頼（2026-09-23）: 同じ命題と本文なら問いを再利用したい | 問いの保存庫（§4.S）。実接続で、2 回目は生成器を替えキャッシュも無しで回し、生成 0・交差検証 0・回答 24 で同じ問いの集合を使った（92 秒 → 18 秒） |
 | R14 | 保存庫の受入（critical 1・major 4・minor 14）: 作り直しを同じ時刻に 2 回すると前に退けた問いを失う／キャッシュ越しの作り直しが前と同じ問いを返す／条件の違いが見えない／交差検証していない問いを黙って使う／排他なし（ペア固有 Skill に反する）ほか | 退ける名前に番号・標本の起点をずらす・`Judgment.notes`・ロックファイル・生成の前の置き場所の確認ほか（§4.S）。実接続で、キャッシュ越しの作り直しが生成器を呼び直し、別の生成器・別の軸数での再利用が「# 注意:」に出ることを確かめた |
 | R15 | `CachedPort` に `__len__` があり、空のキャッシュが偽になって `planner or 既定` で黙って別の読み手に差し替わった（テストで踏んだ） | `__len__` をやめて `size` に |
-| R16 | 師匠決定（2026-09-23・受入 M5 の決着）: 軸 0 本は「計器不良」＋理由＋上位が作り直せる材料 | `Reason`（5 種）・`RetryHint`・`Judgment.retry`・`label()` が理由も返す・CLI が理由と打てるコマンドを出して終了コード 2。自動では作り直さない（上流 J20） |
+| R16 | 師匠決定（2026-09-23・受入 M5 の決着）: 軸 0 本は「計器不良」＋理由＋上位が作り直せる材料 | `Reason`（6 種）・`RetryHint`・`Judgment.retry`・`label()` が理由も返す・CLI が理由と打てるコマンドを出して終了コード 3。自動では作り直さない（上流 J20） |
+| R17 | その受入（critical 0・major 7・minor 13）: 保存庫なしで「もう一度呼べば作り直される」はキャッシュ越しでは嘘／外れたのが一部でも「全軸が外れた」と言う／読み手の故障と根拠の捏造が同じ理由／ι・κ には次の手が無いのに契約は `"readers"` を宣言／CLI に検査が無い／終了コード 2 が argparse と衝突 | `plan_from_cache` を見て文言を変える・外れた数で文言を分ける・`READER_FAILED` と `error_rate`・`scope` は `"question_set"` だけと明記・`retry_command` のテストと引用・終了コードを 3 に |
 
 検査の結果（2026-09-22）:
 
@@ -614,6 +620,7 @@ L0 のキャッシュとの違い: キャッシュは「同じ指示・同じモ
 
 ## 変更履歴
 
+- v3.5 [2026-09-23]: その受入（R17）。`READER_FAILED` と `Diagnostics.error_rate`、`plan_from_cache`、文言の分け方、`RetryHint.from_dict`、記録 `schema_version: 2`、CLI の終了コード 3 と検査
 - v3.4 [2026-09-23]: 師匠決定（上流 F4′・J20）: 軸 0 本は計器不良・理由つき・作り直しの材料つき（R16）。`Reason`・`RetryHint`・`Judgment.retry`・`Reading.reason`（`note` を統合）・`label()` の戻りが `(Label, Reason | None)`
 - v3.3 [2026-09-23]: 保存庫の受入を反映（R14・R15）。退ける名前の衝突・キャッシュ越しの作り直し（`l1.plan(sample_base=)`）・`Judgment.notes`・ロックファイル・
   生成の前の置き場所の確認・`KEY_VERSION` と `SCHEMA_VERSION` の分離・§4.5 手順 1 の記述・§9 に `test_store` / `test_tools`・`CachedPort.size`

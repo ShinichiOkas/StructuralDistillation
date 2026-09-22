@@ -109,6 +109,24 @@ def test_no_definite_axis_is_no_evidence_whatever_rho(rho):
     assert l3.aggregate(mx(rows), list(rows), Thresholds(rho=rho, iota=1.0)).label == Label.NO_EVIDENCE
 
 
+def test_reader_failure_and_fabricated_evidence_get_different_reasons():
+    """受入 M3: どちらも「無効」だが、読み手が答えられなかったのか、根拠が使えないのかで次の手が違う。"""
+    def matrix(with_error: bool) -> AnswerMatrix:
+        answers = []
+        for i in range(4):
+            for side in ("support", "refute"):
+                answers.append(Answer(f"a{i}", side, 0, None, valid=False,
+                                      error="HTTPError: 500" if with_error else None))
+        return AnswerMatrix("r", False, None, 1, answers)
+    ids = [f"a{i}" for i in range(4)]
+    failed = l3.aggregate(matrix(True), ids, T)
+    assert failed.label == Label.INSTRUMENT_FAULT and failed.reason == Reason.READER_FAILED
+    assert failed.diagnostics.error_rate == 1.0 and failed.diagnostics.invalid_rate == 1.0
+    bogus = l3.aggregate(matrix(False), ids, T)
+    assert bogus.label == Label.INSTRUMENT_FAULT and bogus.reason == Reason.INVALID_EVIDENCE
+    assert bogus.diagnostics.error_rate == 0.0
+
+
 def test_fake_like_readers():
     all_yes = {f"a{i}": [("STATES", "STATES")] for i in range(6)}
     assert l3.aggregate(mx(all_yes), list(all_yes), T).label == Label.INSTRUMENT_FAULT

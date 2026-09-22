@@ -5,7 +5,8 @@
   無効な回答は、その側の証拠にならないだけ（軸を丸ごと 0 にしない。上流 v3.5 脚注）
 - 軸の向きは標本の多数決。同数なら 0（tie）
 - 率の定義は空撃ちと同一（無効率は回答ベース、矛盾率・沈黙率は軸ごとの標本割合の平均。実装判断 I4）
-- 札の順序: ι（無効）→ κ（矛盾）→ ρ（根拠）→ ω（幅）
+- 札の順序: 軸 0 本（計器不良）→ ι（無効）→ κ（矛盾）→ s + r = 0（根拠なし）→ ρ（根拠）→ ω（幅）。
+  札には理由を添える（師匠決定 2026-09-23）
 """
 from __future__ import annotations
 
@@ -57,16 +58,18 @@ def _p_w(s: int, r: int) -> tuple[float | None, float | None]:
 
 
 def label(s: int, r: int, n: int, w: float | None, p: float | None, *, invalid_rate: float,
-          contradiction_rate: float, t: Thresholds) -> tuple[Label, Reason | None]:
-    """札と、その札になった理由（上流 §7.4）。順序 軸 0 → ι → κ → ρ → ω。
+          contradiction_rate: float, t: Thresholds, error_rate: float = 0.0) -> tuple[Label, Reason | None]:
+    """札と、その札になった理由（上流 §7.4）。順序 軸 0 → ι → κ → s+r=0 → ρ → ω。**理由は先に当たった 1 つだけ**。
 
     - 判定に使える軸が 0 本 → **計器不良**（師匠決定 2026-09-23。原因は本文ではなく問いの集合）
+    - 無効率が ι を超えたとき、読み手が答えられなかった回答（通信・形式の失敗）だけで ι を超えていれば
+      理由は `READER_FAILED`（問いではなく読み手の問題。受入 M3）。そうでなければ `INVALID_EVIDENCE`
     - s + r = 0 は ρ に関わらず「本文に根拠が無い」（上流 F4。受入 M3: ρ = 0 で落ちていた）
     """
     if n == 0:
         return Label.INSTRUMENT_FAULT, Reason.NO_ACTIVE_AXES
     if invalid_rate >= t.iota:
-        return Label.INSTRUMENT_FAULT, Reason.INVALID_EVIDENCE
+        return Label.INSTRUMENT_FAULT, (Reason.READER_FAILED if error_rate >= t.iota else Reason.INVALID_EVIDENCE)
     if contradiction_rate >= t.kappa:
         return Label.INSTRUMENT_FAULT, Reason.CONTRADICTORY_AXES
     if s + r == 0:
@@ -126,26 +129,29 @@ def aggregate(matrix: AnswerMatrix, axis_ids: Sequence[str], thresholds: Thresho
             silent=sum(1 for vs, vr in zip(vs_list, vr_list) if vs == "SILENT" and vr == "SILENT")))
     n = len(axes)
     p, w = _p_w(counts.s, counts.r)
+    n_answers = 2 * samples * n
+    errors = sum(1 for a in matrix.answers if a.error is not None and a.axis_id in set(axis_ids))
     if n:
-        invalid_rate = sum(a.invalid for a in axes) / (2 * samples * n)
+        invalid_rate = sum(a.invalid for a in axes) / n_answers
+        error_rate = errors / n_answers if n_answers else 0.0
         silent_rate = sum(a.silent for a in axes) / (samples * n)
         contradiction_rate = statistics.mean(a.contradiction for a in axes)
         agreement_mean = statistics.mean(a.agreement for a in axes)
         valid_rate = (counts.s + counts.r) / n
         by_side = {side: side_valid[side] / (samples * n) for side in SIDES}
     else:
-        # 有効な軸が 0 本: 率は測れていない（None）。札は NO_EVIDENCE（上流 F4）。原因の注記は合成が付ける
-        invalid_rate = silent_rate = contradiction_rate = agreement_mean = valid_rate = None
+        # 判定に使える軸が 0 本: 率は測れていない（None）。札は計器不良・理由 NO_ACTIVE_AXES（上流 F4′・師匠決定 2026-09-23）
+        invalid_rate = silent_rate = contradiction_rate = agreement_mean = valid_rate = error_rate = None
         by_side = {side: None for side in SIDES}
     p_by_sample = []
     for i in range(samples):
         ds = [a.d_samples[i] for a in axes]
         p_by_sample.append(_p_w(ds.count(1), ds.count(-1))[0])
     diag = Diagnostics(valid_rate=valid_rate, valid_rate_by_side=by_side, silent_rate=silent_rate,
-                       invalid_rate=invalid_rate, agreement_mean=agreement_mean, contradiction_rate=contradiction_rate,
-                       retries=retries, p_by_sample=p_by_sample)
+                       invalid_rate=invalid_rate, error_rate=error_rate, agreement_mean=agreement_mean,
+                       contradiction_rate=contradiction_rate, retries=retries, p_by_sample=p_by_sample)
     lab, reason = label(counts.s, counts.r, n, w, p, invalid_rate=invalid_rate or 0.0,
-                        contradiction_rate=contradiction_rate or 0.0, t=thresholds)
+                        contradiction_rate=contradiction_rate or 0.0, error_rate=error_rate or 0.0, t=thresholds)
     return Reading(reader=matrix.reader, calibration=matrix.calibration, counts=counts, p=p, w=w, label=lab,
                    value=None, diagnostics=diag, axes=axes, reason=reason)
 

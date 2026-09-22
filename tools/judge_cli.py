@@ -6,6 +6,9 @@
     python tools/judge_cli.py 本文.txt "命題" --probability --readers gemma4:31b-cloud --fake all_yes all_undetermined
 
 ⚠ クラウドモデル（-cloud）を使う。ローカルモデルは GPU を師匠と共有する。
+
+終了コード: 0 判定できた／1 入力が不正・判定できない（拒否）／2 引数の間違い（argparse）／3 判定に使える軸が 0 本で、
+作り直しが要る（最後に打てるコマンドを出す）。
 """
 from __future__ import annotations
 
@@ -23,14 +26,27 @@ from structural_distillation.contracts import (Budget, InputError, Ordinal, Plan
                                                Thresholds)
 from structural_distillation.l0 import CachedPort, FakeReader, OllamaReader
 
+RETRY_EXIT = 3   # 「作り直しが要る」。argparse の引数エラー（2）と区別する（受入 M6）
 
-def retry_command(args) -> str:
-    """同じ引数に作り直しを足したコマンド（保存庫が無ければ同じコマンドをもう一度打てば作り直される）。"""
+
+_NEEDS_QUOTE = re.compile(r"[\s;&()|`$'\"#]")
+
+
+def _q(s: str) -> str:
+    """PowerShell / sh のどちらでも読めるように、危ない文字を含む引数だけ二重引用符で括る。"""
+    return f'"{s}"' if _NEEDS_QUOTE.search(s) or not s else s
+
+
+def retry_command(args, store_hint: str = "scratch/questions") -> str:
+    """打てば作り直しになるコマンド。保存庫があれば --regenerate を、無ければ --questions を足す
+    （保存庫が無いままもう一度打つと、キャッシュ越しでは同じ問いが返る。受入 M1）。"""
     argv = list(sys.argv[1:])
-    if args.questions and "--regenerate" not in argv:
-        argv.append("--regenerate")
-    return f"{Path(sys.executable).as_posix()} {Path(sys.argv[0]).as_posix()} " + " ".join(
-        a if not re.search(r"\s", a) else f'"{a}"' for a in argv)
+    if args.questions:
+        if "--regenerate" not in argv:
+            argv.append("--regenerate")
+    else:
+        argv += ["--questions", store_hint, "--regenerate"]
+    return " ".join([_q(Path(sys.executable).as_posix()), _q(Path(sys.argv[0]).as_posix()), *(_q(a) for a in argv)])
 
 
 def main() -> int:
@@ -112,7 +128,7 @@ def main() -> int:
         tag = "（偽読み手）" if r.calibration else ""
         d = r.diagnostics
         why = f"・理由 {REASON_JA.get(r.reason.value, r.reason.value)}" if r.reason else ""
-        print(f"■ {name}{tag}: {val}・札 {LABEL_JA[r.label.value]}{why}・p={fmt(r.p)} w={fmt(r.w)}")
+        print(f"■ {name}{tag}: {val}・札 {LABEL_JA.get(r.label.value, r.label.value)}{why}・p={fmt(r.p)} w={fmt(r.w)}")
         print(f"   {dirs}")
         print(f"   有効率 {fmt(d.valid_rate)} 沈黙率 {fmt(d.silent_rate)} 無効率 {fmt(d.invalid_rate)} 矛盾率 {fmt(d.contradiction_rate)}"
               f" 一致率 {fmt(d.agreement_mean)}")
@@ -124,12 +140,14 @@ def main() -> int:
     print(f"# 呼び出し: 生成 実 {c.plan.live}／交差検証 実 {c.crosscheck.live}／回答 実 {c.answer.live}・キャッシュ {c.cached}"
           f"・偽読み手 {c.calibration_calls}・{time.time() - t0:.0f} 秒")
     if j.retry is not None:
+        d = j.retry.details
         print(f"\n# 判定できなかった（{j.retry.reason.value}）: {j.retry.message}")
-        print(f"# 外れた軸 {j.retry.details['flagged'] or 'なし'} / 軸 {j.retry.details['n_axes']}"
+        print(f"# 外れた軸 {d['flagged'] or 'なし'} / 軸 {d['n_axes']}・弱 {d['weak'] or 'なし'}"
+              f"・非排他 {d['nonexclusive'] or 'なし'}・生成器 {d['planner']}・これまでの作り直し {d['generations']} 回"
               f"・検証役の票は記録の question_set.crosscheck.votes にある")
         print("# 作り直すなら:")
         print(f"    {retry_command(args)}")
-        return 2
+        return RETRY_EXIT   # 引数の間違い（argparse の 2）と区別する
     return 0
 
 

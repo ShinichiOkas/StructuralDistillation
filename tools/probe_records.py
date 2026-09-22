@@ -28,7 +28,9 @@ def matrix_from_probe(reader: str, per_axis: list[dict]) -> AnswerMatrix:
             for s, v in enumerate(ax[k]):
                 code = CODE[v]
                 if code == "INVALID":
-                    answers.append(Answer(ax["id"], side, s, None, valid=False, error="記録: 無効"))
+                    # 空撃ちの「無効」は根拠 id の不在・不実在が主で、読み手の失敗とは区別されていない。
+                    # error は「読み手が答えられなかった」ことの印なので、ここでは付けない（理由の符号が変わる）
+                    answers.append(Answer(ax["id"], side, s, None, valid=False))
                 else:
                     answers.append(Answer(ax["id"], side, s, Verdict(code), valid=True))
     return AnswerMatrix(reader=reader, calibration=reader.startswith("fake:"), prompt=None, samples=samples,

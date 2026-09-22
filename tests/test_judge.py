@@ -131,7 +131,8 @@ def test_all_axes_flagged_is_an_instrument_fault_with_a_reason_and_retry_hint():
     assert h.details["flagged"] == [f"a{i:02d}" for i in range(1, N + 1)] and h.details["n_axes"] == N
     assert h.details["verifiers"] == ["v1", "v2"] and h.details["votes_in"] == "question_set.crosscheck.votes"
     assert h.details["source"] == "generated" and h.details["store_key"] is None and h.details["readers"] == ["r1"]
-    assert "作り直" in h.message or "渡す" in h.message
+    assert h.details["planner"] == "planner" and h.details["weak"] == [] and h.details["plan_from_cache"] is False
+    assert "全 6 軸が外れた" in h.message and "judge をもう一度呼ぶ" in h.message
     # 票は記録に残るので、上位は「どの軸がなぜ外れたか」を見てから作り直せる
     assert len(j.question_set.crosscheck.votes) == N
 
@@ -142,6 +143,38 @@ def test_given_question_set_with_no_active_axes_tells_the_caller_to_supply_one()
     k = run(readers=[reader("r1", 4)], question_set=empty)
     assert k.readings["r1"].label == Label.INSTRUMENT_FAULT and k.readings["r1"].reason == Reason.NO_ACTIVE_AXES
     assert k.retry.action == RetryAction.SUPPLY_QUESTION_SET and k.retry.details["flagged"] == []
+    assert "軸 6" in k.retry.message and "全 6 軸が外れた" not in k.retry.message
+
+
+def test_partly_flagged_but_emptied_by_the_caller_is_described_accurately():
+    """受入 M2: 外れたのが一部でも「全 N 軸が外れた」と言っていた。"""
+    def one_against(messages, schema, sample, version):
+        if "orientation" in schema["properties"]:
+            c = re.search(r"記述: 「(.*)」", messages[-1]["content"]).group(1)
+            if c == "甲は0番目の悪事をした":
+                return json.dumps({"orientation": "反証"}, ensure_ascii=False)
+            return json.dumps({"orientation": "反証" if c.endswith("しなかった") else "支持"}, ensure_ascii=False)
+        return json.dumps({"compatible": "両立しない"}, ensure_ascii=False)
+    j = asyncio.run(judge(TEXT, PROP, Probability(), readers=[reader("r1", 4)], planner=planner(),
+                          verifiers=[ScriptedReader("v1", one_against), ScriptedReader("v2", one_against)]))
+    k = run(readers=[reader("r1", 4)], question_set=replace(j.question_set, active_ids=[]))
+    assert "うち交差検証で外れたのは 1 本" in k.retry.message and k.retry.details["flagged"] == ["a01"]
+
+
+def test_replan_says_the_cache_would_return_the_same_questions(tmp_path):
+    """受入 M1: 生応答のキャッシュを使っていると「もう一度呼べば作り直される」は嘘になる。"""
+    def against(messages, schema, sample, version):
+        if "orientation" in schema["properties"]:
+            c = re.search(r"記述: 「(.*)」", messages[-1]["content"]).group(1)
+            return json.dumps({"orientation": "支持" if c.endswith("しなかった") else "反証"}, ensure_ascii=False)
+        return json.dumps({"compatible": "両立しない"}, ensure_ascii=False)
+    cache = tmp_path / "c.jsonl"
+    args = dict(readers=[reader("r1", 4)], verifiers=[ScriptedReader("v1", against), ScriptedReader("v2", against)])
+    first = asyncio.run(judge(TEXT, PROP, Probability(), planner=CachedPort(planner(), cache), **args))
+    assert first.retry.details["plan_from_cache"] is False and "もう一度呼ぶ" in first.retry.message
+    again = asyncio.run(judge(TEXT, PROP, Probability(), planner=CachedPort(planner(), cache), **args))
+    assert again.retry.details["plan_from_cache"] is True
+    assert "同じ問いになる" in again.retry.message and "question_store" in again.retry.message
 
 
 def test_retry_hint_and_reason_survive_the_record(tmp_path):
@@ -260,7 +293,7 @@ def test_record_and_replay(tmp_path):
     path = tmp_path / "rec" / "records.jsonl"
     j = run(readers=[reader("r1", 4), reader("r2", 3), FakeReader("all_yes")], planner=planner(), record_path=path)
     rec = json.loads(path.read_text(encoding="utf-8").splitlines()[0])
-    assert rec["schema_version"] == 1 and rec["input"]["units"][0] == {"id": "s1", "text": "甲は朝に家を出た。"}
+    assert rec["schema_version"] == 2 and rec["input"]["units"][0] == {"id": "s1", "text": "甲は朝に家を出た。"}
     assert rec["question_set"]["attempts"][0]["try"] == 0
     assert rec["matrices"][0]["answers"][0]["raw"] and rec["matrices"][0]["answers"][0]["verdict"] == "STATES"
     assert rec["readings"]["r1"]["label"] == "SPLIT" and rec["cost"]["live"] == 1 + N * 2 * 2

@@ -192,8 +192,10 @@ def test_reusing_a_set_with_no_active_axes_says_so(tmp_path):
     d["question_set"]["active_ids"] = []
     p.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
     k = run(tmp_path)
-    assert k.readings["r1"].label == Label.INSTRUMENT_FAULT and any("有効な軸が 0 本" in n for n in k.notes)
+    assert k.readings["r1"].label == Label.INSTRUMENT_FAULT
     assert k.retry.action == RetryAction.REGENERATE and k.retry.details["store_key"] == j.question_set.store_key
+    assert k.retry.details["generations"] == 1 and "regenerate=True" in k.retry.message
+    assert not any("有効な軸が 0 本" in n for n in k.notes)   # 同じことを 2 つの欄で言わない（受入 m13）
 
 
 def test_a_held_lock_is_waited_for_and_a_stale_one_is_broken(tmp_path):
