@@ -39,6 +39,7 @@ structural_distillation/          # コア。標準ライブラリだけ（⚠ I
   __init__.py                     # 公開 API の再輸出・__version__
   contracts.py                    # 契約: データ型・列挙・例外・既定値。層ではない（層の間の共有語彙）
   prompts.py                      # 指示の集合（PromptSet）の読み込みと描画、4 つのスキーマの持ち主。層ではない（facility）
+  store.py                        # 問いの保存庫: 同じ命題と本文なら過去の問いの集合を再利用する（§4.S）。層ではない（facility）
   l0.py                           # 読み手ポート: Reader / structured()（三段構え）/ validate() / CachedPort / OllamaReader / FakeReader
   units.py                        # 単位化（決定論・規則は版付き）。上流設計で番号の無い層
   l1.py                           # 問い生成: plan()・ハーネス検査（H1〜H11）・向きの交差検証（H12）
@@ -49,7 +50,8 @@ structural_distillation/          # コア。標準ライブラリだけ（⚠ I
   prompt_sets/ja/set.json         # 指示（外部データ・版付き）。pyproject の package-data に入れる
 tools/                            # 触れる CLI と道具。パッケージには入れない。依存は自由（v1 は標準ライブラリだけ）
   l0_chat.py units_chat.py l1_chat.py l2_chat.py l3_chat.py l4_chat.py   # 各層だけを叩く最小 CLI
-  judge_cli.py                    # 本文ファイル・命題・型を渡して 1 判定
+  judge_cli.py                    # 本文ファイル・命題・型を渡して 1 判定（--questions で問いの保存庫を使う）
+  questions_cli.py                # 問いの保存庫を見る（list / show）
   conformance_out4.py             # 適合検査: 測定 2 周目のキャッシュだけで judge() を回し、記録と一致するか（読み取り専用）
   probe_records.py                # 空撃ちの記録 → ライブラリの型（S0a と適合検査が使う。読むだけ）
   mutation_check.py               # 変異試験: 実装を 1 箇所ずつ壊し、テストが落ちるか
@@ -98,7 +100,7 @@ pyproject.toml                    # 実行時依存なし。開発依存は pyte
 | `Axis` | `id`（`a01`…）・`name`（人が読む軸名。測定に使わない）・`claim_support`・`claim_refute`・`origin: "initial" | "retry"`・`kind: "substantive"`（⚠ I12: 上流 §13 の検出項目・同義対を将来 `"detection"` / `"synonym"` として同じ記録に載せるための欄。v1 は `"substantive"` だけ） |
 | `Attempt` | 生成の 1 試行: `index: int`（JSON では `"try"`。予約語なので欄名は `index`）・`violations: list[str]`（違反した規則 H の名前つき）・`n_axes: int | None`・`error: str | None` |
 | `CrossCheck` | H12 の記録: `verifiers: list[str]`・`votes`（軸 × 側 × 検証役 × 並び 2 版の生の票と多数決）・`flagged: list[str]`・`weak: list[str]`（「どちらとも言えない」が出た軸）・`nonexclusive: list[str]`（両立しうると言われた対。診断のみ） |
-| `QuestionSet` | `axes: list[Axis]`・`active_ids: list[str]`（交差検証で外した後）・`planner: str`・`prompt: PromptVersion`・`budget: Budget`・`attempts: list[Attempt]`・`crosscheck: CrossCheck | None`・`source: "generated" | "given"`（`judge()` に渡されたものなら `given`） |
+| `QuestionSet` | `axes: list[Axis]`・`active_ids: list[str]`（交差検証で外した後）・`planner: str`・`prompt: PromptVersion`・`budget: Budget`・`attempts: list[Attempt]`・`crosscheck: CrossCheck | None`・`source: "generated" | "given" | "stored"`（`judge()` に渡されたものなら `given`、保存庫から再利用したら `stored`）・`store_key: str | None`（保存庫の鍵） |
 | `Answer` | `axis_id`・`side: "support" | "refute"`・`sample: int`・`verdict: Verdict | None`・`evidence_raw: list[str]`（LLM が返したまま）・`evidence: list[str]`（正規化後）・`valid: bool`・`error: str | None`・`raw: str | None`（フェンスを剥がした後の応答本文。上流 §8「生応答」）・`key: str | None`（キャッシュの鍵）・`cached: bool` |
 | `AnswerMatrix` | `reader: str`・`calibration: bool`（偽読み手か）・`prompt: PromptVersion`・`samples: int`・`answers: list[Answer]` |
 
@@ -122,6 +124,7 @@ pyproject.toml                    # 実行時依存なし。開発依存は pyte
 |---|---|---|
 | `InputError` | 本文が空・命題が空・K < 2・`labels` の長さ ≠ K・`bounds` の長さ ≠ K−1 または非昇順または (0,1) の外・`axes_min > axes_max`・本文が `max_chars` を超える・読み手が 0・読み手名の重複・生成器が偽読み手 | F1・F2 |
 | `PlanningFailed(attempts)` | 生成が `plan_retries` まで規則を満たせない。`attempts` に違反した規則が残る | F3 |
+| `StoreError` | 問いの保存庫のファイルが読めない（壊れた JSON・版の違い・中身と鍵の食い違い・軸 id の重複）。上書きせずに止める | §4.S |
 
 LLM の失敗（HTTP エラー・形式崩れ）は**例外にしない**。L0 が `ok=False` で返し、L1 は試行として数え、L2 は無効として数える（F6）。
 
@@ -295,6 +298,8 @@ async def judge(text: str, proposition: str, output: OutputType, *,
                 readers: Sequence[Reader], planner: Reader | None = None,
                 verifiers: Sequence[Reader] | None = None,
                 question_set: QuestionSet | None = None,        # 渡せば L1 を飛ばし固定する（上流 J7・S1・S3・S10）
+                question_store: QuestionStore | str | os.PathLike | None = None,  # 同じ命題と本文なら再利用（§4.S）
+                regenerate: bool = False,                       # 保存庫にあっても作り直す
                 budget: Budget = Budget(), thresholds: Thresholds = Thresholds(),
                 prompts: str | PromptSet = "ja", segmentation: str = "ja-sentence",
                 record_path: str | os.PathLike | None = None) -> Judgment
@@ -308,7 +313,9 @@ def replay(record: dict, *, thresholds=None, output=None, reparse=False, prompts
 
 1. 入口の検査（F1・F2・型の整合・読み手名の一意性・生成器と検証役が偽読み手でない）→ `InputError`
 2. `units.segment`
-3. `question_set` が無ければ `l1.plan`（`source="generated"`）。あればそのまま（`source="given"`。`active_ids` もそのまま）。生成器の既定は実読み手の先頭。検証役の既定は実読み手（偽読み手を除く）。2 体未満なら交差検証なし
+3. `question_set` があればそのまま（`source="given"`。`active_ids` もそのまま。保存庫は見ない）。
+   無くて `question_store` があれば、同じ命題と本文の問いの集合を引く。当たれば L1 を飛ばす（`source="stored"`。生成も交差検証も呼ばない）。
+   どちらでもなければ `l1.plan`（`source="generated"`）。保存庫があれば作った問いの集合を保存する。生成器の既定は実読み手の先頭。検証役の既定は実読み手（偽読み手を除く）。2 体未満なら交差検証なし
 4. 読み手ごとに `l2.answer_all` → `l3.aggregate` → `l4.to_value`。⚠ I11: **読み手は 1 体ずつ順に**、1 体の中の記述は `workers` 並列（ローカルの読み手を 2 体同時に走らせると GPU を取り合う）
 5. `l3.summarize_readers`
 6. `Cost`: `judge` が `structured()` の戻り（`cached`）を役割別に数える（`plan` / `crosscheck` / `answer`）。偽読み手の呼び出しは `calibration_calls` に別枠で数える（LLM ではない）
@@ -372,6 +379,25 @@ def replay(record: dict, *, thresholds=None, output=None, reparse=False, prompts
 - 回答は `raw`（フェンスを剥がした応答本文）を持つ。根拠 id の正規化規則や `validate` を変えても、記録だけから L2 を引き直せる
 - `replay(record, thresholds=…, output=…)` は `matrices` から `l3`・`l4` を引き直す。規則の版（`aggregation`）が変わっていれば記録の値と違ってよく、それが再計算の目的。`question_set` を固定して**別の本文や読み手で再判定する**のは `replay` ではなく `judge(question_set=…)`（LLM を呼ぶ）
 - 測定の道具（`out4/*/results.json`）の形は**移さない**。あれは空撃ちの記録。適合検査（§9）が両者を突き合わせる
+
+### 4.S 問いの保存庫（`store.py`・2026-09-23）
+
+師匠の言葉（原文）: 「データをJSONで保持して同じ命題と本文の場合は過去に作成した問を再利用できる仕組みにして。」
+判断の理由は合意 `.pair-agent/agreements/question-store.md` の Q1〜Q9。
+
+| 項目 | 決め |
+|---|---|
+| 置き方 | 1 本文 × 1 命題 ＝ 1 JSON ファイル `<鍵>.json`（`indent` 付き・UTF-8）。人が開いて読める・直せる |
+| 鍵 | `sha1({v, units_rule, proposition.strip(), 単位の本文の列})`。文の前後の空白・改行の違いは同じ本文。命題は前後の空白だけ除く。生成器・軸数・指示の版は鍵に入れない（違ってもログを出して再利用する） |
+| 中身 | `schema_version`・`key`・`created_at`・`library`・`proposition`・`units_rule`・`units`（id と本文）・`question_set`（軸・有効な軸・交差検証の結果・生成器・指示の版・予算・試行） |
+| 再利用 | 交差検証の結果ごと。外した軸も含めて同じ問いの集合で答えさせる。当たれば生成器が無くても判定できる |
+| 作り直し | `regenerate=True`。古いファイルは `<鍵>.superseded-<時刻>.json` に改名して残す（物理削除しない）。以後は新しい方を再利用 |
+| 読めないとき | `StoreError` で止める。上書きしない。読み込み時に検めるのは形（版・鍵・命題と本文の一致・軸 id の重複）だけ。人が直した問いの規則違反は検めない |
+| 書き込み | 一時ファイル → `os.replace`。同じ鍵に 2 つのプロセスが同時に書いたら後勝ち |
+| 記録 | 判定の記録の `question_set` に `source` と `store_key` が残る |
+
+L0 のキャッシュとの違い: キャッシュは「同じ指示・同じモデル」の生応答を引く。生成器・軸数・指示の版のどれかが変われば外れ、交差検証も呼び直す。
+保存庫は本文と命題だけで引き、問いの集合をそのまま返す。
 
 ## 7. 実行モデル
 
@@ -517,6 +543,7 @@ def replay(record: dict, *, thresholds=None, output=None, reparse=False, prompts
 | R10 | 受入 M2: 空撃ちとの差のうち 5 つが差分表に無かった（生成・交差検証の検査、回答の再送、外した後の母数、フェンスの 2 回剥がし、失敗の行） | 差分表 P14〜P18。P3・P6 の文言を直した |
 | R11 | 受入 M5: 交差検証で全軸が外れると、札が「本文に根拠が無い」で率が 0.0 に見えた | 率を `None` に、`Reading.note` で原因を区別（F4′）。札をどうするかは師匠に確認中 |
 | R12 | 受入 m1〜m4・m7・m13: 失敗の行が当たりになる／合流した側が追記の失敗に巻き込まれる／生応答と鍵が別の試行の組になる／入口の検査の漏れ／指示の集合の検査が薄い／道具が測定の記録の下に書ける | それぞれ直してテストか変異で固定（変異試験 28 通り） |
+| R13 | 師匠の依頼（2026-09-23）: 同じ命題と本文なら問いを再利用したい | 問いの保存庫（§4.S）。実接続で、2 回目は生成器を替えキャッシュも無しで回し、生成 0・交差検証 0・回答 24 で同じ問いの集合を使った（92 秒 → 18 秒） |
 
 検査の結果（2026-09-22）:
 
@@ -569,6 +596,7 @@ def replay(record: dict, *, thresholds=None, output=None, reparse=False, prompts
 
 ## 変更履歴
 
+- v3.2 [2026-09-23]: 問いの保存庫（§4.S・`store.py`・`judge(question_store=, regenerate=)`・`QuestionSet.source="stored"` と `store_key`・`StoreError`・`questions_cli`）
 - v3.1 [2026-09-22]: 受入（協議エンジン: critical 0・major 5・minor 16）を反映。合成を `compose.py` に改名（M4）、s + r = 0 と閾値の値域（M3）、
   適合検査 ③（M1）、差分表 P14〜P18（M2）、全軸が外れたときの率 `None` と注記（M5・F4′。札は師匠に確認中）、
   キャッシュの失敗の行・合流・生応答と鍵の組・入口の検査・指示の集合の検査・道具の書き込み先（m1〜m4・m7・m13）、記述の食い違いの訂正（m5・m6・m12）

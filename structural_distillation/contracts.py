@@ -40,6 +40,10 @@ class InputError(ValueError):
     """入力の契約違反（上流 F1・F2）。LLM を 1 回も呼ばずに拒否する。"""
 
 
+class StoreError(RuntimeError):
+    """問いの保存庫のファイルが読めない（壊れた JSON・版の違い・中身と鍵の食い違い）。上書きせずに止める。"""
+
+
 class PlanningFailed(RuntimeError):
     """生成器が再試行上限までにハーネスの規則を満たせない（上流 F3）。`attempts` に違反した規則が残る。"""
 
@@ -229,7 +233,8 @@ class CrossCheck:
 
 @dataclass
 class QuestionSet:
-    """問いの集合（L1 の OUT）。source は生成したか（generated）、利用側が渡したか（given）。"""
+    """問いの集合（L1 の OUT）。source は生成したか（generated）、利用側が渡したか（given）、保存庫から再利用したか（stored）。
+    store_key は保存庫の鍵（保存庫を使ったときだけ）。"""
     axes: list[Axis]
     active_ids: list[str]
     planner: str
@@ -237,7 +242,8 @@ class QuestionSet:
     budget: Budget
     attempts: list[Attempt] = field(default_factory=list)
     crosscheck: CrossCheck | None = None
-    source: Literal["generated", "given"] = "generated"
+    source: Literal["generated", "given", "stored"] = "generated"
+    store_key: str | None = None
 
     @property
     def active_axes(self) -> list[Axis]:
@@ -259,7 +265,7 @@ class QuestionSet:
                    planner=d["planner"], prompt=PromptVersion.from_dict(d["prompt"]),
                    budget=Budget.from_dict(d["budget"]), attempts=[Attempt.from_dict(a) for a in d.get("attempts") or []],
                    crosscheck=CrossCheck.from_dict(d["crosscheck"]) if d.get("crosscheck") else None,
-                   source=d.get("source", "generated"))
+                   source=d.get("source", "generated"), store_key=d.get("store_key"))
 
 
 @dataclass

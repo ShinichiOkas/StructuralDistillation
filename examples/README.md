@@ -18,6 +18,21 @@ CLI（`tools/`）を触るための短い本文。どれも創作。リポジト
 - `--fake all_yes all_undetermined` を足すと、較正用の偽読み手の札（計器不良・本文に根拠が無い）も並ぶ
 - `--probability` にすると段ではなく度合い p がそのまま値になる
 
+## 問いを保存して再利用する
+
+`--questions` に保存庫のディレクトリを渡すと、同じ命題と本文では 2 回目から過去の問いをそのまま使う。
+生成器も交差検証も呼ばないので、読み手の回答だけで済む（生成器を替えても同じ問いになる）。
+
+```powershell
+.venv/Scripts/python tools/judge_cli.py examples/story_sato.txt "佐藤は不誠実である" --ordinal 5 --planner gemma4:31b-cloud --readers qwen3.5:397b-cloud glm-5.2:cloud --workers 6 --questions scratch/questions
+.venv/Scripts/python tools/questions_cli.py scratch/questions list          # 保存されている問いの一覧
+.venv/Scripts/python tools/questions_cli.py scratch/questions show e90b     # 鍵の先頭で 1 つを表示
+```
+
+- 出力の 2 行目に「保存庫の問いを再利用した」か「新しく作って保存庫に保存した」かが出る
+- 作り直したいときは `--regenerate`。古い問いは消えずに `<鍵>.superseded-<時刻>.json` として残る
+- 保存庫のファイルを直接直してもよい。直した問いがそのまま使われる（生成の規則は検めない）
+
 ## 記録を閾値を変えて引き直す（LLM を呼ばない）
 
 ```powershell

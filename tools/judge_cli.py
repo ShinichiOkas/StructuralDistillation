@@ -15,7 +15,8 @@ import time
 from _cli import LABEL_JA, fmt, guard_write_path, read_text, utf8_io
 
 from structural_distillation import judge_sync
-from structural_distillation.contracts import Budget, InputError, Ordinal, PlanningFailed, Probability, Thresholds
+from structural_distillation.contracts import (Budget, InputError, Ordinal, PlanningFailed, Probability, StoreError,
+                                               Thresholds)
 from structural_distillation.l0 import CachedPort, FakeReader, OllamaReader
 
 
@@ -40,11 +41,17 @@ def main() -> int:
     ap.add_argument("--num-ctx", type=int, default=8192)
     ap.add_argument("--cache", default=None, help="生応答のキャッシュ（JSONL・追記のみ）")
     ap.add_argument("--record", default=None, help="判定の記録（JSONL・追記のみ）")
+    ap.add_argument("--questions", default=None, metavar="DIR",
+                    help="問いの保存庫。同じ命題と本文の問いがあれば再利用し、無ければ作って保存する")
+    ap.add_argument("--regenerate", action="store_true", help="保存庫にあっても問いを作り直す（古いものは別名で残る）")
     for k, v in Thresholds().to_dict().items():
         ap.add_argument(f"--{k}", type=float, default=v)
     args = ap.parse_args()
     guard_write_path(args.cache)
     guard_write_path(args.record)
+    guard_write_path(args.questions)
+    if args.regenerate and not args.questions:
+        ap.error("--regenerate は --questions と一緒に使う")
 
     def mk(model: str):
         r = OllamaReader(model, num_ctx=args.num_ctx)
@@ -60,13 +67,17 @@ def main() -> int:
     t0 = time.time()
     try:
         j = judge_sync(read_text(args.text), args.proposition, output, readers=readers, planner=planner,
-                       verifiers=verifiers, budget=budget, thresholds=t, record_path=args.record)
-    except (InputError, PlanningFailed) as e:
+                       verifiers=verifiers, budget=budget, thresholds=t, record_path=args.record,
+                       question_store=args.questions, regenerate=args.regenerate)
+    except (InputError, PlanningFailed, StoreError) as e:
         print(f"判定できない: {type(e).__name__}: {e}")
         return 1
     qs = j.question_set
     print(f"# 命題「{j.proposition}」・単位 {len(j.units)}・生成器 {qs.planner}・軸 {len(qs.axes)}（有効 {len(qs.active_ids)}）"
           f"・型 {output}")
+    if qs.store_key:
+        how = {"stored": "保存庫の問いを再利用した", "generated": "新しく作って保存庫に保存した"}[qs.source]
+        print(f"# 問い: {how}（鍵 {qs.store_key[:12]}…）")
     if qs.crosscheck:
         cc = qs.crosscheck
         print(f"# 交差検証: 外した {cc.flagged or 'なし'}・弱 {cc.weak or 'なし'}・非排他 {cc.nonexclusive or 'なし'}")

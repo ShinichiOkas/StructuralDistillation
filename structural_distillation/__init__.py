@@ -20,10 +20,12 @@ _EXPORTS: dict[str, str] = {
     "judge": ".compose", "judge_sync": ".compose", "replay": ".compose",
     "Reader": ".l0", "RawReply": ".l0", "CachedPort": ".l0", "OllamaReader": ".l0", "FakeReader": ".l0",
     "PromptSet": ".prompts",
+    "QuestionStore": ".store", "question_key": ".store",
 }
 for _n in ("Answer", "AnswerMatrix", "Attempt", "Axis", "AxisReading", "Budget", "Cost", "Counts", "CrossCheck",
            "Diagnostics", "InputError", "Judgment", "Label", "Ordinal", "PlanningFailed", "Probability",
-           "PromptVersion", "QuestionSet", "Reading", "ReaderSummary", "Thresholds", "Unit", "Value", "Verdict"):
+           "PromptVersion", "QuestionSet", "Reading", "ReaderSummary", "StoreError", "Thresholds", "Unit", "Value",
+           "Verdict"):
     _EXPORTS[_n] = ".contracts"
 
 __all__ = ["__version__", *_EXPORTS]
@@ -42,8 +44,9 @@ if TYPE_CHECKING:  # 静的解析のためだけ
     from .contracts import (  # noqa: F401
         Answer, AnswerMatrix, Attempt, Axis, AxisReading, Budget, Cost, Counts, CrossCheck, Diagnostics, InputError,
         Judgment, Label, Ordinal, PlanningFailed, Probability, PromptVersion, QuestionSet, Reading, ReaderSummary,
-        Thresholds, Unit, Value, Verdict,
+        StoreError, Thresholds, Unit, Value, Verdict,
     )
+    from .store import QuestionStore, question_key  # noqa: F401
     from .compose import judge, judge_sync, replay  # noqa: F401
     from .l0 import CachedPort, FakeReader, OllamaReader, RawReply, Reader  # noqa: F401
     from .prompts import PromptSet  # noqa: F401

@@ -2,7 +2,7 @@
 
 公開名 judge と同じ名前のモジュールにしない（__init__ の注記。受入 M4）。
 
-変換の並びは依存関係だけで決まる: 入口の検査 → 単位化 → L1（問いの集合。渡されていれば飛ばす）→
+変換の並びは依存関係だけで決まる: 入口の検査 → 単位化 → L1（問いの集合。渡されていれば、または保存庫にあれば飛ばす）→
 読み手ごとに L2 → L3 → L4（読み手は 1 体ずつ、記述は workers 並列。I11）→ 読み手間の要約 → 記録。
 """
 from __future__ import annotations
@@ -21,6 +21,7 @@ from .contracts import (AnswerMatrix, Budget, Cost, InputError, Judgment, Ordina
                         ReaderSummary, Thresholds, Unit, output_from_dict)
 from .l0 import Meter, Reader
 from .prompts import PromptSet, get_prompts
+from .store import QuestionStore, question_key
 from .units import RULES, rule_version, segment
 
 AGGREGATION_VERSION = "l3/v1"
@@ -87,6 +88,16 @@ def _read(matrix: AnswerMatrix, qs: QuestionSet, output: OutputType, t: Threshol
     return r
 
 
+def _note_differences(stored: QuestionSet, p: PromptSet, budget: Budget) -> None:
+    """再利用する問いの集合が、今の生成の条件と違えばログに残す（合意 question-store Q2: 違っても再利用する）。"""
+    if stored.prompt.plan != p.plan.version:
+        log.warning("問いの保存庫: 保存された問いは生成の指示 %s で作られた（今は %s）。再利用する", stored.prompt.plan,
+                    p.plan.version)
+    if len(stored.axes) != budget.axes or stored.budget.crosscheck != budget.crosscheck:
+        log.info("問いの保存庫: 保存された問いは軸 %d・交差検証 %s（今の予算は軸 %d・交差検証 %s）。再利用する",
+                 len(stored.axes), stored.budget.crosscheck, budget.axes, budget.crosscheck)
+
+
 def _versions(p: PromptSet, segmentation: str) -> dict[str, str]:
     v = p.version()
     return {"library": __version__, "prompts": f"{v.set}:{v.plan}/{v.answer}/{v.orient}/{v.exclusive}",
@@ -108,6 +119,7 @@ async def judge(text: str, proposition: str, output: OutputType, *,
                 readers: Sequence[Reader], planner: Reader | None = None,
                 verifiers: Sequence[Reader] | None = None,
                 question_set: QuestionSet | None = None,
+                question_store: QuestionStore | str | os.PathLike | None = None, regenerate: bool = False,
                 budget: Budget = Budget(), thresholds: Thresholds = Thresholds(),
                 prompts: str | PromptSet = "ja", segmentation: str = "ja-sentence",
                 record_path: str | os.PathLike | None = None) -> Judgment:
@@ -116,7 +128,9 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     - readers: 問いに答える読み手（2 体以上を推奨。偽読み手も可。偽読み手は要約から除く）
     - planner: 問いを生成する読み手（既定は偽でない読み手の先頭）
     - verifiers: 向きの交差検証（H12）の検証役（既定は偽でない読み手。2 体未満なら交差検証しない）
-    - question_set: 渡せば L1 を飛ばし、その問いの集合で答えさせる（上流 J7。反事実・読み手の差の測定）
+    - question_set: 渡せば L1 を飛ばし、その問いの集合で答えさせる（上流 J7。反事実・読み手の差の測定）。保存庫は見ない
+    - question_store: 問いの保存庫（ディレクトリ）。同じ命題と本文の問いの集合があれば再利用し（生成も交差検証も呼ばない）、
+      無ければ作って保存する（師匠 2026-09-23）。regenerate=True なら作り直して保存する（古いものは別名で残る）
     - record_path: 記録（JSONL）を追記する先
     """
     p = get_prompts(prompts)
@@ -125,7 +139,20 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     real = [r for r in readers if not r.calibration]
     meter = Meter()
     sem = asyncio.Semaphore(budget.workers)
-    if question_set is None:
+    store = key = None
+    stored: QuestionSet | None = None
+    if question_set is None and question_store is not None:
+        store = question_store if isinstance(question_store, QuestionStore) else QuestionStore(question_store)
+        key = question_key(units, rule_version(segmentation), proposition)
+        if not regenerate:
+            stored = store.load(key, units=units, proposition=proposition)
+            if stored is not None:
+                _note_differences(stored, p, budget)
+    if question_set is not None:
+        qs = replace(question_set, source="given")
+    elif stored is not None:
+        qs = replace(stored, source="stored", store_key=key)
+    else:
         gen = planner if planner is not None else (real[0] if real else None)
         if gen is None:
             raise InputError("生成器が要る（偽でない読み手が無いので既定が決まらない）")
@@ -137,8 +164,10 @@ async def judge(text: str, proposition: str, output: OutputType, *,
         if len({v.name for v in vs}) != len(vs):
             raise InputError("検証役の名前が重複している（1 体が過半数を作ってしまう）")
         qs = await l1.plan(gen, units, proposition, budget=budget, prompts=p, verifiers=vs, sem=sem, meter=meter)
-    else:
-        qs = replace(question_set, source="given")
+        if store is not None and key is not None:
+            qs = replace(qs, store_key=key)
+            path = store.save(key, qs, units=units, units_rule=rule_version(segmentation), proposition=proposition)
+            log.info("問いの保存庫: 新しい問いの集合を %s に保存した", path.name)
     matrices: list[AnswerMatrix] = []
     readings: dict[str, Reading] = {}
     for r in readers:
