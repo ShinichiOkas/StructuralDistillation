@@ -1,9 +1,9 @@
 ---
 sprint_id: 49478e2b-819b-464a-b1cf-2098678011e5
-version: 5
-status: retrospecting
+version: 6
+status: completed
 created_at: 2026-09-21T21:05:20+09:00
-updated_at: 2026-09-22T00:10:00+09:00
+updated_at: 2026-09-22T00:30:00+09:00
 domain_tags: [upstream-design, llm-judgment, library-design]
 slice_size: M（合意ドキュメント＋上流設計文書＋空撃ち。ライブラリの実装はなし）
 change_count_premise: 3
@@ -63,7 +63,7 @@ change_count_improvement: 7
 - [x] T4 師匠に「未決事項だけ」（U1〜U3）を提示し、判断を得る（担当: 両方）— 2026-09-22「確定でよい。」
 - [x] T5 判断を反映し、設計 → 評価 → 精緻化を師匠が「足りる」と言うまで回す（担当: 両方）— 設計 v3.1 で確定を反映
 - [x] T6 README の「まだ決まっていないこと」の 3 件（ライセンス／判定軸の分解の所在／パッケージ名）を更新する（担当: AI）
-- [ ] T7 振り返り（担当: 両方）
+- [x] T7 振り返り（担当: 両方）— 2026-09-22
 - [x] T8 空撃ち: 題材 10 本 × 読み手 2 体（Ollama・弱いモデル）で U1（対の矛盾率）・U3（読み手間の差 vs 標本内のばらつき）・S10（本文追従）・S11（偽読み手）を測る。
   判断規則は測る前に §「空撃ちの判断規則」に固定（担当: AI）— p2・p3 の 2 周
 
@@ -205,6 +205,37 @@ change_count_improvement: 7
 | U2 | 度合いの既定は等重みの多数決。段の境界と ∀ 型の集約は利用側（軸ごとの向きを返す） |
 | U3 | 読み手ごとの値と Δ を一級で返す。代表値は平均で始め、Δ > 0.2（仮）で「読み手が割れた」の札 |
 
+## 振り返り（2026-09-22）
+
+### ビジョン（師匠の言葉・原文）
+
+> 測定を多く実施して設計を固めたのは良かった。イメージと違うのはもう少し論理的に掘り下げても良かった様に思う
+
+記録: `~/.claude/pair-agent/vision/49478e2b-upstream-design-20260922.md`
+
+### 合意ドキュメントの変更
+
+| 項目 | 値 |
+|---|---|
+| コミット | 7 回（協議時点 → 協議エンジン → 空撃ち開始 → 計器の検め → p2/p3 → 決定） |
+| 前提崩壊 | 3（打ち消しの論拠／幅の定義／H1 の同数強制） |
+| より良い方法 | 7（単位 id／読み手ごと／失敗と縮退／平叙文化／id 正規化／排他な対／軸ごとの向き） |
+| 修正・叱られ記録 | 1（確認せずに隣のプロジェクトを読んだ → confirmed Skill `design-basic-logic-without-reading-other-projects`） |
+| 完了条件 | 5/5 |
+
+原因: 前提崩壊 3 回のうち 2 回は式を書く前に反例を 1 つ作れば分かったもの（協議エンジンが数値例で崩した）。
+3 回目は構造の問題で、机上では見えず、空撃ちの 0.50 の張り付きで初めて見えた。
+師匠のビジョン回答「もう少し論理的に掘り下げても良かった」はここに当たると読む（⚠ 私の読み。師匠には理由を聞いていない）。
+
+教訓: 集約の式を書いたら「逆の結果が出る入力」を 1 つ書く。生成器に制約を課したら「その制約を最も安く満たす生成物」を 1 つ書く。
+
+### Skill（師匠承認・2026-09-22「スキルは承認」）
+
+新規 draft 4: `ask-llm-judgments-as-statements-not-negative-questions` / `equal-count-constraints-let-a-text-reading-planner-balance-the-answer` /
+`write-the-decision-rule-before-measuring` / `run-long-jobs-outside-the-repo-then-import-the-records`。
+昇格 1: `check-the-approximation-is-not-producing-the-result` draft → forming。
+追記 3: `llm-transcription-needs-short-ascii-ids` / `agreement-draft-then-deliberation-engine-review` / `run-one-real-item-through-before-building-the-apparatus`。
+
 ## 既知リスク
 
 - 「対立を含む」の核（U1）が私の読みとずれていると、ハーネスの規則と §7.4 を組み直す
@@ -216,6 +247,7 @@ change_count_improvement: 7
 ## 変更ログ
 
 - v1 [2026-09-21T21:05:20+09:00]: 初版（師匠の言葉・タスク・前提・AI 判断 J1〜J10）
+- v6 [2026-09-22T00:30:00+09:00]: 振り返り（ビジョン・変更回数・Skill 承認）。status → completed
 - v5 [2026-09-22T00:10:00+09:00]: 師匠決定「確定でよい。」（U1〜U3）。README の未決を更新（T6）。status → retrospecting
 - v4 [2026-09-21T23:50:00+09:00]: 空撃ち本走 p2 で**前提崩壊 1**（D3: H1 の同数強制が度合いを 0.5 に固定）。p3（排他な対）で**より良い方法 2**（D8 対の軸・D10 軸ごとの向きを返す）。
   U1・U3 を判断規則で読み、確定の問いに書き換え。設計を v3 へ
