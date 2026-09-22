@@ -1,0 +1,1872 @@
+[
+ {
+  "id": "r01",
+  "title": "羅生門",
+  "proposition": "老婆は悪人である",
+  "expected_lean": "split",
+  "n_units": 153,
+  "plan": {
+   "ok": true,
+   "axes": [
+    {
+     "axis": "死者の尊厳の扱い",
+     "claim_support": "死人の髪の毛を抜いて鬘にしようとした",
+     "claim_refute": "死人の体に触れず、そのままにしておいた",
+     "id": "a01"
+    },
+    {
+     "axis": "行動の動機",
+     "claim_support": "自分の欲求を満たすために行動した",
+     "claim_refute": "飢死を避けるという生存のために行動した",
+     "id": "a02"
+    },
+    {
+     "axis": "他者の不正への評価",
+     "claim_support": "蛇を干魚として売った女の行為を悪いとは思わなかった",
+     "claim_refute": "蛇を干魚として売った女の行為を悪いと考えた",
+     "id": "a03"
+    },
+    {
+     "axis": "自身の行為の正当化",
+     "claim_support": "自分の行為を悪い事とは思わないと述べた",
+     "claim_refute": "自分の行為が悪い事であると認めた",
+     "id": "a04"
+    },
+    {
+     "axis": "死者への感情",
+     "claim_support": "死人をされてもいい人間であると述べた",
+     "claim_refute": "死人を敬うべき人間として扱った",
+     "id": "a05"
+    },
+    {
+     "axis": "法的な禁忌の遵守",
+     "claim_support": "死人の遺体を損なう行為を行った",
+     "claim_refute": "死人の遺体を損なう行為を行わなかった",
+     "id": "a06"
+    }
+   ],
+   "attempts": [
+    {
+     "try": 0,
+     "violations": [],
+     "n_axes": 6
+    }
+   ]
+  },
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "A": {
+     "s": 4,
+     "r": 0,
+     "u": 2,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0
+    },
+    "p_by_sample": [
+     1.0,
+     1.0
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "label": "偏り（支持）",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "死者の尊厳の扱い",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "行動の動機",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "他者の不正への評価",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "自身の行為の正当化",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "死者への感情",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "法的な禁忌の遵守",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 24.4
+   },
+   "glm-5.2:cloud": {
+    "A": {
+     "s": 4,
+     "r": 0,
+     "u": 2,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0
+    },
+    "p_by_sample": [
+     0.8333333333333334,
+     1.0
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "label": "偏り（支持）",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "死者の尊厳の扱い",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "行動の動機",
+      "d": 0,
+      "agree": 0.5,
+      "d_samples": [
+       -1,
+       0
+      ],
+      "contradiction": 0.5,
+      "v_support": [
+       "判定不能",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "他者の不正への評価",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "自身の行為の正当化",
+      "d": 0,
+      "agree": 0.5,
+      "d_samples": [
+       1,
+       0
+      ],
+      "contradiction": 0.5,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "死者への感情",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "法的な禁忌の遵守",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 28.7
+   },
+   "fake:all_yes": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "本文に根拠が無い",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "死者の尊厳の扱い",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "行動の動機",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "他者の不正への評価",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "自身の行為の正当化",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "死者への感情",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "法的な禁忌の遵守",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_undetermined": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "label": "本文に根拠が無い",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "死者の尊厳の扱い",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a02",
+      "axis": "行動の動機",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a03",
+      "axis": "他者の不正への評価",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a04",
+      "axis": "自身の行為の正当化",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a05",
+      "axis": "死者への感情",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a06",
+      "axis": "法的な禁忌の遵守",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     }
+    ],
+    "seconds": 0.0
+   }
+  },
+  "counterfactual": {
+   "changed": "老婆の言い分: 「せねば饑死をする、仕方がなく」→「饑死をせぬためではない。銭には困っておらぬ。ただ面白うて」",
+   "expected_change": "support_up",
+   "readers": {
+    "qwen3.5:397b-cloud": {
+     "A": {
+      "s": 4,
+      "r": 0,
+      "u": 2,
+      "n": 6,
+      "p": 1.0,
+      "w": 0.0
+     },
+     "label": "偏り（支持）",
+     "changed_axes": 0,
+     "p_orig": 1.0,
+     "p_cf": 1.0,
+     "per_axis": [
+      {
+       "id": "a01",
+       "axis": "死者の尊厳の扱い",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a02",
+       "axis": "行動の動機",
+       "d": 0,
+       "agree": 1.0,
+       "d_samples": [
+        0,
+        0
+       ],
+       "contradiction": 1.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "Yes",
+        "Yes"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a03",
+       "axis": "他者の不正への評価",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a04",
+       "axis": "自身の行為の正当化",
+       "d": 0,
+       "agree": 1.0,
+       "d_samples": [
+        0,
+        0
+       ],
+       "contradiction": 1.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "Yes",
+        "Yes"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a05",
+       "axis": "死者への感情",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a06",
+       "axis": "法的な禁忌の遵守",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      }
+     ]
+    },
+    "glm-5.2:cloud": {
+     "A": {
+      "s": 4,
+      "r": 0,
+      "u": 2,
+      "n": 6,
+      "p": 1.0,
+      "w": 0.0
+     },
+     "label": "偏り（支持）",
+     "changed_axes": 0,
+     "p_orig": 1.0,
+     "p_cf": 1.0,
+     "per_axis": [
+      {
+       "id": "a01",
+       "axis": "死者の尊厳の扱い",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a02",
+       "axis": "行動の動機",
+       "d": 0,
+       "agree": 0.5,
+       "d_samples": [
+        0,
+        -1
+       ],
+       "contradiction": 0.5,
+       "v_support": [
+        "Yes",
+        "No"
+       ],
+       "v_refute": [
+        "Yes",
+        "Yes"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a03",
+       "axis": "他者の不正への評価",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a04",
+       "axis": "自身の行為の正当化",
+       "d": 0,
+       "agree": 1.0,
+       "d_samples": [
+        0,
+        0
+       ],
+       "contradiction": 1.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "Yes",
+        "Yes"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a05",
+       "axis": "死者への感情",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a06",
+       "axis": "法的な禁忌の遵守",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      }
+     ]
+    }
+   }
+  }
+ },
+ {
+  "id": "r02",
+  "title": "羅生門",
+  "proposition": "老婆は悪人である",
+  "expected_lean": "split",
+  "n_units": 153,
+  "plan": {
+   "ok": true,
+   "axes": [
+    {
+     "axis": "死者の尊厳の扱い",
+     "claim_support": "死人の髪の毛を抜いて鬘にしようとした",
+     "claim_refute": "死人の体に触れず、そのままにしておいた",
+     "id": "a01"
+    },
+    {
+     "axis": "行動の動機",
+     "claim_support": "自分の欲求を満たすために行動した",
+     "claim_refute": "飢死を避けるという生存のために行動した",
+     "id": "a02"
+    },
+    {
+     "axis": "他者の不正への評価",
+     "claim_support": "蛇を干魚として売った女の行為を悪いとは思わなかった",
+     "claim_refute": "蛇を干魚として売った女の行為を悪いと考えた",
+     "id": "a03"
+    },
+    {
+     "axis": "自身の行為の正当化",
+     "claim_support": "自分の行為を悪い事とは思わないと述べた",
+     "claim_refute": "自分の行為が悪い事であると認めた",
+     "id": "a04"
+    },
+    {
+     "axis": "死者への感情",
+     "claim_support": "死人をされてもいい人間であると述べた",
+     "claim_refute": "死人を敬うべき人間として扱った",
+     "id": "a05"
+    },
+    {
+     "axis": "法的な禁忌の遵守",
+     "claim_support": "死人の遺体を損なう行為を行った",
+     "claim_refute": "死人の遺体を損なう行為を行わなかった",
+     "id": "a06"
+    }
+   ],
+   "attempts": [
+    {
+     "try": 0,
+     "violations": [],
+     "n_axes": 6
+    }
+   ]
+  },
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "A": {
+     "s": 4,
+     "r": 0,
+     "u": 2,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0
+    },
+    "p_by_sample": [
+     1.0,
+     1.0
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "label": "偏り（支持）",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "死者の尊厳の扱い",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "行動の動機",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "他者の不正への評価",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "自身の行為の正当化",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "死者への感情",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "法的な禁忌の遵守",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "glm-5.2:cloud": {
+    "A": {
+     "s": 4,
+     "r": 0,
+     "u": 2,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0
+    },
+    "p_by_sample": [
+     0.8333333333333334,
+     1.0
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "label": "偏り（支持）",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "死者の尊厳の扱い",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "行動の動機",
+      "d": 0,
+      "agree": 0.5,
+      "d_samples": [
+       -1,
+       0
+      ],
+      "contradiction": 0.5,
+      "v_support": [
+       "判定不能",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "他者の不正への評価",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "自身の行為の正当化",
+      "d": 0,
+      "agree": 0.5,
+      "d_samples": [
+       1,
+       0
+      ],
+      "contradiction": 0.5,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "死者への感情",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "法的な禁忌の遵守",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_yes": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "本文に根拠が無い",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "死者の尊厳の扱い",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "行動の動機",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "他者の不正への評価",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "自身の行為の正当化",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "死者への感情",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "法的な禁忌の遵守",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_undetermined": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "label": "本文に根拠が無い",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "死者の尊厳の扱い",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a02",
+      "axis": "行動の動機",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a03",
+      "axis": "他者の不正への評価",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a04",
+      "axis": "自身の行為の正当化",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a05",
+      "axis": "死者への感情",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a06",
+      "axis": "法的な禁忌の遵守",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     }
+    ],
+    "seconds": 0.0
+   }
+  },
+  "counterfactual": {
+   "changed": "老婆が髪を抜いた女について: 「蛇を干魚と偽って売った」→「正直な魚売りで誰も欺いていない」（老婆の言い分の根拠を崩す）",
+   "expected_change": "support_up",
+   "readers": {
+    "qwen3.5:397b-cloud": {
+     "A": {
+      "s": 4,
+      "r": 0,
+      "u": 2,
+      "n": 6,
+      "p": 1.0,
+      "w": 0.0
+     },
+     "label": "偏り（支持）",
+     "changed_axes": 2,
+     "p_orig": 1.0,
+     "p_cf": 1.0,
+     "per_axis": [
+      {
+       "id": "a01",
+       "axis": "死者の尊厳の扱い",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a02",
+       "axis": "行動の動機",
+       "d": 0,
+       "agree": 1.0,
+       "d_samples": [
+        0,
+        0
+       ],
+       "contradiction": 1.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "Yes",
+        "Yes"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a03",
+       "axis": "他者の不正への評価",
+       "d": 0,
+       "agree": 1.0,
+       "d_samples": [
+        0,
+        0
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "判定不能",
+        "判定不能"
+       ],
+       "v_refute": [
+        "判定不能",
+        "判定不能"
+       ],
+       "invalid": 0,
+       "silent": 2
+      },
+      {
+       "id": "a04",
+       "axis": "自身の行為の正当化",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a05",
+       "axis": "死者への感情",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a06",
+       "axis": "法的な禁忌の遵守",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      }
+     ]
+    },
+    "glm-5.2:cloud": {
+     "A": {
+      "s": 3,
+      "r": 0,
+      "u": 3,
+      "n": 6,
+      "p": 1.0,
+      "w": 0.0
+     },
+     "label": "偏り（支持）",
+     "changed_axes": 1,
+     "p_orig": 1.0,
+     "p_cf": 1.0,
+     "per_axis": [
+      {
+       "id": "a01",
+       "axis": "死者の尊厳の扱い",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a02",
+       "axis": "行動の動機",
+       "d": 0,
+       "agree": 1.0,
+       "d_samples": [
+        0,
+        0
+       ],
+       "contradiction": 1.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "Yes",
+        "Yes"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a03",
+       "axis": "他者の不正への評価",
+       "d": 0,
+       "agree": 1.0,
+       "d_samples": [
+        0,
+        0
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "判定不能",
+        "判定不能"
+       ],
+       "v_refute": [
+        "判定不能",
+        "判定不能"
+       ],
+       "invalid": 0,
+       "silent": 2
+      },
+      {
+       "id": "a04",
+       "axis": "自身の行為の正当化",
+       "d": 0,
+       "agree": 0.5,
+       "d_samples": [
+        0,
+        1
+       ],
+       "contradiction": 0.5,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "Yes",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a05",
+       "axis": "死者への感情",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a06",
+       "axis": "法的な禁忌の遵守",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      }
+     ]
+    }
+   }
+  }
+ }
+]

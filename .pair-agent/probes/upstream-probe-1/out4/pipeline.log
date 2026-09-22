@@ -1,0 +1,9 @@
+syntax ok
+base21 exit=0
+m3arm exit=0
+xc2 exit=0
+meta2 exit=0
+s4 exit=0
+rashomon exit=0
+mem exit=0
+pipeline done
