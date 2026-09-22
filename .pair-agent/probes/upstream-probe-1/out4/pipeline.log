@@ -7,3 +7,7 @@ s4 exit=0
 rashomon exit=0
 mem exit=0
 pipeline done
+mono exit=0
+xc_self exit=0
+mono_rashomon exit=0
+pipeline mono done

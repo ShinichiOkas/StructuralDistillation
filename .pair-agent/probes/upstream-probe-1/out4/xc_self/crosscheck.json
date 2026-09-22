@@ -1,0 +1,9783 @@
+[
+ {
+  "id": "m01",
+  "kind": "evaluative",
+  "single_fact_cf": true,
+  "proposition": "ゲンは悪人である",
+  "n_axes": 6,
+  "flagged_agree": [
+   "a03"
+  ],
+  "flagged_or": [
+   "a03"
+  ],
+  "weak": [],
+  "nonexclusive": [
+   "a04",
+   "a06"
+  ],
+  "control_removed": [
+   "a04"
+  ],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "人命救助の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "拾得物の所有権処理",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "救助行為の秘匿",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "金銭の使途",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "救助後の処遇",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "社会的評価",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 2,
+     "r": 3,
+     "u": 0,
+     "n": 5,
+     "p": 0.4,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 3,
+     "r": 2,
+     "u": 0,
+     "n": 5,
+     "p": 0.6,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.5,
+       0.8
+      ],
+      "after": [
+       0.4,
+       0.75
+      ],
+      "control": [
+       0.6,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 2,
+     "r": 3,
+     "u": 0,
+     "n": 5,
+     "p": 0.4,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 3,
+     "r": 2,
+     "u": 0,
+     "n": 5,
+     "p": 0.6,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.5,
+       0.6
+      ],
+      "after": [
+       0.4,
+       0.75
+      ],
+      "control": [
+       0.6,
+       0.75
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m01b",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "ゲンには医者の娘がいる",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [
+   "a04"
+  ],
+  "weak": [
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "nonexclusive": [
+   "a02"
+  ],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "子供の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "子供の性別",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "子供の職業",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "親子の血縁関係",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "反証",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "家族構成の記述",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "親族の職業的属性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "after": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "control": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "after": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "control": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    }
+   }
+  }
+ },
+ {
+  "id": "m02",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "この報告には再現に必要な手順が揃っている",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "動作環境の特定",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "操作手順の完結性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "設定変更内容の具体性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "期待される挙動の定義",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "発生事象の定義",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "再現性の根拠",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 4,
+     "r": 0,
+     "u": 2,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.3333333333333333,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 4,
+     "r": 0,
+     "u": 2,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.3333333333333333,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 4,
+     "r": 0,
+     "u": 2,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.3333333333333333,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.0
+      ],
+      "after": [
+       1.0,
+       0.0
+      ],
+      "control": [
+       1.0,
+       0.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.2
+      ],
+      "after": [
+       1.0,
+       0.2
+      ],
+      "control": [
+       1.0,
+       0.2
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m03",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "この会議で新機能の採用が決定された",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a01",
+   "a04",
+   "a05"
+  ],
+  "nonexclusive": [
+   "a04"
+  ],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "採否の決定タイミング",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "決定事項の記載",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "議長の最終指示",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "実装への合意",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "懸念事項の解消",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "結論の明示",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.0,
+       0.8
+      ],
+      "after": [
+       0.0,
+       0.8
+      ],
+      "control": [
+       0.0,
+       0.8
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.0,
+       0.8
+      ],
+      "after": [
+       0.0,
+       0.8
+      ],
+      "control": [
+       0.0,
+       0.8
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m04",
+  "kind": "evaluative",
+  "single_fact_cf": true,
+  "proposition": "レビュアーはこの製品に満足している",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [],
+  "nonexclusive": [
+   "a05"
+  ],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "吸引力",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "重量",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "動作音",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "バッテリー持続時間",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "メンテナンス性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "再購入意向",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "after": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.3333333333333333,
+       1.0
+      ],
+      "after": [
+       0.3333333333333333,
+       1.0
+      ],
+      "control": [
+       0.3333333333333333,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "after": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.3333333333333333,
+       1.0
+      ],
+      "after": [
+       0.3333333333333333,
+       1.0
+      ],
+      "control": [
+       0.3333333333333333,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m05",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "応募者は求人の必須要件をすべて満たしている",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "Python経験年数",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "英語会話能力",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "大阪事業所への勤務可能性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "Python経験の具体的内容",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "英語の使用実績",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "居住地の条件",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 4,
+     "r": 2,
+     "u": 0,
+     "n": 6,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "after": {
+     "s": 4,
+     "r": 2,
+     "u": 0,
+     "n": 6,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "control": {
+     "s": 4,
+     "r": 2,
+     "u": 0,
+     "n": 6,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.6666666666666666,
+       1.0
+      ],
+      "after": [
+       0.6666666666666666,
+       1.0
+      ],
+      "control": [
+       0.6666666666666666,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 4,
+     "r": 1,
+     "u": 1,
+     "n": 6,
+     "p": 0.8,
+     "w": 0.4,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 4,
+     "r": 1,
+     "u": 1,
+     "n": 6,
+     "p": 0.8,
+     "w": 0.4,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 4,
+     "r": 1,
+     "u": 1,
+     "n": 6,
+     "p": 0.8,
+     "w": 0.4,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.8,
+       1.0
+      ],
+      "after": [
+       0.8,
+       1.0
+      ],
+      "control": [
+       0.8,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m06",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "旅は計画どおりに進んだ",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a06"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "訪問先の網羅性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "訪問スケジュールの順守",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "交通手段の予定通りか",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "到着時間の適切さ",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "宿泊予約の状況",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "帰宅日の日程",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "after": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.3333333333333333,
+       1.0
+      ],
+      "after": [
+       0.3333333333333333,
+       1.0
+      ],
+      "control": [
+       0.3333333333333333,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "after": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.3333333333333333,
+       1.0
+      ],
+      "after": [
+       0.3333333333333333,
+       1.0
+      ],
+      "control": [
+       0.3333333333333333,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m07",
+  "kind": "evaluative",
+  "single_fact_cf": true,
+  "proposition": "書き手は弟に優しい",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [
+   "a04"
+  ],
+  "weak": [
+   "a04"
+  ],
+  "nonexclusive": [
+   "a05"
+  ],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "貸出の可否",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "紛失物の捜索協力",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "学習支援の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "学習支援の方法",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "弟への感情",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "物理的接触",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 2,
+     "r": 3,
+     "u": 1,
+     "n": 6,
+     "p": 0.4,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 2,
+     "r": 3,
+     "u": 1,
+     "n": 6,
+     "p": 0.4,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 2,
+     "r": 3,
+     "u": 1,
+     "n": 6,
+     "p": 0.4,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.4,
+       0.0
+      ],
+      "after": [
+       0.4,
+       0.0
+      ],
+      "control": [
+       0.4,
+       0.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 2,
+     "r": 2,
+     "u": 2,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 2,
+     "r": 2,
+     "u": 2,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 2,
+     "r": 2,
+     "u": 2,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.5,
+       0.0
+      ],
+      "after": [
+       0.5,
+       0.0
+      ],
+      "control": [
+       0.5,
+       0.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m08",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "この実験は仮説を支持した",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "発芽率の比較",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "環境条件の統一",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "対照群の設定",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "サンプルの同一性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "測定期間の妥当性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "有意な差の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 3,
+     "r": 2,
+     "u": 1,
+     "n": 6,
+     "p": 0.6,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "after": {
+     "s": 3,
+     "r": 2,
+     "u": 1,
+     "n": 6,
+     "p": 0.6,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "control": {
+     "s": 3,
+     "r": 2,
+     "u": 1,
+     "n": 6,
+     "p": 0.6,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.6,
+       1.0
+      ],
+      "after": [
+       0.6,
+       1.0
+      ],
+      "control": [
+       0.6,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 3,
+     "r": 2,
+     "u": 1,
+     "n": 6,
+     "p": 0.6,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "after": {
+     "s": 3,
+     "r": 2,
+     "u": 1,
+     "n": 6,
+     "p": 0.6,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "control": {
+     "s": 3,
+     "r": 2,
+     "u": 1,
+     "n": 6,
+     "p": 0.6,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.6,
+       1.0
+      ],
+      "after": [
+       0.6,
+       1.0
+      ],
+      "control": [
+       0.6,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m09",
+  "kind": "evaluative",
+  "single_fact_cf": true,
+  "proposition": "差出人は相手に謝罪している",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "nonexclusive": [
+   "a06"
+  ],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "謝罪表現の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "過失の認容",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "弁明の扱い",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "損害への言及",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "補償の提案",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "関係修復の要望",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.4
+      ],
+      "after": [
+       1.0,
+       0.4
+      ],
+      "control": [
+       1.0,
+       0.4
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.6
+      ],
+      "after": [
+       1.0,
+       0.6
+      ],
+      "control": [
+       1.0,
+       0.6
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m10",
+  "kind": "other",
+  "single_fact_cf": false,
+  "proposition": "この規約では解約は無料でできる",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [
+   "a01"
+  ],
+  "weak": [
+   "a01",
+   "a03"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "解約可能期間",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "反証",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "中途解約時の手数料",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "サービス停止時の特例",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "解約理由による費用変動",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "解約手続きの手法",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "手数料の請求タイミング",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "after": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.3333333333333333,
+       0.8
+      ],
+      "after": [
+       0.3333333333333333,
+       0.8
+      ],
+      "control": [
+       0.3333333333333333,
+       0.8
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "after": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.3333333333333333,
+       0.8
+      ],
+      "after": [
+       0.3333333333333333,
+       0.8
+      ],
+      "control": [
+       0.3333333333333333,
+       0.8
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m11",
+  "kind": "meta",
+  "single_fact_cf": false,
+  "proposition": "この議事録には、会議で何が決まったかが書かれている",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "決定事項セクションの有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "議題一の結論",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "議題二の結論",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "合意形成プロセスの記述",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "タスクの割り当て",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "未決定事項の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 5,
+     "r": 0,
+     "u": 1,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 5,
+     "r": 0,
+     "u": 1,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 5,
+     "r": 0,
+     "u": 1,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.2
+      ],
+      "after": [
+       1.0,
+       0.2
+      ],
+      "control": [
+       1.0,
+       0.2
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.25
+      ],
+      "after": [
+       1.0,
+       0.25
+      ],
+      "control": [
+       1.0,
+       0.25
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m12",
+  "kind": "meta",
+  "single_fact_cf": true,
+  "proposition": "この契約書には契約を途中で終了する条件が書かれている",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a02",
+   "a05"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "中途解約条項の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "通知期間の指定",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "解除事由の定義",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "合意解約の手続き",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "即時解約権の付与",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "期間満了以外の終了条件",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "after": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "control": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "cf": {
+     "before": null,
+     "after": false,
+     "control": false,
+     "p": {
+      "before": [
+       null,
+       1.0
+      ],
+      "after": [
+       null,
+       1.0
+      ],
+      "control": [
+       null,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "after": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "control": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "cf": {
+     "before": null,
+     "after": false,
+     "control": false,
+     "p": {
+      "before": [
+       null,
+       0.6
+      ],
+      "after": [
+       null,
+       0.6
+      ],
+      "control": [
+       null,
+       0.6
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m13",
+  "kind": "forall",
+  "single_fact_cf": false,
+  "proposition": "この点検では安全点検の項目がすべて完了している",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "項目一の完了状況",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "項目二の完了状況",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "項目三の完了状況",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "項目四の完了状況",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "項目五の完了状況",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "未記載項目の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 5,
+     "r": 0,
+     "u": 1,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 5,
+     "r": 0,
+     "u": 1,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 5,
+     "r": 0,
+     "u": 1,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.8
+      ],
+      "after": [
+       1.0,
+       0.8
+      ],
+      "control": [
+       1.0,
+       0.8
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 5,
+     "r": 0,
+     "u": 1,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 5,
+     "r": 0,
+     "u": 1,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 5,
+     "r": 0,
+     "u": 1,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.8
+      ],
+      "after": [
+       1.0,
+       0.8
+      ],
+      "control": [
+       1.0,
+       0.8
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m14",
+  "kind": "evaluative",
+  "single_fact_cf": false,
+  "proposition": "井口は部下に厳しい",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [
+   "a04"
+  ],
+  "weak": [],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "ミスの修正方法",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "遅延時の対応",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "失敗時の責任の取り方",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "業務量の調整",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "反証",
+        "支持"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "肯定的な評価の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "部下からの心理的印象",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 4,
+     "r": 2,
+     "u": 0,
+     "n": 6,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "after": {
+     "s": 4,
+     "r": 2,
+     "u": 0,
+     "n": 6,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "control": {
+     "s": 4,
+     "r": 2,
+     "u": 0,
+     "n": 6,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.6666666666666666,
+       0.0
+      ],
+      "after": [
+       0.6666666666666666,
+       0.0
+      ],
+      "control": [
+       0.6666666666666666,
+       0.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 4,
+     "r": 2,
+     "u": 0,
+     "n": 6,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "after": {
+     "s": 4,
+     "r": 2,
+     "u": 0,
+     "n": 6,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "control": {
+     "s": 4,
+     "r": 2,
+     "u": 0,
+     "n": 6,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.6666666666666666,
+       0.0
+      ],
+      "after": [
+       0.6666666666666666,
+       0.0
+      ],
+      "control": [
+       0.6666666666666666,
+       0.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m15",
+  "kind": "evaluative",
+  "single_fact_cf": false,
+  "proposition": "宮下は客に対して誠実である",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "過剰受領金の対応",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "商品の欠陥告知",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "作業未完了時の料金請求",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "売掛金の記録精度",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "不明な情報の回答",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "利益の優先度",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.0
+      ],
+      "after": [
+       1.0,
+       0.0
+      ],
+      "control": [
+       1.0,
+       0.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.0
+      ],
+      "after": [
+       1.0,
+       0.0
+      ],
+      "control": [
+       1.0,
+       0.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m16",
+  "kind": "fact",
+  "single_fact_cf": false,
+  "proposition": "この週は雨の日が多かった",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "雨の日数",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "降水日の具体的な回数",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "週のまとめの記述",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "晴天の日数",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "降水の継続性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "曇天の日数",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.0,
+       0.75
+      ],
+      "after": [
+       0.0,
+       0.75
+      ],
+      "control": [
+       0.0,
+       0.75
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 0,
+     "r": 5,
+     "u": 1,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 5,
+     "u": 1,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 5,
+     "u": 1,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.0,
+       1.0
+      ],
+      "after": [
+       0.0,
+       1.0
+      ],
+      "control": [
+       0.0,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m17",
+  "kind": "fact",
+  "single_fact_cf": false,
+  "proposition": "このレシピは分量と火加減と時間を数値で指定している",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a01"
+  ],
+  "nonexclusive": [
+   "a04",
+   "a05"
+  ],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "材料の分量の数値表記",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "火加減の数値表記",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "調理時間の数値表記",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "分量の単位の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "時間の単位の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "数値指定の網羅性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 0,
+     "r": 4,
+     "u": 2,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 4,
+     "u": 2,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 4,
+     "u": 2,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "cf": {
+     "before": false,
+     "after": false,
+     "control": false,
+     "p": {
+      "before": [
+       0.0,
+       0.0
+      ],
+      "after": [
+       0.0,
+       0.0
+      ],
+      "control": [
+       0.0,
+       0.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 1,
+     "r": 0,
+     "u": 5,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.4166666666666667,
+     "label": "本文に根拠が無い",
+     "level": "5"
+    },
+    "after": {
+     "s": 1,
+     "r": 0,
+     "u": 5,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.4166666666666667,
+     "label": "本文に根拠が無い",
+     "level": "5"
+    },
+    "control": {
+     "s": 1,
+     "r": 0,
+     "u": 5,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.4166666666666667,
+     "label": "本文に根拠が無い",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.0
+      ],
+      "after": [
+       1.0,
+       0.0
+      ],
+      "control": [
+       1.0,
+       0.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m18",
+  "kind": "fact",
+  "single_fact_cf": false,
+  "proposition": "二人は旅行の計画について合意に達した",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "日程の合意",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "目的地の合意",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "宿泊予算の合意",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "食事の形態の合意",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "宿の決定状態",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "最終的な合意の宣言",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "after": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.3333333333333333,
+       1.0
+      ],
+      "after": [
+       0.3333333333333333,
+       1.0
+      ],
+      "control": [
+       0.3333333333333333,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "after": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.3333333333333333,
+       1.0
+      ],
+      "after": [
+       0.3333333333333333,
+       1.0
+      ],
+      "control": [
+       0.3333333333333333,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m19",
+  "kind": "fact",
+  "single_fact_cf": false,
+  "proposition": "新型掃除ロボットの発売は予定どおり行われた",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a01",
+   "a05"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "発売日",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "発売日の変更",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "部品の不具合への対応",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "部品の供給状況",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "量販店での販売開始日",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "顧客への延期案内",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.0,
+       1.0
+      ],
+      "after": [
+       0.0,
+       1.0
+      ],
+      "control": [
+       0.0,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.0,
+       1.0
+      ],
+      "after": [
+       0.0,
+       1.0
+      ],
+      "control": [
+       0.0,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m20",
+  "kind": "none",
+  "single_fact_cf": true,
+  "proposition": "この記録を付けた人は農家である",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a02",
+   "a03"
+  ],
+  "nonexclusive": [
+   "a03",
+   "a04"
+  ],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "作物に関する記述",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "農業用設備への言及",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "気象情報の詳細度",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "土地の用途",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "職業的活動の記述",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "時間配分の記述",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 0,
+     "r": 1,
+     "u": 5,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 1,
+     "u": 5,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 1,
+     "u": 5,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "1"
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 0,
+     "r": 2,
+     "u": 4,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 2,
+     "u": 4,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 2,
+     "u": 4,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "1"
+    }
+   }
+  }
+ },
+ {
+  "id": "m01",
+  "kind": "evaluative",
+  "single_fact_cf": true,
+  "proposition": "ゲンは悪人である",
+  "n_axes": 6,
+  "flagged_agree": [
+   "a01",
+   "a04"
+  ],
+  "flagged_or": [
+   "a01",
+   "a04"
+  ],
+  "weak": [
+   "a02",
+   "a03",
+   "a06"
+  ],
+  "nonexclusive": [],
+  "control_removed": [
+   "a03",
+   "a06"
+  ],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "救助行為の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "救助への言及",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "所有権の認識",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "反物の売却",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "近隣の評価",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "法的紛争の結果",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "gemma4:31b-cloud": {
+    "before": {
+     "s": 3,
+     "r": 2,
+     "u": 1,
+     "n": 6,
+     "p": 0.6,
+     "w": 0.8,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "after": {
+     "s": 2,
+     "r": 1,
+     "u": 1,
+     "n": 4,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "control": {
+     "s": 2,
+     "r": 2,
+     "u": 0,
+     "n": 4,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": false,
+     "after": true,
+     "control": false,
+     "p": {
+      "before": [
+       0.6,
+       0.5
+      ],
+      "after": [
+       0.6666666666666666,
+       1.0
+      ],
+      "control": [
+       0.5,
+       0.5
+      ]
+     }
+    }
+   },
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 3,
+     "r": 1,
+     "u": 2,
+     "n": 6,
+     "p": 0.75,
+     "w": 0.5,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "偏り（支持）",
+     "level": "4"
+    },
+    "after": {
+     "s": 2,
+     "r": 1,
+     "u": 1,
+     "n": 4,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "control": {
+     "s": 2,
+     "r": 1,
+     "u": 1,
+     "n": 4,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.25,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": false,
+     "after": true,
+     "control": false,
+     "p": {
+      "before": [
+       0.75,
+       0.5
+      ],
+      "after": [
+       0.6666666666666666,
+       1.0
+      ],
+      "control": [
+       0.6666666666666666,
+       0.5
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 3,
+     "r": 1,
+     "u": 2,
+     "n": 6,
+     "p": 0.75,
+     "w": 0.5,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "偏り（支持）",
+     "level": "4"
+    },
+    "after": {
+     "s": 2,
+     "r": 1,
+     "u": 1,
+     "n": 4,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "4"
+    },
+    "control": {
+     "s": 2,
+     "r": 1,
+     "u": 1,
+     "n": 4,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.25,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": false,
+     "after": true,
+     "control": false,
+     "p": {
+      "before": [
+       0.75,
+       0.5
+      ],
+      "after": [
+       0.6666666666666666,
+       1.0
+      ],
+      "control": [
+       0.6666666666666666,
+       0.5
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m01b",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "ゲンには医者の娘がいる",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a01",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "ゲンの家族構成",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "娘の父親の職業",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "ゲンの親族の呼称",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "近隣住民との関係",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "ゲンと医者の関係",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "近隣の医者の存在",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "gemma4:31b-cloud": {
+    "before": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "after": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "control": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    }
+   },
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "after": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "control": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "after": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    },
+    "control": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null,
+     "contradiction_rate": 0.0,
+     "label": "本文に根拠が無い",
+     "level": "—"
+    }
+   }
+  }
+ },
+ {
+  "id": "m02",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "この報告には再現に必要な手順が揃っている",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a04",
+   "a06"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "OSとバージョン",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "操作手順の具体性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "特定の変数の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "再現の再現性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "エラーログの有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "比較対象の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "gemma4:31b-cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.0
+      ],
+      "after": [
+       1.0,
+       0.0
+      ],
+      "control": [
+       1.0,
+       0.0
+      ]
+     }
+    }
+   },
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.25
+      ],
+      "after": [
+       1.0,
+       0.25
+      ],
+      "control": [
+       1.0,
+       0.25
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.25
+      ],
+      "after": [
+       1.0,
+       0.25
+      ],
+      "control": [
+       1.0,
+       0.25
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m03",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "この会議で新機能の採用が決定された",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a01",
+   "a05",
+   "a06"
+  ],
+  "nonexclusive": [
+   "a02"
+  ],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "意思決定のタイミング",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "議論の進捗状況",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "決定事項の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "宿題事項の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "技術的・運用的課題の解決",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "見積もりの確定",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "gemma4:31b-cloud": {
+    "before": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.0,
+       0.8333333333333334
+      ],
+      "after": [
+       0.0,
+       0.8333333333333334
+      ],
+      "control": [
+       0.0,
+       0.8333333333333334
+      ]
+     }
+    }
+   },
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.0,
+       0.8333333333333334
+      ],
+      "after": [
+       0.0,
+       0.8333333333333334
+      ],
+      "control": [
+       0.0,
+       0.8333333333333334
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "after": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "control": {
+     "s": 0,
+     "r": 6,
+     "u": 0,
+     "n": 6,
+     "p": 0.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "1"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.0,
+       0.8
+      ],
+      "after": [
+       0.0,
+       0.8
+      ],
+      "control": [
+       0.0,
+       0.8
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m04",
+  "kind": "evaluative",
+  "single_fact_cf": true,
+  "proposition": "レビュアーはこの製品に満足している",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "吸引力の強さ",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "本体の重量",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "動作音の大きさ",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "バッテリーの持続時間",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "ゴミ捨ての際の環境",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "付属品の利便性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "gemma4:31b-cloud": {
+    "before": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.5,
+       1.0
+      ],
+      "after": [
+       0.5,
+       1.0
+      ],
+      "control": [
+       0.5,
+       1.0
+      ]
+     }
+    }
+   },
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.5,
+       1.0
+      ],
+      "after": [
+       0.5,
+       1.0
+      ],
+      "control": [
+       0.5,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.5,
+       1.0
+      ],
+      "after": [
+       0.5,
+       1.0
+      ],
+      "control": [
+       0.5,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m05",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "応募者は求人の必須要件をすべて満たしている",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "Pythonの経験年数",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "英語による顧客対応",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "勤務場所の可否",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "在宅勤務の許容",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "チームリード経験",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "応募者の居住地",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "gemma4:31b-cloud": {
+    "before": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.5,
+       1.0
+      ],
+      "after": [
+       0.5,
+       1.0
+      ],
+      "control": [
+       0.5,
+       1.0
+      ]
+     }
+    }
+   },
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.5,
+       1.0
+      ],
+      "after": [
+       0.5,
+       1.0
+      ],
+      "control": [
+       0.5,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.5,
+       1.0
+      ],
+      "after": [
+       0.5,
+       1.0
+      ],
+      "control": [
+       0.5,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m06",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "旅は計画どおりに進んだ",
+  "n_axes": 6,
+  "flagged_agree": [
+   "a01"
+  ],
+  "flagged_or": [
+   "a01"
+  ],
+  "weak": [],
+  "nonexclusive": [
+   "a01"
+  ],
+  "control_removed": [
+   "a02"
+  ],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "訪問した町の総数",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "初日の移動手段",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "訪問した場所の順番",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "滞在時間の配分",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "宿泊予約の成否",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "行程の遅延の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "gemma4:31b-cloud": {
+    "before": {
+     "s": 1,
+     "r": 4,
+     "u": 1,
+     "n": 6,
+     "p": 0.2,
+     "w": 0.4,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "偏り（反証）",
+     "level": "2"
+    },
+    "after": {
+     "s": 1,
+     "r": 4,
+     "u": 0,
+     "n": 5,
+     "p": 0.2,
+     "w": 0.4,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "2"
+    },
+    "control": {
+     "s": 1,
+     "r": 3,
+     "u": 1,
+     "n": 5,
+     "p": 0.25,
+     "w": 0.5,
+     "contradiction_rate": 0.2,
+     "label": "偏り（反証）",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.2,
+       1.0
+      ],
+      "after": [
+       0.2,
+       1.0
+      ],
+      "control": [
+       0.25,
+       1.0
+      ]
+     }
+    }
+   },
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 1,
+     "r": 4,
+     "u": 1,
+     "n": 6,
+     "p": 0.2,
+     "w": 0.4,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "偏り（反証）",
+     "level": "2"
+    },
+    "after": {
+     "s": 1,
+     "r": 4,
+     "u": 0,
+     "n": 5,
+     "p": 0.2,
+     "w": 0.4,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "2"
+    },
+    "control": {
+     "s": 1,
+     "r": 3,
+     "u": 1,
+     "n": 5,
+     "p": 0.25,
+     "w": 0.5,
+     "contradiction_rate": 0.2,
+     "label": "偏り（反証）",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.2,
+       1.0
+      ],
+      "after": [
+       0.2,
+       1.0
+      ],
+      "control": [
+       0.25,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 1,
+     "r": 4,
+     "u": 1,
+     "n": 6,
+     "p": 0.2,
+     "w": 0.4,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "偏り（反証）",
+     "level": "2"
+    },
+    "after": {
+     "s": 1,
+     "r": 4,
+     "u": 0,
+     "n": 5,
+     "p": 0.2,
+     "w": 0.4,
+     "contradiction_rate": 0.0,
+     "label": "偏り（反証）",
+     "level": "2"
+    },
+    "control": {
+     "s": 1,
+     "r": 3,
+     "u": 1,
+     "n": 5,
+     "p": 0.25,
+     "w": 0.5,
+     "contradiction_rate": 0.2,
+     "label": "偏り（反証）",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.2,
+       1.0
+      ],
+      "after": [
+       0.2,
+       1.0
+      ],
+      "control": [
+       0.25,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m07",
+  "kind": "evaluative",
+  "single_fact_cf": true,
+  "proposition": "書き手は弟に優しい",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a04"
+  ],
+  "nonexclusive": [
+   "a04",
+   "a06"
+  ],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "ゲームの貸し出し",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "紛失物の捜索",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "宿題の教示",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "宿題の教え方",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "弟の感情への対応",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "弟への思索",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しうる"
+    ]
+   }
+  ],
+  "readers": {
+   "gemma4:31b-cloud": {
+    "before": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.5,
+       0.0
+      ],
+      "after": [
+       0.5,
+       0.0
+      ],
+      "control": [
+       0.5,
+       0.0
+      ]
+     }
+    }
+   },
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 2,
+     "r": 3,
+     "u": 1,
+     "n": 6,
+     "p": 0.4,
+     "w": 0.8,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 2,
+     "r": 3,
+     "u": 1,
+     "n": 6,
+     "p": 0.4,
+     "w": 0.8,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 2,
+     "r": 3,
+     "u": 1,
+     "n": 6,
+     "p": 0.4,
+     "w": 0.8,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.4,
+       0.0
+      ],
+      "after": [
+       0.4,
+       0.0
+      ],
+      "control": [
+       0.4,
+       0.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 2,
+     "r": 3,
+     "u": 1,
+     "n": 6,
+     "p": 0.4,
+     "w": 0.8,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "割れる",
+     "level": "3"
+    },
+    "after": {
+     "s": 2,
+     "r": 3,
+     "u": 1,
+     "n": 6,
+     "p": 0.4,
+     "w": 0.8,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "割れる",
+     "level": "3"
+    },
+    "control": {
+     "s": 2,
+     "r": 3,
+     "u": 1,
+     "n": 6,
+     "p": 0.4,
+     "w": 0.8,
+     "contradiction_rate": 0.08333333333333333,
+     "label": "割れる",
+     "level": "3"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.4,
+       0.0
+      ],
+      "after": [
+       0.4,
+       0.0
+      ],
+      "control": [
+       0.4,
+       0.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m08",
+  "kind": "other",
+  "single_fact_cf": true,
+  "proposition": "この実験は仮説を支持した",
+  "n_axes": 6,
+  "flagged_agree": [],
+  "flagged_or": [],
+  "weak": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "nonexclusive": [],
+  "control_removed": [],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "肥料A群の発芽数",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "水のみの群との比較",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "肥料Aの物理的影響",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "どちらとも言えない"
+       ],
+       "majority": "同数",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "発芽率の増加",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "外部要因の制御",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "反復による結果の安定性",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "gemma4:31b-cloud": {
+    "before": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "after": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.3333333333333333,
+       1.0
+      ],
+      "after": [
+       0.3333333333333333,
+       1.0
+      ],
+      "control": [
+       0.3333333333333333,
+       1.0
+      ]
+     }
+    }
+   },
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "after": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.3333333333333333,
+       1.0
+      ],
+      "after": [
+       0.3333333333333333,
+       1.0
+      ],
+      "control": [
+       0.3333333333333333,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "after": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 4,
+     "u": 0,
+     "n": 6,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.0,
+     "label": "割れる",
+     "level": "2"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       0.3333333333333333,
+       1.0
+      ],
+      "after": [
+       0.3333333333333333,
+       1.0
+      ],
+      "control": [
+       0.3333333333333333,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m09",
+  "kind": "evaluative",
+  "single_fact_cf": true,
+  "proposition": "差出人は相手に謝罪している",
+  "n_axes": 6,
+  "flagged_agree": [
+   "a06"
+  ],
+  "flagged_or": [
+   "a06"
+  ],
+  "weak": [
+   "a02",
+   "a03",
+   "a04",
+   "a05"
+  ],
+  "nonexclusive": [],
+  "control_removed": [
+   "a01"
+  ],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "謝罪の意の表明",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "原因の認諾",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "被害への言及",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "言い訳の回避",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "事後対応の提案",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "関係の継続意欲",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "gemma4:31b-cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 5,
+     "r": 0,
+     "u": 0,
+     "n": 5,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 5,
+     "r": 0,
+     "u": 0,
+     "n": 5,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": true,
+     "p": {
+      "before": [
+       1.0,
+       0.5
+      ],
+      "after": [
+       1.0,
+       0.3333333333333333
+      ],
+      "control": [
+       1.0,
+       0.6666666666666666
+      ]
+     }
+    }
+   },
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 5,
+     "r": 0,
+     "u": 0,
+     "n": 5,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 5,
+     "r": 0,
+     "u": 0,
+     "n": 5,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": false,
+     "p": {
+      "before": [
+       1.0,
+       0.6666666666666666
+      ],
+      "after": [
+       1.0,
+       0.5
+      ],
+      "control": [
+       1.0,
+       1.0
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 6,
+     "r": 0,
+     "u": 0,
+     "n": 6,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "after": {
+     "s": 5,
+     "r": 0,
+     "u": 0,
+     "n": 5,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "control": {
+     "s": 5,
+     "r": 0,
+     "u": 0,
+     "n": 5,
+     "p": 1.0,
+     "w": 0.0,
+     "contradiction_rate": 0.0,
+     "label": "偏り（支持）",
+     "level": "5"
+    },
+    "cf": {
+     "before": false,
+     "after": false,
+     "control": false,
+     "p": {
+      "before": [
+       1.0,
+       1.0
+      ],
+      "after": [
+       1.0,
+       1.0
+      ],
+      "control": [
+       1.0,
+       1.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": "m10",
+  "kind": "other",
+  "single_fact_cf": false,
+  "proposition": "この規約では解約は無料でできる",
+  "n_axes": 6,
+  "flagged_agree": [
+   "a01",
+   "a05"
+  ],
+  "flagged_or": [
+   "a01",
+   "a05"
+  ],
+  "weak": [
+   "a03",
+   "a04"
+  ],
+  "nonexclusive": [],
+  "control_removed": [
+   "a02",
+   "a03"
+  ],
+  "votes": [
+   {
+    "id": "a01",
+    "axis": "契約初期の解約期間",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a02",
+    "axis": "契約期間中盤以降の解約費用",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a03",
+    "axis": "運営側の過失による停止時の特例",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a04",
+    "axis": "解約申請の受付方法",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "どちらとも言えない",
+        "どちらとも言えない"
+       ],
+       "majority": "どちらとも言えない",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a05",
+    "axis": "解約手数料の徴収タイミング",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   },
+   {
+    "id": "a06",
+    "axis": "解約理由の有無",
+    "checkers": {
+     "gemma4:31b-cloud": {
+      "support": {
+       "votes": [
+        "支持",
+        "支持"
+       ],
+       "majority": "支持",
+       "expect": "支持"
+      },
+      "refute": {
+       "votes": [
+        "反証",
+        "反証"
+       ],
+       "majority": "反証",
+       "expect": "反証"
+      }
+     }
+    },
+    "exclusivity": [
+     "両立しない"
+    ]
+   }
+  ],
+  "readers": {
+   "gemma4:31b-cloud": {
+    "before": {
+     "s": 3,
+     "r": 1,
+     "u": 2,
+     "n": 6,
+     "p": 0.75,
+     "w": 0.5,
+     "contradiction_rate": 0.3333333333333333,
+     "label": "偏り（支持）",
+     "level": "4"
+    },
+    "after": {
+     "s": 1,
+     "r": 1,
+     "u": 2,
+     "n": 4,
+     "p": 0.5,
+     "w": 1.0,
+     "contradiction_rate": 0.5,
+     "label": "計器不良",
+     "level": "3"
+    },
+    "control": {
+     "s": 2,
+     "r": 1,
+     "u": 1,
+     "n": 4,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.25,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": false,
+     "p": {
+      "before": [
+       0.75,
+       0.8
+      ],
+      "after": [
+       0.5,
+       0.75
+      ],
+      "control": [
+       0.6666666666666666,
+       0.6666666666666666
+      ]
+     }
+    }
+   },
+   "qwen3.5:397b-cloud": {
+    "before": {
+     "s": 3,
+     "r": 2,
+     "u": 1,
+     "n": 6,
+     "p": 0.6,
+     "w": 0.8,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "割れる",
+     "level": "4"
+    },
+    "after": {
+     "s": 1,
+     "r": 2,
+     "u": 1,
+     "n": 4,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.25,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 1,
+     "u": 1,
+     "n": 4,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.25,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": false,
+     "p": {
+      "before": [
+       0.6,
+       0.8
+      ],
+      "after": [
+       0.3333333333333333,
+       0.75
+      ],
+      "control": [
+       0.6666666666666666,
+       0.6666666666666666
+      ]
+     }
+    }
+   },
+   "glm-5.2:cloud": {
+    "before": {
+     "s": 3,
+     "r": 2,
+     "u": 1,
+     "n": 6,
+     "p": 0.6,
+     "w": 0.8,
+     "contradiction_rate": 0.16666666666666666,
+     "label": "割れる",
+     "level": "4"
+    },
+    "after": {
+     "s": 1,
+     "r": 2,
+     "u": 1,
+     "n": 4,
+     "p": 0.3333333333333333,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.25,
+     "label": "割れる",
+     "level": "2"
+    },
+    "control": {
+     "s": 2,
+     "r": 1,
+     "u": 1,
+     "n": 4,
+     "p": 0.6666666666666666,
+     "w": 0.6666666666666666,
+     "contradiction_rate": 0.25,
+     "label": "割れる",
+     "level": "4"
+    },
+    "cf": {
+     "before": true,
+     "after": true,
+     "control": false,
+     "p": {
+      "before": [
+       0.6,
+       0.75
+      ],
+      "after": [
+       0.3333333333333333,
+       0.75
+      ],
+      "control": [
+       0.6666666666666666,
+       0.5
+      ]
+     }
+    }
+   }
+  }
+ }
+]
