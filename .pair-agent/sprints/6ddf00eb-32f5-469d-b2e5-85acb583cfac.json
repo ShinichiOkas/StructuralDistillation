@@ -1,0 +1,18 @@
+{
+  "sprint_id": "6ddf00eb-32f5-469d-b2e5-85acb583cfac",
+  "status": "executing",
+  "goal": "実装 v1: 実装設計 v2 の切片 A〜D（contracts・prompts・L0・単位化 → L1 → L2・L3・L4 → 合成・記録・replay・適合検査）を内側から一層ずつ完成させる",
+  "created_at": "2026-09-22T22:20:00+09:00",
+  "agreement_path": ".pair-agent/agreements/implementation-v1.md",
+  "slice_size": "M→L（コアのライブラリ全層・触れる CLI・テスト・適合検査。受入は協議エンジン＝別コンテキストで実装と設計を突き合わせる）",
+  "previous_sprints": [
+    "973b8c7c（測定 2 周目。retrospecting・振り返り先送り）",
+    "bb3c8a3c（実装設計。retrospecting・振り返り先送り）"
+  ],
+  "経過": [
+    {
+      "at": "2026-09-22T22:20:00+09:00",
+      "event": "師匠「実装を開始してください」。合意 implementation-v1.md を起草。設計 v2 の協議エンジン評価は済なので、実装合意は設計の写しとし、評価は受入（実装 ↔ 設計の照合）に回す。事前の確認: out4 の記録の札は走行時の κ=0.5 で付いており、mono の m17（除外題材）1 行が κ 0.5〜0.667 の帯にある → S0a は走行時の閾値で比べる（設計 §4.3 の注記を直す）"
+    }
+  ]
+}
