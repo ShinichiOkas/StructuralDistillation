@@ -1,9 +1,10 @@
 # Structural Distillation 実装設計
 
-- 版: v2（2026-09-22）。差分は末尾の変更履歴と、合意ドキュメント `.pair-agent/agreements/implementation-design.md` の「協議ログ」
+- 版: v3（2026-09-22）。差分は末尾の変更履歴と、合意ドキュメント `.pair-agent/agreements/implementation-design.md`・`implementation-v1.md`
 - 上流: [`UPSTREAM_DESIGN.md`](UPSTREAM_DESIGN.md) v3.5。**ドライバ・契約・規則はそちらが正。** この文書は「どう組むか」だけを書く
 - ⚠ **この文書は仮説である。** 実装と実測で崩れたらこの文書を直す。上流設計と食い違ったら上流設計を優先し、食い違いを変更履歴に書く
-- ⚠ コードはまだ無い。v1 の範囲は上流設計の L0〜L4 と合成（`judge()`）。蒸留（L5）は後段
+- **実装 v1 は済**（`structural_distillation/`・`tools/`・`tests/`）。範囲は上流設計の L0〜L4 と合成（`judge()`）。蒸留（L5）は後段。
+  実装で分かったことは §14 に。本文はその結果に合わせて直してある
 - ⚠ **ライブラリは空撃ちの道具の移植である。** 空撃ちと違えるところは §13 の差分表に「何を・なぜ・置けない理由か意図的か」を全部書く
 
 ## 0. 何を根拠に書いているか
@@ -37,7 +38,7 @@
 structural_distillation/          # コア。標準ライブラリだけ（⚠ I1）
   __init__.py                     # 公開 API の再輸出・__version__
   contracts.py                    # 契約: データ型・列挙・例外・既定値。層ではない（層の間の共有語彙）
-  prompts.py                      # 指示の集合（PromptSet）の読み込みと描画。層ではない（facility）
+  prompts.py                      # 指示の集合（PromptSet）の読み込みと描画、4 つのスキーマの持ち主。層ではない（facility）
   l0.py                           # 読み手ポート: Reader / structured()（三段構え）/ validate() / CachedPort / OllamaReader / FakeReader
   units.py                        # 単位化（決定論・規則は版付き）。上流設計で番号の無い層
   l1.py                           # 問い生成: plan()・ハーネス検査（H1〜H11）・向きの交差検証（H12）
@@ -50,6 +51,9 @@ tools/                            # 触れる CLI と道具。パッケージに
   l0_chat.py units_chat.py l1_chat.py l2_chat.py l3_chat.py l4_chat.py   # 各層だけを叩く最小 CLI
   judge_cli.py                    # 本文ファイル・命題・型を渡して 1 判定
   conformance_out4.py             # 適合検査: 測定 2 周目のキャッシュだけで judge() を回し、記録と一致するか（読み取り専用）
+  probe_records.py                # 空撃ちの記録 → ライブラリの型（S0a と適合検査が使う。読むだけ）
+  mutation_check.py               # 変異試験: 実装を 1 箇所ずつ壊し、テストが落ちるか
+  _cli.py                         # CLI の共通部品（UTF-8・札の日本語名）
 tests/                            # 層ごとに 1 ファイル ＋ 実接続 1 ファイル
   conftest.py test_l0.py test_l0_live.py test_units.py test_l1.py test_l2.py test_l3.py test_l4.py test_judge.py
   fixtures/                       # out4 から抜いた固定データ（キャッシュ行・記録の 1 題材）。テストは .pair-agent/probes/ に書かない
@@ -70,6 +74,7 @@ pyproject.toml                    # 実行時依存なし。開発依存は pyte
   整形（指示へのスキーマ明記・フェンス剥がし・検証・鍵）は純関数、HTTP は `OllamaReader` の中だけ
 - ファイル名は上流設計の層番号。単位化は上流で番号が無いので役割名（`units.py`）（⚠ I8）
 - 契約のファイルは `contracts.py`（標準の `types` との衝突を避ける）。指示のデータは `prompt_sets/`（モジュール `prompts.py` と同名にしない）
+- パッケージの公開名（`judge`・`CachedPort` など）は `__init__.py` が遅延して読み込む（PEP 562）。`import structural_distillation` だけでは層を読まない（層を 1 つずつ作ってテストするため。v3）
 
 ## 3. 契約（`contracts.py`）
 
@@ -107,9 +112,9 @@ pyproject.toml                    # 実行時依存なし。開発依存は pyte
 | `Label` | `LEAN_SUPPORT`／`LEAN_REFUTE`／`SPLIT`／`NO_EVIDENCE`／`INSTRUMENT_FAULT` | §7.4 の 5 値 |
 | `Reading` | 読み手 1 体の判定: `reader`・`calibration`・`counts`・`p`・`w`・`label`・`value: Value | None`・`diagnostics`・`axes: list[AxisReading]` | §4.2 読み手ごと |
 | `Value` | `Probability` なら `p`、`Ordinal` なら `level: int`（1..K）と `label: str | None` | §7.6 |
-| `ReaderSummary` | `delta: float | None`（実読み手のうち**値を持つ**ものの p の最大 − 最小）・`levels_agree: bool | None`・`readers_split: bool | None`（Δ > δ）・`representative: Value | None`（⚠ I10: 同じ読み手集合の p の平均。U3 仮置き）・`note: str | None`（`"single reader"` など） | §4.2 要約 |
-| `Cost` | 役割別 `{plan, crosscheck, answer}` × `{live, cached}` と合計。`calibration_calls`（偽読み手の呼び出し。LLM は呼んでいない） | §4.2 費用・Q8 |
-| `Judgment` | `proposition`・`output`・`units`・`segmentation: str`・`question_set`・`matrices: list[AnswerMatrix]`・`readings: dict[str, Reading]`（鍵は読み手名。一意性は入口で検査）・`summary: ReaderSummary`・`cost`・`versions: {library, prompts, units_rule, aggregation}`・`to_record() -> dict` | §4.2・§8 |
+| `ReaderSummary` | `delta: float | None`（実読み手のうち**値を持つ**ものの p の最大 − 最小）・`levels_agree: bool | None`（順序尺度で値を持つ読み手が 2 体以上のときだけ）・`readers_split: bool | None`（Δ > δ）・`representative: Value | None`（⚠ I10: 同じ読み手集合の p の平均。U3 仮置き）・`readers: list[str]`（要約の対象にした読み手）・`note: str | None`（`"single reader"` / `"no reader with a value"`） | §4.2 要約 |
+| `Cost` | 役割別 `{plan, crosscheck, answer}` × `{live, cached, missed}`（missed ＝ cache-only で外れた。LLM は呼んでいない）と合計。`calibration_calls`（偽読み手の呼び出し。LLM は呼んでいない） | §4.2 費用・Q8 |
+| `Judgment` | `proposition`・`output`・`units`・`segmentation: str`・`question_set`・`matrices: list[AnswerMatrix]`・`readings: dict[str, Reading]`（鍵は読み手名。一意性は入口で検査）・`summary: ReaderSummary`・`cost`・`versions: {library, prompts, units_rule, aggregation}`・`budget`・`thresholds`・`at`・`to_record() -> dict` | §4.2・§8 |
 
 ### 3.4 例外
 
@@ -143,8 +148,8 @@ class Reader(Protocol):
 | `strip_fence(text) -> text` | 全文が単一のコードフェンスならフェンスだけ剥がす。部分抽出（修復）はしない | 純関数 |
 | `validate(obj, schema) -> list[str]` | JSON Schema の**部分集合**を検査: `type`（object / array / string / integer / number / boolean）・`properties`・`required`・`enum`・`items`。それ以外のキーワードは使わない（⚠ I14）。⚠ `additionalProperties` は使わない（スキーマに足すと鍵が変わる） | 純関数 |
 | `cache_key(model, messages, schema, sample, version) -> str` | `sha1(json.dumps({"m": model, "msgs": messages, "schema": schema, "sample": sample, "v": version}, ensure_ascii=False, sort_keys=True))`。**`messages` は `with_schema` 適用後**。`sample` は int。**空撃ちと同一**（⚠ I3） | 純関数 |
-| `structured(reader, messages, schema, *, version, sample, notice, retry=False) -> Structured` | **三段構え**: ① `schema` を読み手に渡す（ネイティブ指定。信用しない）② `with_schema` で指示にも明記 ③ 受信で `json.loads → validate`（フェンス剥がしはアダプタが済ませて返す）。`retry=True` のときだけ、失敗なら `version + ":retry"` で**再送 1 回**（空撃ちで再送するのは回答だけ。⚠ I18）。`Structured(ok, obj, content, error, attempts, cached, key)` | I/O を呼ぶが自分は判断しない |
-| `CachedPort(reader, path, *, cache_only=False, read_only=False, extra=())` | `Reader` を包む `Reader`（`name` は素通し。鍵の `m` はモデル名）。鍵で引き、無ければ `reader.complete` → **成功した応答だけ**を追記のみ JSONL に `{"key","model","sample","version","payload"}`（行の形は空撃ちと同一。⚠ I19: 空撃ちは失敗も書いたが、失敗を永続化すると再走でも直らない）。`extra` は読むだけの追加キャッシュ（複数の記録を合わせて読む）。`read_only` なら一切書かない。同じ鍵の同時要求は 1 回にまとめる（`asyncio.Future` を共有）。`cache_only` で外れたら `ok=False, error="cache-only miss"`。`calls_live` / `calls_cached` | I/O（ファイル） |
+| `structured(reader, messages, schema, *, version, sample, notice, retry=False) -> Structured` | **三段構え**: ① `schema` を読み手に渡す（ネイティブ指定。信用しない）② `with_schema` で指示にも明記 ③ 受信で `strip_fence → json.loads → validate`（アダプタも剥がして返すが、利用側の `Reader` が剥がさなくても通るよう冪等にもう一度。v3）。`retry=True` のときだけ、失敗なら `version + ":retry"` で**再送 1 回**（空撃ちで再送するのは回答だけ。⚠ I18）。`Structured(ok, obj, content, error, attempts, cached, key)` | I/O を呼ぶが自分は判断しない |
+| `CachedPort(reader, path, *, cache_only=False, read_only=False, extra=())` | `Reader` を包む `Reader`（`name` は素通し。鍵の `m` はモデル名。`path=None` ならメモリだけ）。鍵で引き、無ければ `reader.complete` → **成功した応答だけ**を追記のみ JSONL に `{"key","model","sample","version","payload"}`（行の形は空撃ちと同一。⚠ I19: 空撃ちは失敗も書いたが、失敗を永続化すると再走でも直らない）。`extra` は読むだけの追加キャッシュ（複数の記録を合わせて読む）。`read_only` なら一切書かない。同じ鍵の同時要求は 1 回にまとめる（`asyncio.Future` を共有）。`cache_only` で外れたら `ok=False, error="cache-only miss"`。`calls_live` / `calls_cached` | I/O（ファイル） |
 | `OllamaReader(model, *, host="http://localhost:11434", num_ctx=8192, think=False, timeout=600, retries=3)` | `/api/chat` に `format=schema`・`options.num_ctx`・`think`。`think` を拒む（400 に "think"）モデルには `think` 無しで再送。429 / 5xx は 5·(k+1) 秒待って**初回 ＋ 再送 3 ＝ 最大 4 試行**。`content` は `strip_fence` 後。`urllib` を `asyncio.to_thread` で呼ぶ（⚠ I1: 依存を足さない）。`meta` に `eval_count`・`total_duration`・`prompt_eval_count`（文脈長の切り詰めを事後に見るため） | I/O（HTTP） |
 | `FakeReader(kind, *, seed=0)` | `kind ∈ {all_yes, all_no, all_undetermined, random}`（名前は空撃ちと同じ）。`name = "fake:<kind>"`、`calibration=True`。回答スキーマ（`verdict` を持つ）にだけ答える: `{"verdict": <kind の語>, "evidence": ["s1"]}`（`s1` は単位列の先頭 id なので常に実在。`SILENT` は `[]`）。`random` は `sha1(seed, messages, sample)` で 3 値を決める（**呼び出し順に依存しない**。並列でも同じ）。他のスキーマ（生成・向き）には `ok=False` | 決定論 |
 
@@ -179,6 +184,7 @@ class Reader(Protocol):
 **IN** (生成器, 単位列, 命題, 予算, 指示の集合, 検証役) → **OUT** `QuestionSet` **または** `PlanningFailed`。
 
 生成は LLM、規則の検査はコード（上流 §6）。スキーマは**コードが持つ**（契約。挿入順は §4.0 の表）。
+4 つのスキーマの持ち主は `prompts.py`（`plan_schema` / `answer_schema` / `orient_schema` / `exclusive_schema`。enum の語が指示の集合から来るので。v3）。
 
 試行: `index = 0 .. plan_retries`、`sample = index` で `structured(planner, plan_prompt, retry=False)` → L0 が失敗（`ok=False`。HTTP 失敗・形式崩れ）なら違反 `["L0 失敗"]` の試行として次へ（空撃ちと同じ。再送しない）→ `check_harness` → 違反が無ければ採用。全試行が違反なら `PlanningFailed(attempts)`。
 ⚠ 空撃ちは上限到達時に「違反付きの最後の軸」で続行した（観察のため）。ライブラリは上流 F3 のとおり**拒否**する（差分表 §13）。
@@ -188,7 +194,7 @@ class Reader(Protocol):
 | 規則 | 検査 | 違反の表記 |
 |---|---|---|
 | H6 予算 | `axes_min ≤ len(axes) ≤ axes_max` | `H6 軸数` |
-| H1 両側を持つ | `claim_support`・`claim_refute` が空でない（空なら**その軸の他の検査を飛ばす**）。正規化して同一でない | `H1 空の記述` / `H1 両側が同一`（空撃ちの表記は `H7 …`。規則の名前を上流に合わせた） |
+| H1 両側を持つ | `claim_support`・`claim_refute` が空でない（空なら**その軸の他の検査を飛ばす**）。正規化して同一でない（同一の両側は、2 回目の記述として H4 にも当たる。空撃ちと同じ） | `H1 空の記述` / `H1 両側が同一`（空撃ちの表記は `H7 …`。規則の名前を上流に合わせた） |
 | H4 非重複 | 正規化した記述（両側とも）が、それまでに見た記述と同一でない | `H4 非重複` |
 | H3 非自明 | 記述と命題の文字 2-gram Jaccard ≥ 0.6 なら言い換え | `H3 非自明` |
 | H11 平叙文 | 記述の末尾が `か` / `？` / `?` でない | `H11 疑問文` |
@@ -262,7 +268,8 @@ id は採用した試行の順に `a01`…。`origin` は `index == 0` で採用
     w ≤ ω and p < 0.5          → LEAN_REFUTE
     それ以外                    → SPLIT
 
-⚠ `out4/*/results.json` の `label` は走行時の既定 κ = 0.5 で付いている（`probe3.aggregate` が κ を渡していない）。矛盾率が [0.5, 0.667) の行は無い（健全側の最大 0.333・偽読み手 1.0）ので S0a は κ = 0.667 で一致するが、別の記録で落ちたらまずここを疑う。
+⚠ `out4/*/results.json` の `label` は走行時の既定 κ = 0.5 で付いている（`probe3.aggregate` が κ を渡していない）。
+矛盾率が [0.5, 0.667) の行は **1 行ある**（mono の m17・除外題材。v2 の「無い」は誤り）。S0a は**走行時の閾値（κ = 0.5）で比べる**（v3）。
 
 `summarize_readers(readings, thresholds) -> ReaderSummary`: 実読み手（`calibration=False`）のうち**値を持つ**ものの p から Δ（最大 − 最小）、段の一致、`readers_split = Δ > δ`、代表値 ＝ p の平均（⚠ I10）。値を持つ実読み手が 1 体以下なら Δ は `None`、`note="single reader"`（F5。0 で埋めない）。
 ⚠ 空撃ちの要約表は札に関係なく p を使っていた。値なしの札の p を使わないのは合意 K12 の訂正と同じ判断（差分表 §13）。
@@ -274,7 +281,8 @@ id は採用した試行の順に `a01`…。`origin` は `index == 0` で採用
 - `label ∈ {NO_EVIDENCE, INSTRUMENT_FAULT}` または `p is None` → `None`
 - `Probability` → `Value(p=p)`
 - `Ordinal(k, labels, bounds)`: `bounds` 省略時は `level = min(k−1, int(p·k)) + 1`（空撃ち `level5` と同一の式。K 等分）。`bounds` があれば `level = 1 + #{b ∈ bounds : b ≤ p}`（`p = 1.0` は最上段）。`labels` があれば `Value.label = labels[level−1]`
-- 値は型から構成するので型の外に出る経路が無い。`k < 2`・`labels` の長さ・`bounds` の形は `judge` の入口で `InputError`
+- 値は型から構成するので型の外に出る経路が無い。`k < 2`・`labels` の長さ・`bounds` の形は `check_output` が検査し、`judge` の入口で `InputError`
+- `type_value(p, output)` は札を見ずに型の値にする（読み手間の代表値に使う。v3）
 
 ### 4.5 合成（`judge.py`）
 
@@ -288,13 +296,13 @@ async def judge(text: str, proposition: str, output: OutputType, *,
                 record_path: str | os.PathLike | None = None) -> Judgment
 
 def judge_sync(...同じ...) -> Judgment          # asyncio.run で包む。既に走っているループの中では使えない
-def replay(record: dict, *, thresholds=None, output=None, prompts=None) -> Judgment
-    # 記録から LLM を呼ばずに引き直す。既定は L3・L4 だけ。raw が全部あれば L2（正規化・照合）からも引き直せる
+def replay(record: dict, *, thresholds=None, output=None, reparse=False, prompts=None) -> Judgment
+    # 記録から LLM を呼ばずに引き直す。既定は L3・L4 だけ。reparse=True なら生応答（raw）から L2 の解釈（正規化・照合）も
 ```
 
 変換の並び（依存関係だけで決まる）:
 
-1. 入口の検査（F1・F2・型の整合・読み手名の一意性・生成器が偽読み手でない）→ `InputError`
+1. 入口の検査（F1・F2・型の整合・読み手名の一意性・生成器と検証役が偽読み手でない）→ `InputError`
 2. `units.segment`
 3. `question_set` が無ければ `l1.plan`（`source="generated"`）。あればそのまま（`source="given"`。`active_ids` もそのまま）。生成器の既定は実読み手の先頭。検証役の既定は実読み手（偽読み手を除く）。2 体未満なら交差検証なし
 4. 読み手ごとに `l2.answer_all` → `l3.aggregate` → `l4.to_value`。⚠ I11: **読み手は 1 体ずつ順に**、1 体の中の記述は `workers` 並列（ローカルの読み手を 2 体同時に走らせると GPU を取り合う）
@@ -406,6 +414,7 @@ def replay(record: dict, *, thresholds=None, output=None, prompts=None) -> Judgm
 ## 10. 実装の順序と完成の定義
 
 内側（最も基盤）から外へ、**一層ずつ完成させてから次へ**。各層の完成 ＝ ①テスト緑 ②触れる CLI が動く ③この文書の該当節と実装が一致。
+**v1 は A〜D をこの順に 1 スプリントで済ませた**（師匠「実装を開始してください」。層ごとの完成の記録は `.pair-agent/agreements/implementation-v1.md`）。
 
 | 切片 | 層（この順に 1 層ずつ） | 触れる CLI | 完成の検査 |
 |---|---|---|---|
@@ -474,7 +483,33 @@ def replay(record: dict, *, thresholds=None, output=None, prompts=None) -> Judgm
 | P11 | 記録 | `results.json`（道具の形） | `Judgment.to_record()`（生応答つき） | 置けない（上流 §8） | 監査・再計算・蒸留の素材 |
 | P12 | キャッシュ行の `payload` | `eval_count`・`total_duration` | ＋ `prompt_eval_count` | 追加 | 文脈長の切り詰めを事後に見る。読むときは無くてよい |
 
+| P13 | 偽読み手を生成器・検証役に | 経路が無い（偽読み手は answer で短絡） | `InputError` で拒む | 追加 | 同じ口に差せるようにした（P5）ので、答える以外の役に紛れ込む経路ができた。それを塞ぐ |
+
 変えていないこと（適合検査が守る）: 指示の文面・`notice`・スキーマの並び・鍵の式・行の形・単位化・ハーネスの検査・向きの規則（無効の扱いを含む）・多数決・率の定義・札の順序・K 等分の式・交差検証の票の集約。
+
+## 14. 実装で分かったこと（v3・実装 v1）
+
+| # | 何が分かったか | どう直したか |
+|---|---|---|
+| R1 | スキーマは enum の語が指示の集合から来るので、l1 / l2 に置くと L0 の鍵のテストが上の層に依存する | 4 つのスキーマの持ち主を `prompts.py` に（§4.1） |
+| R2 | 層を 1 つずつ作ってテストするには、`__init__` が全層を import すると最初の層のテストが走らない | 公開名を遅延読み込み（§2） |
+| R3 | 設計 v2 の「矛盾率が [0.5, 0.667) の行は無い」は誤り（mono の m17 に 1 行） | S0a は走行時の閾値で比べる（§4.3） |
+| R4 | 変異試験 23 通りで 2 つ生き残った: H3 の閾値（テストが完全一致の言い換えしか見ていなかった）／judge が外した軸も集約する（外れる軸がある judge のテストが無かった） | テストを 2 本足して 0 に（`tools/mutation_check.py`） |
+| R5 | 偽読み手を同じ口に差せるようにした結果、生成器・検証役に紛れ込む経路ができた | 入口で拒む（差分表 P13） |
+| R6 | `python -m` はカレントディレクトリを `sys.path` の先頭に置くので、変異の写しを `PYTHONPATH` で読ませるには cwd を写しの側にする必要がある | 変異試験の道具に書いた |
+
+検査の結果（2026-09-22）:
+
+| 検査 | 結果 |
+|---|---|
+| `pytest`（既定・LLM を呼ばない） | 136 緑・実接続 1 件は既定で走らない |
+| 鍵の一致（`test_l0`） | out4 の実キャッシュ行 6 件（生成・回答・向き・排他性）と一致 |
+| S0a（`test_l3`） | 測定 2 周目の 8 腕・主走行と反事実の全 465 行が全一致 |
+| 適合検査 ①（交差検証なし） | 21/21 題材・実呼び出し 0・外れ 0・キャッシュ命中 1,941 |
+| 適合検査 ②（交差検証あり） | 21/21 題材・実呼び出し 0・外れ 0・キャッシュ命中 2,289 |
+| 陰性対照（回答の版を変える） | 21/21 不一致・外れ 3,840（検査が落ちうることの確認） |
+| 変異試験 | 23 通りすべてテストが落ちる |
+| 実接続（クラウド・新しい本文 2 本） | 物語「佐藤は不誠実である」→ 2 体とも p 0.25・偏り（反証）・段 2。障害報告「再現に必要な情報が揃っている」→ 2 体とも p 0.83・偏り（支持）。どちらも 86 呼び出し・約 65 秒 |
 
 ## 付録 A. 上流設計の項目 → この文書の節
 
@@ -513,5 +548,8 @@ def replay(record: dict, *, thresholds=None, output=None, prompts=None) -> Judgm
 
 ## 変更履歴
 
+- v3 [2026-09-22]: 実装 v1 の結果を書き戻した（§14）。スキーマの持ち主を `prompts.py` に、公開名の遅延読み込み、`structured` もフェンスを剥がす（冪等）、
+  `CachedPort` のメモリだけの形、`Cost.missed`、`ReaderSummary.readers`、`Judgment` に予算・閾値・時刻、`replay(reparse=)`、
+  `check_output` / `type_value`、偽読み手を生成器・検証役に使えない（P13）、S0a の κ の注記の訂正、道具 3 つ（`probe_records` / `mutation_check` / `_cli`）
 - v2 [2026-09-22]: 協議エンジンの評価（critical 2・major 13・minor 18）を反映。**前提崩壊 1**（無効な回答の向きの規則が上流 §5.3 と空撃ちで違った → 空撃ちに揃え、上流 v3.5 に脚注）。`Reader.complete` に `version`、鍵を同一にする要素の表、再送は回答だけ（I18）、`question_set` 引数、費用の数え方、`random` の決定論、記録に生応答、`contracts.py` / `prompt_sets/`、適合検査の読み取り専用と交差検証の第 2 走行、`zero_kind` の優先順位、`valid_rate_by_side` の定義、差分表 §13、付録 A、I18〜I21、`units_chat`、切片 C の層順
 - v1 [2026-09-22]: 初版。上流設計 v3.4 と空撃ちの道具（p2 / p3 / p4 / xc2）を根拠に、配置・契約・各層・指示の外部化・記録・実行モデル・失敗・テスト・順序・実装判断 I1〜I17 を置いた

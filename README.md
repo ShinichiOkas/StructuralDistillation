@@ -11,10 +11,11 @@
 
 ---
 
-## ⚠ ステータス: 設計段階（コードはまだありません）
+## ⚠ ステータス: v0.1.0（レイヤー 1・2 の実装。蒸留はまだ）
 
-このリポジトリには**ライブラリの実装がまだありません**。あるのは概念・上流設計・それを検めた空撃ちの記録です。
-README が先にあるのは、**境界を最初に決めておくため**です（下記「設計上の約束」）。
+レイヤー 1（問いの生成）と 2（回答と集約）が `structural_distillation/` にあります。レイヤー 3（蒸留）はまだです。
+閾値の既定値はすべて**仮説**で、題材が増えるたびに引き直します。
+README が先にあったのは、**境界を最初に決めておくため**です（下記「設計上の約束」）。
 
 ---
 
@@ -104,6 +105,34 @@ Structural Distillation は、判断を次の形に変えます:
 判断を生成に委ねている限り、**受け手の性分の差がそのまま出力の差**になります。
 判断を生成から剥がすこと —— それがこのライブラリの目的です。
 
+## 使い方
+
+依存は Python 3.11 以上の標準ライブラリだけです。LLM への接続は同梱の Ollama アダプタか、自前の読み手（`Reader` の口を実装したもの）で差します。
+
+```python
+from structural_distillation import judge_sync, Ordinal, OllamaReader, CachedPort, Budget
+
+readers = [CachedPort(OllamaReader(m), "cache.jsonl") for m in ("qwen3.5:397b-cloud", "glm-5.2:cloud")]
+j = judge_sync(本文, "老婆は悪人である", Ordinal(5), readers=readers,
+               planner=CachedPort(OllamaReader("gemma4:31b-cloud"), "cache.jsonl"),
+               budget=Budget(workers=6), record_path="records.jsonl")
+for name, r in j.readings.items():
+    print(name, r.value, r.label, r.p, r.w)      # 読み手ごとの値・札・度合い・幅
+print(j.summary.delta, j.summary.representative)  # 読み手間の差と代表値
+```
+
+- 読み手ごとに値を返し、読み手間の差（Δ）を隠しません。札が「本文に根拠が無い」「計器不良」のときは値を返しません
+- 記録（`record_path`）には本文の単位列・問いの集合・回答（生応答つき）・集約が残り、`replay()` で LLM を呼ばずに引き直せます
+- 各層を単独で触る CLI が `tools/` にあります（`l0_chat.py`・`units_chat.py`・`l1_chat.py`・`l2_chat.py`・`l3_chat.py`・`l4_chat.py`・`judge_cli.py`）
+
+開発:
+
+```bash
+python -m venv .venv && .venv/Scripts/python -m pip install -e ".[dev]"
+.venv/Scripts/python -m pytest                      # LLM を呼ばない
+.venv/Scripts/python tools/conformance_out4.py      # 測定の記録と突き合わせる（LLM を呼ばない）
+```
+
 ## 取り込み方（予定）
 
 - 開発中は **editable install**（`pip install -e`）
@@ -120,15 +149,22 @@ Structural Distillation は、判断を次の形に変えます:
   ⚠ 支持と反証の記述を同数並べる形は、生成器が両側とも本文にある事実で埋めるため度合いが 0.5 に固定されました（空撃ちの実測）
 - **判定に必要な全文を入力します。** LLM の知識に頼りません
 - 出力は「度合い ＋ 幅」を読み手（モデル）ごとに返し、読み手間の差を隠しません。確からしさは数えられる診断値の組で、1 つの数には畳みません
+- 生成器が付けた向きは、別の 2 体に交差検証させて外します（既定で有効）
 - 実装言語は Python。ライセンスは MIT（下記）
 
-設計を検めた空撃ち（創作の短文 11 本・ローカルの弱い LLM 2 体・偽読み手・反事実）の記録は `.pair-agent/probes/` にあります。
+実装設計は [`doc/IMPLEMENTATION_DESIGN.md`](doc/IMPLEMENTATION_DESIGN.md) にあります（2026-09-22）。要点:
+
+- パッケージは `structural_distillation`。公開 API は `judge()`（非同期）・`judge_sync()`・`replay()`
+- 層ごとに 1 ファイル（`l0.py` 読み手ポート／`units.py` 単位化／`l1.py` 問い生成／`l2.py` 回答／`l3.py` 集約／`l4.py` 型付け／`judge.py` 合成）
+- ライブラリは設計を検めた空撃ちの道具の移植です。測定のキャッシュだけで `judge()` を回すと、21 題材の記録と一致します（実呼び出し 0）
+
+設計を検めた空撃ち（創作の短文 21 本・クラウドの LLM 3 家系・偽読み手・反事実）の記録は `.pair-agent/probes/` にあります。
 
 ## ⚠ まだ決まっていないこと
 
-- パッケージ名・API の形（仮: `structural_distillation` / `judge()` 1 本）
 - 蒸留（レイヤー 3）に使う学習基盤
-- 生成器が付けた向きの交差検証と、本文そのものについての命題の扱い —— 空撃ちで穴は見えたが、手当ては未検証（上流設計 §13）
+- Ollama 以外の接続のアダプタ（利用側が `Reader` の口を実装すれば差せます）
+- 閾値の既定値（すべて仮説。題材が増えるたびに引き直します）
 
 ## ライセンス
 
