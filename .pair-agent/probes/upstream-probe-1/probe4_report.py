@@ -1,4 +1,14 @@
-"""測定 2 周目の報告係。各腕の記録に合意 §判断規則（v4）をそのまま当てる。無い腕は「未取得」と書く。
+"""測定 2 周目の報告係 v2。各腕の記録に合意 §判断規則（v4）をそのまま当てる。無い腕は「未取得」と書く。
+
+v2（再評価の指摘を反映）:
+  - 想定一致は札が「値なし」（本文に根拠が無い／計器不良）の読み手の p を使わない（C2）
+  - 母数の扱いを統計ごとに変えない: 本文についての命題（meta）と、測ったあとに想定を直した題材（POSTHOC）を
+    想定一致・M4 の母数から一律に外す（C2・前回 critical 1 の残り）
+  - 昇格した閾値で全腕を再ラベルし、札が変わる行と、偽読み手 all_yes が「計器不良」になるかを確かめる（C3・M9）
+  - S0a は記録の答え（v_support / v_refute）から §5.3 の向き d を再計算して照合する（M9）
+  - 反事実の追従で、期待の向きが端点の外を向く行（p=1.00 で support_up、p=0.00 で support_down）は母数から外して別に数える（minor）
+  - M2 ⑶ は再ラベル後に all_yes が「計器不良」であることを要求する（minor）
+  - M3b に「多系統では値なし・単一系統では値あり」の題材を列挙する（C5）
 
   python probe4_report.py --root <腕の親ディレクトリ> --out3 out3/results.json --out report.md
 """
@@ -11,10 +21,12 @@ from itertools import combinations
 from pathlib import Path
 
 import probe as P
+import probe3 as P3
 import probe4_thresholds as T
 
 DELTA_CONFOUND = 0.05
-IMPROVEMENT_MARGIN = 2
+POSTHOC = {"m17"}  # 測ったあとに想定を直した題材（構成ミス）。統計の母数から外す
+NO_VALUE = ("本文に根拠が無い", "計器不良")
 
 
 def load(path: Path):
@@ -25,55 +37,86 @@ def real(readers: dict) -> dict:
     return {rd: agg for rd, agg in readers.items() if not rd.startswith("fake:")}
 
 
-def hit(expected: str, ps: list[float], labels: list[str]) -> bool:
+def valued_ps(readers: dict) -> list[float]:
+    """札が値なしでない読み手の p だけ。"""
+    return [a["A"]["p"] for a in readers.values() if a["label"] not in NO_VALUE and a["A"]["p"] is not None]
+
+
+def hit(expected: str, readers: dict) -> bool:
+    labels = [a["label"] for a in readers.values()]
     if expected == "none":
         return bool(labels) and all(lb == "本文に根拠が無い" for lb in labels)
+    ps = valued_ps(readers)
     if not ps:
         return False
     pm = statistics.mean(ps)
     return {"support": pm > 0.6, "refute": pm < 0.4, "split": 0.3 <= pm <= 0.7}.get(expected, False)
 
 
-def s0a(results: list[dict]) -> tuple[int, int]:
-    """記録の per_axis から A を再計算して一致するか（集約の決定性）。"""
-    ok = n = 0
+def s0a(results: list[dict]) -> tuple[int, int, int, int]:
+    """記録の答えから §5.3 の向き d を再計算して照合（軸単位）と、A の s/r の再計算照合（読み手単位）。"""
+    ok_d = n_d = ok_a = n_a = 0
     for r in results:
         for agg in r["readers"].values():
-            n += 1
+            n_a += 1
             dirs = [x["d"] for x in agg["per_axis"]]
             s, rr = sum(1 for d in dirs if d == 1), sum(1 for d in dirs if d == -1)
-            ok += int(s == agg["A"]["s"] and rr == agg["A"]["r"])
-    return ok, n
+            ok_a += int(s == agg["A"]["s"] and rr == agg["A"]["r"])
+            for x in agg["per_axis"]:
+                n_d += 1
+                ds = []
+                for vs, vr in zip(x["v_support"], x["v_refute"]):
+                    sup, ref = P3.side_evidence(vs, vr)
+                    ds.append(0 if (sup and ref) else (1 if sup else (-1 if ref else 0)))
+                d, _ = P.majority(ds)
+                ok_d += int(d == x["d"])
+    return ok_d, n_d, ok_a, n_a
 
 
-def cf_follow(results: list[dict], only_single_fact: set | None = None) -> tuple[int, int]:
-    ok = n = 0
+def cf_follow(results: list[dict], only_ids: set | None = None) -> tuple[int, int, int]:
+    """(期待の向きに動いた行, 測れる行, 端点で測れない行)"""
+    ok = n = endpoint = 0
     for r in results:
         cf = r.get("counterfactual")
-        if not cf or (only_single_fact is not None and r["id"] not in only_single_fact):
+        if not cf or (only_ids is not None and r["id"] not in only_ids):
             continue
         for _, c in cf["readers"].items():
             po, pc = c["p_orig"], c["p_cf"]
             if po is None or pc is None:
                 continue
+            up = cf["expected_change"] == "support_up"
+            if (up and po >= 1.0) or ((not up) and po <= 0.0):
+                endpoint += 1
+                continue
             n += 1
-            ok += int((pc > po) if cf["expected_change"] == "support_up" else (pc < po))
-    return ok, n
+            ok += int((pc > po) if up else (pc < po))
+    return ok, n, endpoint
+
+
+def relabel(results: list[dict], v: dict) -> tuple[int, int, list[str], bool]:
+    """昇格した閾値で全読み手を再ラベル。(変わった行, 行数, 変わった行の一覧, all_yes が全部「計器不良」か)"""
+    changed = n = 0
+    rows = []
+    all_yes_ok = True
+    for r in results:
+        for rd, agg in r["readers"].items():
+            n += 1
+            new = P.label(agg["A"], agg["invalid_rate"], iota=v["iota"], rho=v["rho"], omega=v["omega"],
+                          contradiction_rate=agg["contradiction_rate"], kappa=v["kappa"])
+            if new != agg["label"]:
+                changed += 1
+                rows.append(f"{r['id']}/{rd}: {agg['label']}→{new}")
+            agg["label_promoted"] = new
+            if rd == "fake:all_yes" and new != "計器不良":
+                all_yes_ok = False
+    return changed, n, rows, all_yes_ok
 
 
 def levels3(p: float | None) -> str:
     if p is None:
         return "—"
-    schemes = {
-        "K 等分": [0.2, 0.4, 0.6, 0.8],
-        "中央を広く": [0.1, 0.35, 0.65, 0.9],
-        "外側を広く": [0.3, 0.45, 0.55, 0.7],
-    }
-    out = []
-    for name, b in schemes.items():
-        lv = 1 + sum(1 for x in b if p >= x)
-        out.append(f"{name}={lv}")
-    return " / ".join(out)
+    schemes = {"K 等分": [0.2, 0.4, 0.6, 0.8], "中央を広く": [0.1, 0.35, 0.65, 0.9], "外側を広く": [0.3, 0.45, 0.55, 0.7]}
+    return " / ".join(f"{name}={1 + sum(1 for x in b if p >= x)}" for name, b in schemes.items())
 
 
 def main() -> int:
@@ -89,72 +132,77 @@ def main() -> int:
     for path in args.materials:
         for m in json.loads(Path(path).read_text(encoding="utf-8"))["materials"]:
             kinds[m["id"]] = m.get("kind") or ("evaluative" if m["id"] in ("m01", "m04", "m07", "m09", "r01", "r02") else "other")
+    META = {mid for mid, k in kinds.items() if k == "meta"}
+    EXCL = META | POSTHOC
     single_fact = {f"m{i:02d}" for i in range(1, 11)} | {"m01b", "m12"}
 
-    base = load(root / "base21" / "results.json")
-    m3 = load(root / "m3arm" / "results.json")
-    meta2 = load(root / "meta2" / "results.json")
-    s4 = load(root / "s4" / "results.json")
-    rash = load(root / "rashomon" / "results.json")
-    mem = load(root / "mem" / "results.json")
-    mono = load(root / "mono" / "results.json")
-    mono_r = load(root / "mono_rashomon" / "results.json")
+    arms = {name: load(root / name / "results.json") for name in ("base21", "m3arm", "meta2", "s4", "rashomon", "mem", "mono", "mono_rashomon")}
+    base, m3, meta2, s4, rash, mem, mono, mono_r = (arms[k] for k in ("base21", "m3arm", "meta2", "s4", "rashomon", "mem", "mono", "mono_rashomon"))
     xc2 = load(root / "xc2" / "crosscheck.json")
     xcs = load(root / "xc_self" / "crosscheck.json")
     p3 = load(Path(args.out3))
-    L = ["# 測定 2 周目 — 判断規則に照らした読み（自動生成。手で書き換えない）\n"]
+    L = ["# 測定 2 周目 — 判断規則に照らした読み v2（自動生成。手で書き換えない）\n",
+         f"母数の扱い: 本文についての命題 {sorted(META)} と、測ったあとに想定を直した題材 {sorted(POSTHOC)} は、想定一致・閾値・ω の当て先/読み先のすべてから外す。\n"]
 
-    # ---- ゼロ点（S0a）
-    L.append("## ゼロ点（S0a: 記録の per_axis から A を再計算して一致するか）\n")
-    for name, res in (("base21", base), ("m3arm", m3), ("meta2", meta2), ("s4", s4), ("rashomon", rash), ("mem", mem), ("mono", mono), ("mono_rashomon", mono_r)):
+    # ---- ゼロ点
+    L.append("## ゼロ点（S0a: 記録の答えから §5.3 の向き d を再計算して照合／A の s,r を再計算して照合）\n")
+    for name, res in arms.items():
         if res:
-            ok, n = s0a(res)
-            L.append(f"- {name}: {ok}/{n} 一致")
+            od, nd, oa, na = s0a(res)
+            L.append(f"- {name}: 向き d {od}/{nd} 一致、s/r {oa}/{na} 一致")
         else:
             L.append(f"- {name}: 未取得")
 
     # ---- M4 閾値
-    L.append("\n## M4 閾値（基準走行 base21。標本内ばらつきは s4 を母数に足す）\n")
+    L.append("\n## M4 閾値（基準走行 base21。標本内ばらつきは s4 を母数に足す。除外あり）\n")
     values = dict(T.FALLBACK)
     if base:
         extra = [str(root / "s4" / "results.json")] if s4 else []
-        lines, values = T.compute([str(root / "base21" / "results.json")], args.materials, None, extra)
+        lines, values = T.compute([str(root / "base21" / "results.json")], args.materials, None, extra, exclude=EXCL)
         L += lines
         L.append(f"\n採る値: ι={values['iota']} κ={values['kappa']:.3f} ρ={values['rho']:.3f} ω={values['omega']:.3f} Δ={values['delta']:.3f}（仮置きのままの量は FALLBACK の値）")
+        L.append("\n参考（除外なし・21 題材）:")
+        lines_all, _ = T.compute([str(root / "base21" / "results.json")], args.materials, None, extra)
+        L += ["  " + x for x in lines_all if x.startswith("|") or x.startswith("母数")]
     else:
         L.append("未取得")
     delta_thr = values["delta"]
 
-    # ---- 基準走行の想定一致（腕ごと・本文についての命題は別表）
-    def hit_table(res, title, exclude_meta=True):
+    # ---- 昇格した閾値で再ラベル
+    L.append("\n## 昇格した閾値での再ラベル（全腕）\n")
+    for name, res in arms.items():
+        if not res:
+            continue
+        ch, n, rows, ay = relabel(res, values)
+        L.append(f"- {name}: 札が変わった行 {ch}/{n}。偽読み手 all_yes が全部「計器不良」: {ay}" + (f"。変化: {', '.join(rows[:12])}{' …' if len(rows) > 12 else ''}" if rows else ""))
+
+    # ---- 想定一致（基準走行）
+    def hit_table(res, title):
         L.append(f"\n## {title}\n")
         L.append("| 題材 | 型 | 想定 | 読み手ごとの p | 札 | 判定 |")
         L.append("|---|---|---|---|---|---|")
         n = h = 0
         for r in res:
-            k = kinds.get(r["id"], "other")
-            if exclude_meta and k == "meta":
+            if r["id"] in EXCL:
                 continue
             rr = real(r["readers"])
-            ps = [a["A"]["p"] for a in rr.values() if a["A"]["p"] is not None]
-            labels = [a["label"] for a in rr.values()]
-            ok = hit(expected.get(r["id"]), ps, labels)
+            ok = hit(expected.get(r["id"]), rr)
             n += 1
             h += int(ok)
-            L.append(f"| {r['id']} | {k} | {expected.get(r['id'])} | {' / '.join(P.fmt(a['A']['p']) for a in rr.values())} | {' / '.join(labels)} | {'✓' if ok else '✗'} |")
-        L.append(f"\n- 想定に合った題材: {h}/{n}（本文についての命題は除く）")
+            L.append(f"| {r['id']} | {kinds.get(r['id'])} | {expected.get(r['id'])} | {' / '.join(P.fmt(a['A']['p']) for a in rr.values())} | {' / '.join(a['label'] for a in rr.values())} | {'✓' if ok else '✗'} |")
+        L.append(f"\n- 想定に合った題材: {h}/{n}（除外 {sorted(EXCL)}。札が値なしの読み手の p は使わない）")
         return h, n
 
-    if base:
-        hit_table(base, "基準走行（クラウド 2 家系）の想定一致")
+    base_hit = hit_table(base, "基準走行（クラウド 2 家系）の想定一致") if base else (0, 0)
 
-    # ---- M3 読み手だけ替える腕（p3 の軸）
+    # ---- M3 読み手だけ替える腕
     L.append("\n## M3 強い読み手（p3 の軸をそのまま、読み手だけクラウド 3 家系）\n")
     if m3 and p3:
-        readers = [rd for rd in real(m3[0]["readers"])]
-        pair_d = {}
-        within = []
+        readers = list(real(m3[0]["readers"]))
+        pair_d, within = {}, []
         for r in m3:
+            if r["id"] in EXCL:
+                continue
             rr = real(r["readers"])
             for a in rr.values():
                 pbs = [p for p in a["p_by_sample"] if p is not None]
@@ -164,25 +212,24 @@ def main() -> int:
                 px, py = rr[x]["A"]["p"], rr[y]["A"]["p"]
                 if px is not None and py is not None:
                     pair_d.setdefault((x, y), []).append(abs(px - py))
-        L.append("| 対 | Δ 平均 | Δ 最大 | n |")
-        L.append("|---|---|---|---|")
+        L += ["| 対 | Δ 平均 | Δ 最大 | n |", "|---|---|---|---|"]
         for (x, y), ds in pair_d.items():
             L.append(f"| {x} × {y} | {statistics.mean(ds):.3f} | {max(ds):.3f} | {len(ds)} |")
         contra = {rd: statistics.mean(r["readers"][rd]["contradiction_rate"] for r in m3) for rd in readers}
         L.append("\n矛盾率: " + ", ".join(f"{rd} {v:.3f}" for rd, v in contra.items()))
-        h, n = 0, 0
+        h = n = 0
         for r in m3:
-            rr = real(r["readers"])
-            ps = [a["A"]["p"] for a in rr.values() if a["A"]["p"] is not None]
-            ok = hit(expected.get(r["id"]), ps, [a["label"] for a in rr.values()])
+            if r["id"] in EXCL:
+                continue
             n += 1
-            h += int(ok)
-        L.append(f"想定一致（3 読み手の平均 p）: {h}/{n}。反事実の追従: {'/'.join(map(str, cf_follow(m3, single_fact)))}")
-        # p3 の弱い読み手
+            h += int(hit(expected.get(r["id"]), real(r["readers"])))
+        ok, nn, ep = cf_follow(m3, single_fact)
+        L.append(f"想定一致（値のある読み手の平均 p）: {h}/{n}。反事実の追従: {ok}/{nn}（端点で測れない行 {ep}）")
         p3_pairs = []
         for r in p3:
-            rr = real(r["readers"])
-            ps = [a["A"]["p"] for a in rr.values() if a["A"]["p"] is not None]
+            if r["id"] in EXCL:
+                continue
+            ps = [a["A"]["p"] for a in real(r["readers"]).values() if a["A"]["p"] is not None]
             if len(ps) >= 2:
                 p3_pairs.append(max(ps) - min(ps))
         p3_contra = {rd: statistics.mean(r["readers"][rd]["contradiction_rate"] for r in p3 if rd in r["readers"]) for rd in ("qwen3.5:4b", "gemma3:4b")}
@@ -195,8 +242,10 @@ def main() -> int:
         confound = (d_nog is not None and d_withg is not None and abs(d_withg - d_nog) >= DELTA_CONFOUND)
         d_use = d_nog if d_nog is not None else d_withg
         band = "弱さ由来" if d_use <= w95 else ("中間" if d_use < 2 * w95 else "仕組み由来")
-        L.append(f"\n規則: 標本内 95% 分位 {w95:.3f}。生成器と同家系（gemma4）を含む対 Δ {P.fmt(d_withg)} vs 含まない対 Δ {P.fmt(d_nog)} → "
+        L.append(f"\n規則: 標本内 95% 分位 {w95:.3f}。生成器と同家系（gemma4）を含む対 Δ {P.fmt(d_withg)} vs 含まない対 Δ {P.fmt(d_nog)}（差 {abs((d_withg or 0) - (d_nog or 0)):.3f}、交絡の閾値 {DELTA_CONFOUND}）→ "
                  f"{'交絡あり（含まない対を採る）' if confound else '交絡なし'}。採る Δ {d_use:.3f} → **{band}**（弱い 2 体の Δ {statistics.mean(p3_pairs):.3f} から）")
+        if d_nog is not None and d_nog == 0 and d_withg:
+            L.append("⚠ 読み手間の差はすべて gemma4（p3 の生成器 gemma4:12b と同家系）側から出ている。qwen × glm は完全一致")
     else:
         L.append("未取得")
 
@@ -204,54 +253,67 @@ def main() -> int:
     L.append("\n## M3b 単一系統（gemma4:31b-cloud を生成器・読み手・検証役に）\n")
     if mono and base:
         bmap = {r["id"]: r for r in base}
-        diffs, rows = [], []
+        diffs, rows, value_only_mono = [], [], []
         for r in mono:
+            if r["id"] in EXCL:
+                continue
             g = real(r["readers"])
             if not g:
                 continue
-            pm = next(iter(g.values()))["A"]["p"]
+            ga = next(iter(g.values()))
             b = bmap.get(r["id"])
-            if not b or pm is None:
+            if not b:
                 continue
-            for rd, a in real(b["readers"]).items():
+            br = real(b["readers"])
+            if ga["label"] not in NO_VALUE and all(a["label"] in NO_VALUE for a in br.values()):
+                value_only_mono.append(f"{r['id']}({kinds.get(r['id'])}: 単一系統 {ga['label']} p={P.fmt(ga['A']['p'])} / 多系統 値なし)")
+            pm = ga["A"]["p"]
+            if pm is None:
+                continue
+            for rd, a in br.items():
                 if a["A"]["p"] is not None:
                     diffs.append(abs(pm - a["A"]["p"]))
                     rows.append((r["id"], rd, pm, a["A"]["p"]))
         h = n = 0
         for r in mono:
-            g = real(r["readers"])
-            ps = [a["A"]["p"] for a in g.values() if a["A"]["p"] is not None]
-            if kinds.get(r["id"]) == "meta":
+            if r["id"] in EXCL:
                 continue
             n += 1
-            h += int(hit(expected.get(r["id"]), ps, [a["label"] for a in g.values()]))
+            h += int(hit(expected.get(r["id"]), real(r["readers"])))
         contra = statistics.mean(next(iter(real(r["readers"]).values()))["contradiction_rate"] for r in mono if real(r["readers"]))
         silent = statistics.mean(next(iter(real(r["readers"]).values()))["silent_rate"] for r in mono if real(r["readers"]))
         med = statistics.median(diffs) if diffs else None
+        ok, nn, ep = cf_follow(mono, single_fact)
         L.append(f"- 単一系統 vs 多系統の |p 差|: 中央値 {P.fmt(med)}、最大 {P.fmt(max(diffs) if diffs else None)}（n={len(diffs)}）。Δ の閾値 {delta_thr:.3f}")
-        L.append(f"- 単一系統の想定一致 {h}/{n}、矛盾率 {contra:.3f}、沈黙率 {silent:.3f}、反事実の追従 {'/'.join(map(str, cf_follow(mono, single_fact)))}")
+        L.append(f"- 単一系統の想定一致 {h}/{n}（多系統 {base_hit[0]}/{base_hit[1]}）、矛盾率 {contra:.3f}、沈黙率 {silent:.3f}、反事実の追従 {ok}/{nn}（端点 {ep}）")
         big = [(m, rd, pm, pb) for m, rd, pm, pb in rows if abs(pm - pb) > delta_thr]
         if big:
             L.append("- 閾値を超えた題材: " + ", ".join(f"{m}({kinds.get(m)}) gemma4 {P.fmt(pm)} vs {rd} {P.fmt(pb)}" for m, rd, pm, pb in big))
-        verdict1 = "判定は単一系統でも偏らない" if (med is not None and med <= delta_thr) else "判定が偏る（差の出た題材を上に列挙）"
+        if value_only_mono:
+            L.append("- ⚠ 多系統では値なし・単一系統では値あり（縮退の破れ。p の差では見えない）: " + "; ".join(value_only_mono))
+        verdict1 = "p と想定一致の範囲では偏らない" if (med is not None and med <= delta_thr) else "判定が偏る（差の出た題材を上に列挙）"
+        if value_only_mono:
+            verdict1 += "。ただし根拠なしの命題の縮退では偏った（上の ⚠）"
         L.append(f"- 規則 ⑴ → **{verdict1}**")
         if xc2 and xcs:
             n2 = sum(len(row["flagged_agree"]) for row in xc2)
             ns = sum(len(row["flagged_agree"]) for row in xcs)
-            L.append(f"- 検出の偏り: 他系統の検証役が flag した軸 {n2} vs gemma4 自身が flag した軸 {ns}（同じ軸集合）")
-            verdict2 = "単一系統は自分の向きの誤りを見つけにくい（検出の偏り）" if n2 - ns >= 2 else "検出も偏らない"
-            L.append(f"- 規則 ⑵ → **{verdict2}**（⚠ 差の軸に反事実で逆に動いた軸が含まれるかは summary_crosscheck.md で目視）")
+            ne2 = sum(len(row["nonexclusive"]) for row in xc2)
+            nes = sum(len(row["nonexclusive"]) for row in xcs)
+            L.append(f"- 検出の偏り: 他系統の検証役が flag した軸 {n2} vs gemma4 自身が flag した軸 {ns}（同じ軸集合）。非排他と判定した対: 他系統 {ne2} vs 自系統 {nes}（検出の中身は家系で違う）")
+            verdict2 = "単一系統は自分の向きの誤りを見つけにくい（検出の偏り）" if n2 - ns >= 2 else "検出の数は偏らない"
+            L.append(f"- 規則 ⑵ → **{verdict2}**")
         else:
             L.append("- 検出の偏り: 未取得（xc2 / xc_self）")
     else:
         L.append("未取得")
 
-    # ---- M1 交差検証（要約ファイルをそのまま）
+    # ---- M1 交差検証
     L.append("\n## M1 向きの交差検証（他系統の検証役）\n")
     sc = root / "xc2" / "summary_crosscheck.md"
     if sc.exists():
         txt = sc.read_text(encoding="utf-8")
-        for key in ("## 型ごとの食い違い率", "## 較正", "## 対の排他性", "## 札の変化", "## 反事実の追従"):
+        for key in ("## 軸の生成器ごとの食い違い", "## 型ごとの食い違い率", "## 較正", "## 対の排他性", "## 札の変化", "## 反事実の追従"):
             i = txt.find(key)
             if i >= 0:
                 j = txt.find("\n## ", i + 1)
@@ -264,11 +326,9 @@ def main() -> int:
     L.append("\n## M2 本文そのものについての命題（指示あり腕 meta2 vs 基準）\n")
     if meta2 and base:
         bmap = {r["id"]: r for r in base}
-        L.append("| 題材 | 型 | 読み手 | p 基準→指示あり | 沈黙率 基準→指示あり | 札 基準→指示あり | 反事実 基準→指示あり |")
-        L.append("|---|---|---|---|---|---|---|")
+        L += ["| 題材 | 型 | 読み手 | p 基準→指示あり | 沈黙率 基準→指示あり | 札 基準→指示あり | 反事実 基準→指示あり |", "|---|---|---|---|---|---|---|"]
         leak_ok = True
-        nonmeta_dp, nonmeta_ds = [], []
-        meta_cf_after = []
+        nonmeta_dp, nonmeta_ds, meta_cf_after = [], [], []
         for r in meta2:
             b = bmap.get(r["id"])
             for rd, a in real(r["readers"]).items():
@@ -285,8 +345,7 @@ def main() -> int:
                 p_b = P.fmt(ba["A"]["p"]) if ba else "—"
                 s_b = f"{ba['silent_rate']:.2f}" if ba else "—"
                 l_b = ba["label"] if ba else "—"
-                L.append(f"| {r['id']} | {kinds.get(r['id'])} | {rd} | {p_b}→{P.fmt(a['A']['p'])} | {s_b}→{a['silent_rate']:.2f} "
-                         f"| {l_b}→{a['label']} | {cfb_}→{cfa} |")
+                L.append(f"| {r['id']} | {kinds.get(r['id'])} | {rd} | {p_b}→{P.fmt(a['A']['p'])} | {s_b}→{a['silent_rate']:.2f} | {l_b}→{a['label']} | {cfb_}→{cfa} |")
                 k = kinds.get(r["id"])
                 if k == "meta" and cfa != "—":
                     meta_cf_after.append(cfa == "✓")
@@ -295,12 +354,14 @@ def main() -> int:
                 if k not in ("meta", "none") and ba and a["A"]["p"] is not None and ba["A"]["p"] is not None:
                     nonmeta_dp.append(abs(a["A"]["p"] - ba["A"]["p"]))
                     nonmeta_ds.append(abs(a["silent_rate"] - ba["silent_rate"]))
-        fakes_ok = all(r["readers"].get("fake:all_yes", {}).get("label") in ("計器不良", "本文に根拠が無い") and
-                       r["readers"].get("fake:all_undetermined", {}).get("label") == "本文に根拠が無い" for r in meta2 if "fake:all_yes" in r["readers"])
+        fakes_ok = all(r["readers"].get("fake:all_yes", {}).get("label_promoted") == "計器不良" and
+                       r["readers"].get("fake:all_undetermined", {}).get("label_promoted") == "本文に根拠が無い"
+                       for r in meta2 if "fake:all_yes" in r["readers"])
         c1 = bool(meta_cf_after) and all(meta_cf_after)
         c4 = (not nonmeta_dp) or (max(nonmeta_dp) <= delta_thr and max(nonmeta_ds) <= delta_thr)
         L.append(f"\n- ⑴ 本文についての命題の反事実（指示あり）: {sum(meta_cf_after)}/{len(meta_cf_after)} ⑵ 根拠なし題材が「本文に根拠が無い」のまま: {leak_ok} "
-                 f"⑶ 偽読み手の出力が保たれる: {fakes_ok} ⑷ 本文についてでない題材の |Δp| max {P.fmt(max(nonmeta_dp) if nonmeta_dp else None)}・|Δ沈黙率| max {P.fmt(max(nonmeta_ds) if nonmeta_ds else None)}（閾値 {delta_thr:.3f}）")
+                 f"⑶ 偽読み手の出力が保たれる（昇格閾値で再ラベル後、all_yes＝計器不良・all_undetermined＝根拠が無い）: {fakes_ok} "
+                 f"⑷ 本文についてでない題材の |Δp| max {P.fmt(max(nonmeta_dp) if nonmeta_dp else None)}・|Δ沈黙率| max {P.fmt(max(nonmeta_ds) if nonmeta_ds else None)}（閾値 {delta_thr:.3f}）")
         verdict = "採用（命題の型を利用側が宣言したときだけ ON。既定 OFF）" if (c1 and leak_ok and fakes_ok and c4) else "不採用"
         L.append(f"- 規則 → **{verdict}**")
     else:
@@ -309,36 +370,42 @@ def main() -> int:
     # ---- M5 羅生門
     L.append("\n## M5 羅生門\n")
     if rash:
+        L.append("記憶腕の伏せ方: 本文も単位 id も渡さず、作品名『羅生門』と記述だけを渡す。根拠は取らない（無効率は構造的に 0）。\n")
         for r in rash:
             rr = real(r["readers"])
             changed = (r.get("counterfactual") or {}).get("changed", "—")
             L.append(f"### {r['id']}（反事実: {changed}）")
             for rd, a in rr.items():
-                L.append(f"- {rd}: p={P.fmt(a['A']['p'])} w={P.fmt(a['A']['w'])} 札={a['label']} 矛盾率={a['contradiction_rate']:.2f} 沈黙率={a['silent_rate']:.2f}")
-            ok, n = cf_follow([r])
-            L.append(f"- 反事実の追従: {ok}/{n}（⚠ 本文に従って動くことしか示さない）")
+                cfr = (r.get("counterfactual") or {}).get("readers", {}).get(rd, {})
+                L.append(f"- {rd}: p={P.fmt(a['A']['p'])} w={P.fmt(a['A']['w'])} 札={a['label']} 矛盾率={a['contradiction_rate']:.2f} 沈黙率={a['silent_rate']:.2f}"
+                         f"　反事実で向きが変わった軸 {cfr.get('changed_axes', '—')}/{len(a['per_axis'])}")
+            ok, n, ep = cf_follow([r])
+            L.append(f"- 反事実の追従: {ok}/{n}（端点で測れない行 {ep}。⚠ p=1.00 で support_up は測れない。本文に従って動くことしか示さない）")
         if mem:
             mmap = {r["id"]: r for r in mem}
             L.append("\n### 本文を渡さない腕（記憶だけ）との差")
-            memory_dominates = False
+            near = False
             for r in rash:
                 m = mmap.get(r["id"])
                 if not m:
                     continue
                 for rd, a in real(r["readers"]).items():
-                    pm = m["readers"].get(rd, {}).get("A", {}).get("p")
+                    ma = m["readers"].get(rd, {})
+                    pm = ma.get("A", {}).get("p")
                     pt = a["A"]["p"]
                     d = abs(pt - pm) if (pt is not None and pm is not None) else None
-                    L.append(f"- {r['id']} {rd}: 本文あり p={P.fmt(pt)} / 記憶 p={P.fmt(pm)} / 差 {P.fmt(d)}")
+                    L.append(f"- {r['id']} {rd}: 本文あり p={P.fmt(pt)} 矛盾率={a['contradiction_rate']:.2f} / 記憶 p={P.fmt(pm)} 矛盾率={ma.get('contradiction_rate', 0):.2f} / p の差 {P.fmt(d)}")
                     if d is not None and d <= delta_thr:
-                        memory_dominates = True
-            follow_ok, follow_n = cf_follow(rash)
-            if follow_n and follow_ok == 0:
-                L.append("\n規則 → **値は報告しない**（反事実が両方 ✗）")
-            elif memory_dominates:
-                L.append("\n規則 → **記憶が支配している疑い**。段は出さない（本文あり p と記憶 p の差が Δ の閾値以内の読み手がある）")
+                        near = True
+            follow_ok, follow_n, ep = cf_follow(rash)
+            if follow_n == 0:
+                L.append("\n規則 → **値は報告しない**（反事実が端点で測れず、追従を示せない。記憶腕と p が同じだが、両方が天井に張り付いているので「記憶が支配」は疑いに留まる）")
+            elif follow_ok == 0:
+                L.append("\n規則 → **値は報告しない**（反事実が全部 ✗）")
+            elif near:
+                L.append("\n規則 → **記憶が支配している疑い**。段は出さない")
             else:
-                L.append("\n規則 → 値を報告する。段は境界 3 通りで併記（仮置き。K 等分に意味は無い）:")
+                L.append("\n規則 → 値を報告する。段は境界 3 通りで併記（仮置き）:")
                 for r in rash:
                     for rd, a in real(r["readers"]).items():
                         L.append(f"- {r['id']} {rd}: p={P.fmt(a['A']['p'])} → 段 {levels3(a['A']['p'])}")
@@ -346,7 +413,8 @@ def main() -> int:
             L.append("\n### 単一系統（gemma4）での羅生門")
             for r in mono_r:
                 for rd, a in real(r["readers"]).items():
-                    L.append(f"- {r['id']} {rd}: p={P.fmt(a['A']['p'])} w={P.fmt(a['A']['w'])} 札={a['label']} 反事実 {'/'.join(map(str, cf_follow([r])))}")
+                    ok, n, ep = cf_follow([r])
+                    L.append(f"- {r['id']} {rd}: p={P.fmt(a['A']['p'])} w={P.fmt(a['A']['w'])} 札={a['label']} 反事実 {ok}/{n}（端点 {ep}）")
     else:
         L.append("未取得")
 

@@ -47,7 +47,7 @@
 ### D. 一般化可能性理論（G 理論）
 
 - **何か**: Cronbach らが 1972 年に体系化した信頼性理論。単一の真値・単一の誤差の代わりに、**測定対象（universe score）と、項目・採点者・機会などの facet ごとの分散成分**を ANOVA で推定する（G-study）。そのうえで「採点者を何人・項目を何個にすれば信頼性がいくつになるか」を予測する（**D-study**）。相対判断の G 係数と絶対判断の Φ（dependability）係数を区別する
-- **文献**: [Shavelson, Webb & Rowley — Generalizability Theory](https://www.researchgate.net/profile/Richard-Shavelson/publication/232586408_Generalizability_Theory/links/00b7d537636b397f27000000/Generalizability-Theory.pdf)／[Brennan — NCME Module 14](https://ncme.org/wp-content/uploads/2025/10/Module-14-Generalizability-Theory-Brennan-Winter-1.pdf)／[AI 時代の G 理論再考（2025）](https://www.sciencedirect.com/science/article/pii/S2666557325000370)／LLM 評価で同型: [Messing (2026) Hidden Measurement Error in LLM Pipelines](https://arxiv.org/pdf/2604.11581) —— 判定モデル・温度・プロンプト表現の分散を分け、素朴な標準誤差が 40〜60% 小さすぎることを示し、小規模パイロットで分散成分を推定してから設計を決めることを勧める
+- **文献**: [Shavelson, Webb & Rowley — Generalizability Theory](https://www.researchgate.net/profile/Richard-Shavelson/publication/232586408_Generalizability_Theory/links/00b7d537636b397f27000000/Generalizability-Theory.pdf)／[Brennan — NCME Module 14](https://ncme.org/wp-content/uploads/2025/10/Module-14-Generalizability-Theory-Brennan-Winter-1.pdf)／[AI 時代の G 理論再考（2025）](https://www.sciencedirect.com/science/article/pii/S2666557325000370)／LLM 評価で同型: [Messing (2026) Hidden Measurement Error in LLM Pipelines](https://arxiv.org/pdf/2604.11581) —— 判定モデル・温度・プロンプト表現の分散を分け、素朴な標準誤差が 40〜60% 小さすぎることを示し、小規模パイロットで分散成分を推定してから設計を決めることを勧める（⚠ 数値は arXiv の要旨から。本文のどの図表かは未確認）
 - **本設計での対応物**: 読み手間の Δ（採点者 facet）・標本間の |p 差|（機会 facet）・軸数不変性 S12（項目 facet）は、**G 理論の facet を 1 つずつ手で測っている**形。確からしさを「診断値の組」で返すのは、分散成分を並べるのと同じ発想。ただし**交互作用**（読み手 × 軸 など）は測っておらず、**D-study（あと何体・何本で幅が縮むか）**も無い
 - **欠けているもの**: 分散成分の推定と D-study。「読み手を 2 体から 3 体にすると確からしさがどれだけ上がるか」を返せれば、費用の可視性（Q8）と直結する
 
@@ -106,7 +106,7 @@
 | 2 | **同義対を足して矛盾率を分ける**（A VRIN）: 各軸の支持側の記述に**言い換え**を 1 本足し、答えの食い違い率を「無作為・不注意」の計器、両側証拠を「はい偏り」の計器として別々に返す | 矛盾の出所（読み手の偏り／対の非排他性／読み手の不注意）を分けられる | 軸あたり記述 1 本増 | 弱い読み手（p3 記録）で言い換えの食い違い率が偏り率より高く出るか。強い読み手で両方 0 に近いか |
 | 3 | **ブループリントを生成器の指示に**（G）: 命題の型ごとに軸が網羅すべきセル（評価的なら 行為／動機や言い分／結果／第三者の評価／反対証拠）を表で渡す | 向きの誤り・軸の偏り（同じ種類の事実ばかり）が減る見込み | 指示の版が増える | 向きの誤り率（M1）と想定一致が上がるか。セルを渡さない版と同じ題材で比べる |
 | 4 | **分散成分と D-study**（D）: 集約 L3 で 軸 × 読み手 × 標本 の分散成分を推定し、確からしさの診断値に G 係数・Φ 係数を足す。「読み手を 1 体足すと幅がどれだけ縮むか」を返す | 確からしさが「数えられる量の組」から**構造のある量**になる。費用の見積もりが出せる | コードだけ | 空撃ちの記録（21 題材 × 2〜4 読み手 × 2〜4 標本）で分散成分が推定でき、標本 4 の腕の値を予測できるか |
-| 5 | **逆キーは否定語でなく反対内容の肯定文**（B）: H11 に明文化 | 既に p3 の claim_refute はほぼこの形。規則として固定する | なし | — |
+| 5 | **逆キーは否定語でなく反対内容の肯定文**（B）: H11 に明文化 | 既に p3 の claim_refute はほぼこの形。規則として固定する | 生成指示の 1 行 | 「〜がない」型の反証記述と、反対内容の肯定文とで、矛盾率と沈黙率が違うか（測定 2 周目 M2 で「〜がない」型が指示と干渉した実測がある。それを対照に） |
 | 6 | 軸の識別力・読み手の person fit（E） | 情報の無い軸・壊れた読み手を統計で落とせる | 記録が溜まってから | 判定 100 件以上 |
 
 ## 5. 空白の形 —— 人間向けの手法が答えていないこと

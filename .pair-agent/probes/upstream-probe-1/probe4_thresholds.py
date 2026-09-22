@@ -47,14 +47,19 @@ def load_expected(materials: list[str]) -> dict:
     return expected
 
 
-def compute(base: list[str], materials: list[str], fit_ids: set | None = None, extra_within: list[str] | None = None) -> tuple[list[str], dict]:
-    """判断規則 M4 を当てる。戻り値: (報告の行, 置いた値の dict。仮置きのままなら FALLBACK の値)"""
+def compute(base: list[str], materials: list[str], fit_ids: set | None = None, extra_within: list[str] | None = None,
+            exclude: set | None = None) -> tuple[list[str], dict]:
+    """判断規則 M4 を当てる。戻り値: (報告の行, 置いた値の dict。仮置きのままなら FALLBACK の値)
+    exclude: 母数から外す題材 id（本文についての命題・測ったあとに想定を直した題材）。統計ごとに母数の扱いを変えない"""
     extra_within = list(extra_within or [])
+    exclude = set(exclude or ())
     expected = load_expected(materials)
-    fit_ids = fit_ids or ({f"m{i:02d}" for i in range(1, 11)} | {"m01b"})
+    fit_ids = (fit_ids or ({f"m{i:02d}" for i in range(1, 11)} | {"m01b"})) - exclude
     rows, fake_contra = [], []
     for path in base:
         for r in json.loads(Path(path).read_text(encoding="utf-8")):
+            if r["id"] in exclude:
+                continue
             for rd, agg in r["readers"].items():
                 if rd == "fake:all_yes":
                     fake_contra.append(agg["contradiction_rate"])
@@ -64,6 +69,8 @@ def compute(base: list[str], materials: list[str], fit_ids: set | None = None, e
     within = []
     for path in list(base) + list(extra_within):
         for r in json.loads(Path(path).read_text(encoding="utf-8")):
+            if r["id"] in exclude:
+                continue
             for rd, agg in r["readers"].items():
                 if rd.startswith("fake:"):
                     continue
@@ -72,7 +79,9 @@ def compute(base: list[str], materials: list[str], fit_ids: set | None = None, e
                     within.append(max(pbs) - min(pbs))
     mats = sorted({m for m, _, _ in rows})
     values = dict(FALLBACK)
-    L = [f"母数: 命題 {len(mats)}・行（命題 × 読み手） {len(rows)}・標本内 {len(within)} 件", ""]
+    nz = sorted(x for x in within if x > 0)
+    L = [f"母数: 命題 {len(mats)}・行（命題 × 読み手） {len(rows)}・標本内 {len(within)} 件（うち非ゼロ {len(nz)}: {[round(x, 2) for x in nz]}）"
+         + (f"。除外: {sorted(exclude)}" if exclude else ""), ""]
     out = []
 
     invalid = [a["invalid_rate"] for _, _, a in rows]
@@ -81,10 +90,11 @@ def compute(base: list[str], materials: list[str], fit_ids: set | None = None, e
 
     contra = [a["contradiction_rate"] for _, _, a in rows]
     cmax = max(contra) if contra else None
+    cmax_row = next((f"{m}/{rd}" for m, rd, a in rows if a["contradiction_rate"] == cmax), "—") if contra else "—"
     bad_min = min(fake_contra) if fake_contra else None
     if cmax is not None and bad_min is not None and bad_min > cmax:
         values["kappa"] = (cmax + bad_min) / 2
-        out.append(("κ 矛盾率", f"分離点 **{values['kappa']:.3f}**（健全側 max {fmt(cmax)}・偽読み手 min {fmt(bad_min)} の中点）", f"健全側 95%={fmt(q(contra, .95))} 中央値={fmt(statistics.median(contra))}"))
+        out.append(("κ 矛盾率", f"分離点 **{values['kappa']:.3f}**（健全側 max {fmt(cmax)}［{cmax_row}］・偽読み手 min {fmt(bad_min)} の中点）", f"健全側 95%={fmt(q(contra, .95))} 中央値={fmt(statistics.median(contra))}"))
     else:
         out.append(("κ 矛盾率", f"**仮置き {FALLBACK['kappa']} のまま**（健全側と偽読み手が重なる、または偽読み手なし）", f"健全側 max={fmt(cmax)} 偽読み手 min={fmt(bad_min)}"))
 
@@ -108,12 +118,22 @@ def compute(base: list[str], materials: list[str], fit_ids: set | None = None, e
     chk_s, chk_l = w_split(check_ids), w_lean(check_ids)
     if fit_s and fit_l:
         cands = sorted(set(fit_s + fit_l + [0.5]))
-        best = min(cands, key=lambda o: sum(confusion(fit_s, fit_l, o)))
-        cf_fit, cf_05 = confusion(fit_s, fit_l, best), confusion(fit_s, fit_l, 0.5)
+        scores = {o: sum(confusion(fit_s, fit_l, o)) for o in cands}
+        best_score = min(scores.values())
+        ties = [o for o, sc in scores.items() if sc == best_score]
+        cf_05 = confusion(fit_s, fit_l, 0.5)
+        if 0.5 in ties:
+            # 仮置きと区別がつかない → 仮置きのまま。不感帯（同点の候補の範囲）を併記
+            best = 0.5
+            note = f"**仮置き 0.5 のまま**（当て先で取り違え最小の候補 {[round(t, 2) for t in ties]} に 0.5 が含まれ、区別がつかない。取り違え {cf_05[0]}/{cf_05[1]}）"
+        else:
+            best = ties[0]
+            values["omega"] = best
+            cf_fit = confusion(fit_s, fit_l, best)
+            note = f"当て先で取り違え最小の値 **{best:.3f}**（偏り→割れる {cf_fit[0]}、割れる→偏り {cf_fit[1]}。仮置き 0.5 なら {cf_05[0]}/{cf_05[1]}）"
         cf_chk = confusion(chk_s, chk_l, best) if (chk_s or chk_l) else None
-        values["omega"] = best
-        out.append(("ω 幅", f"当て先で取り違え最小の値 **{best:.3f}**（偏り→割れる {cf_fit[0]}、割れる→偏り {cf_fit[1]}。仮置き 0.5 なら {cf_05[0]}/{cf_05[1]}）",
-                    f"読み先（新規）での取り違え {cf_chk if cf_chk else '母数なし'}；割れる想定 w={[round(x, 2) for x in fit_s]} 偏り想定 w={[round(x, 2) for x in fit_l]}"))
+        out.append(("ω 幅", note,
+                    f"読み先（新規）での取り違え（偏り→割れる, 割れる→偏り）= {cf_chk if cf_chk else '母数なし'}；割れる想定 w={[round(x, 2) for x in fit_s]} 偏り想定 w={[round(x, 2) for x in fit_l]}"))
     else:
         out.append(("ω 幅", f"**仮置き {FALLBACK['omega']} のまま**（当て先に両クラスが無い）", ""))
 

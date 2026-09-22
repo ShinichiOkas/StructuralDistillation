@@ -31,6 +31,8 @@ ORIENT_SCHEMA = {"type": "object", "properties": {"orientation": {"type": "strin
 EXCL_SCHEMA = {"type": "object", "properties": {"compatible": {"type": "string", "enum": ["両立しうる", "両立しない"]}},
                "required": ["compatible"]}
 IMPROVEMENT_MARGIN = 2  # 対応のある行で「✗→✓」が「✓→✗」より何行多ければ改善と読むか（測る前に固定）
+# 「事実 1 箇所」の反事実を持つ題材（p3 の 11 本 ＋ m12）。⚠ 再評価の指摘 M5: 前は startswith("m1") で m10 を別本文側に落としていた
+SINGLE_FACT = {f"m{i:02d}" for i in range(1, 11)} | {"m01b", "m12"}
 
 
 def orient_prompt(proposition: str, claim: str, reversed_order: bool) -> list[dict]:
@@ -73,7 +75,7 @@ def ask(port: P.Port, model: str, msgs: list[dict], schema: dict, key: str, samp
         return None
 
 
-def recount(per_axis: list[dict], keep: set[str], invalid_rate: float) -> dict:
+def recount(per_axis: list[dict], keep: set[str], invalid_rate: float, kappa: float = 0.5) -> dict:
     kept = [x for x in per_axis if x["id"] in keep]
     dirs = [x["d"] for x in kept]
     s = sum(1 for d in dirs if d == 1)
@@ -81,9 +83,7 @@ def recount(per_axis: list[dict], keep: set[str], invalid_rate: float) -> dict:
     n = len(dirs)
     c = {"s": s, "r": r, "u": n - s - r, "n": n, "p": s / (s + r) if s + r else None, "w": 2 * min(s, r) / (s + r) if s + r else None}
     contra = statistics.mean(x["contradiction"] for x in kept) if kept else 0.0
-    label = P.label(c, invalid_rate) if n else "本文に根拠が無い"
-    if n and contra >= 0.5:
-        label = "計器不良"
+    label = P.label(c, invalid_rate, contradiction_rate=contra, kappa=kappa) if n else "本文に根拠が無い"
     return {**c, "contradiction_rate": contra, "label": label, "level": P.level5(c["p"])}
 
 
@@ -130,14 +130,23 @@ def main() -> int:
     results = []
     for path in args.results:
         results += json.loads(Path(path).read_text(encoding="utf-8"))
-    kinds, single_fact = {}, {}
+    kinds, single_fact, planner_of = {}, {}, {}
     for path in args.materials:
         for m in json.loads(Path(path).read_text(encoding="utf-8"))["materials"]:
             kinds[m["id"]] = m.get("kind") or ("evaluative" if m["id"] in ("m01", "m04", "m07", "m09") else "other")
-            single_fact[m["id"]] = not m["id"].startswith("m1") or m["id"] == "m12"  # 新規 10 本は m12 以外「別本文」
+            single_fact[m["id"]] = m["id"] in SINGLE_FACT
+    # 軸の生成器: 記録ファイルごとに attempts の "from" があれば p3 の軸（ローカル gemma4:12b）、無ければその走行の生成器
+    for path in args.results:
+        for r in json.loads(Path(path).read_text(encoding="utf-8")):
+            att = (r["plan"].get("attempts") or [{}])[0]
+            planner_of[(path, r["id"])] = "p3 の軸（ローカル gemma4:12b）" if "from" in att else "この走行の生成器（クラウド）"
 
     rows = []
-    for r in results:
+    results_with_path = []
+    for path in args.results:
+        for r in json.loads(Path(path).read_text(encoding="utf-8")):
+            results_with_path.append((path, r))
+    for path, r in results_with_path:
         axes = r["plan"]["axes"] or []
         if not axes:
             continue
@@ -184,8 +193,8 @@ def main() -> int:
         k = min(len(flagged_agree), len(pool))
         control_removed = set(rng.sample(pool, k)) if k else set()
         keep_control = all_ids - control_removed
-        row = {"id": r["id"], "kind": kinds.get(r["id"], "other"), "single_fact_cf": single_fact.get(r["id"], True),
-               "proposition": r["proposition"], "n_axes": len(axes),
+        row = {"id": r["id"], "kind": kinds.get(r["id"], "other"), "single_fact_cf": single_fact.get(r["id"], False),
+               "planner": planner_of.get((path, r["id"]), "?"), "proposition": r["proposition"], "n_axes": len(axes),
                "flagged_agree": sorted(flagged_agree), "flagged_or": sorted(flagged_or), "weak": sorted(weak),
                "nonexclusive": sorted(nonexcl), "control_removed": sorted(control_removed), "votes": per_axis_votes, "readers": {}}
         for rd, agg in r["readers"].items():
@@ -212,15 +221,20 @@ def main() -> int:
     (out / "crosscheck.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
 
     # ---- 要約
-    L = [f"# M1 向きの交差検証 v2（検証役 {', '.join(args.checkers)}・生成器 gemma4:12b の軸・並び 2 版）\n"]
-    L += ["## 題材ごと\n", "| 題材 | 型 | 軸 | 過半数で反対 | 1 票でも | 弱 | 非排他 | 読み手 | p 前→後 (対照) | 札 前→後 | 段 前→後 | 反事実 前/後/対照 |",
-          "|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    L = [f"# M1 向きの交差検証 v2（検証役 {', '.join(args.checkers)}・並び 2 版）\n"]
+    L += ["## 題材ごと\n", "| 題材 | 型 | 軸の生成器 | 軸 | 過半数で反対 | 1 票でも | 弱 | 非排他 | 読み手 | p 前→後 (対照) | 札 前→後 | 段 前→後 | 反事実 前/後/対照 |",
+          "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     by_kind_agree, by_kind_or = {}, {}
+    by_planner = {}
     paired = []  # (row id, reader, before_ok, after_ok, control_ok, single_fact)
     label_changes = level_changes = n_rd = 0
     for row in rows:
         by_kind_agree.setdefault(row["kind"], []).append(len(row["flagged_agree"]) / row["n_axes"])
         by_kind_or.setdefault(row["kind"], []).append(len(row["flagged_or"]) / row["n_axes"])
+        bp = by_planner.setdefault(row["planner"], {"axes": 0, "flagged": 0, "nonexcl": 0})
+        bp["axes"] += row["n_axes"]
+        bp["flagged"] += len(row["flagged_agree"])
+        bp["nonexcl"] += len(row["nonexclusive"])
         for rd, e in row["readers"].items():
             n_rd += 1
             b, a_, c = e["before"], e["after"], e["control"]
@@ -231,9 +245,12 @@ def main() -> int:
             cfs = f"{mark(cf['before'])}/{mark(cf['after'])}/{mark(cf['control'])}" if cf else "—"
             if cf and cf["before"] is not None:
                 paired.append((row["id"], rd, cf["before"], cf["after"], cf["control"], row["single_fact_cf"]))
-            L.append(f"| {row['id']} | {row['kind']} | {row['n_axes']} | {len(row['flagged_agree'])} | {len(row['flagged_or'])} | {len(row['weak'])} | {len(row['nonexclusive'])} "
+            L.append(f"| {row['id']} | {row['kind']} | {row['planner']} | {row['n_axes']} | {len(row['flagged_agree'])} | {len(row['flagged_or'])} | {len(row['weak'])} | {len(row['nonexclusive'])} "
                      f"| {rd} | {P.fmt(b['p'])}→{P.fmt(a_['p'])} ({P.fmt(c['p'])}) | {b['label']}→{a_['label']} | {b['level']}→{a_['level']} | {cfs} |")
-    L.append("\n## 型ごとの食い違い率（軸ベース）\n")
+    L.append("\n## 軸の生成器ごとの食い違い（過半数で反対）\n")
+    for pl, v in by_planner.items():
+        L.append(f"- {pl}: {v['flagged']}/{v['axes']} 軸（{v['flagged'] / v['axes']:.3f}）。非排他 {v['nonexcl']}/{v['axes']}")
+    L.append("\n## 型ごとの食い違い率（軸ベース・生成器を混ぜた率）\n")
     for k in by_kind_agree:
         L.append(f"- {k}: 過半数で反対 平均 {statistics.mean(by_kind_agree[k]):.2f}、1 票でも 平均 {statistics.mean(by_kind_or[k]):.2f}（題材 {len(by_kind_agree[k])}）")
     tot_axes = sum(r["n_axes"] for r in rows)
@@ -242,7 +259,7 @@ def main() -> int:
     L.append(f"\n## 対の排他性: 検証役の過半数が「両立しうる」とした軸 {sum(len(r['nonexclusive']) for r in rows)}/{tot_axes}")
     L.append(f"\n## 札の変化 {label_changes}/{n_rd} 行、段の変化 {level_changes}/{n_rd} 行（過半数規則で外した後）")
     L.append("\n## 反事実の追従（対応のある行。外した後に p が未定義なら ✗）\n")
-    for name, filt in (("事実 1 箇所の反事実（p3 の 11 本＋m12）", lambda x: x[5]), ("別本文（新規 10 本）", lambda x: not x[5])):
+    for name, filt in (("事実 1 箇所の反事実（m01〜m10・m01b・m12）", lambda x: x[5]), ("別本文（新規 10 本のうち m12 以外）", lambda x: not x[5])):
         sub = [x for x in paired if filt(x)]
         if not sub:
             continue

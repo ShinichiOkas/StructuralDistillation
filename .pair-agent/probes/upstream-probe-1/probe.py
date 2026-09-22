@@ -446,8 +446,13 @@ def aggregate(axes: list[dict], answers: dict[tuple[str, str, int], dict], sampl
     }
 
 
-def label(c: dict, invalid_rate: float, iota: float = 0.3, rho: float = 0.5, omega: float = 0.5) -> str:
+def label(c: dict, invalid_rate: float, iota: float = 0.3, rho: float = 0.5, omega: float = 0.5,
+          contradiction_rate: float = 0.0, kappa: float = 0.5) -> str:
+    """設計 §7.4 の札。順序: ι（無効）→ κ（矛盾）→ ρ（根拠）→ ω（幅）。
+    ⚠ 測定 2 周目の再評価で、κ を当てていなかった（全問 Yes の偽読み手が ρ で「本文に根拠が無い」に落ちていた）ことが分かり、κ を足した。"""
     if invalid_rate >= iota:
+        return "計器不良"
+    if contradiction_rate >= kappa:
         return "計器不良"
     if c["n"] == 0 or (c["s"] + c["r"]) / c["n"] < rho:
         return "本文に根拠が無い"

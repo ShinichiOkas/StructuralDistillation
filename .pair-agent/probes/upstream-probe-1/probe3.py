@@ -175,7 +175,8 @@ def aggregate(axes: list[dict], answers: dict[tuple[str, str, int], dict], sampl
     silent_rate = sum(x["silent"] for x in per_axis) / (samples * len(per_axis))
     contradiction_rate = statistics.mean(x["contradiction"] for x in per_axis)
     return {"A": c, "p_by_sample": p_by_sample, "invalid_rate": invalid_rate, "silent_rate": silent_rate,
-            "contradiction_rate": contradiction_rate, "label": P.label(c, invalid_rate), "per_axis": per_axis}
+            "contradiction_rate": contradiction_rate,
+            "label": P.label(c, invalid_rate, contradiction_rate=contradiction_rate), "per_axis": per_axis}
 
 
 def _answer_all(port, reader, axes, units, units_text, samples):
