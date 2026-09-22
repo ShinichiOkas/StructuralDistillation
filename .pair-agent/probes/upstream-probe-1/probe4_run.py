@@ -103,6 +103,7 @@ def main() -> int:
     ap.add_argument("--axes-from", default=None, help="軸を生成せず、この results.json の軸を題材 id で引いて使う（記憶腕・別読み手で同じ軸を使う）")
     ap.add_argument("--no-text", action="store_true", help="本文を渡さない腕（M5）。--axes-from が必須")
     ap.add_argument("--no-cf", action="store_true", help="反事実を回さない（標本内ばらつきの腕など）")
+    ap.add_argument("--workers", type=int, default=1, help="読み手への呼び出しの並列数（クラウドモデル向け。GPU の取り合いにならない）")
     ap.add_argument("--out", required=True)
     ap.add_argument("--planner", default=P.DEFAULT_PLANNER)
     ap.add_argument("--readers", nargs="*", default=P.DEFAULT_READERS)
@@ -129,6 +130,16 @@ def main() -> int:
         if not args.axes_from:
             ap.error("--no-text には --axes-from が要る")
         P.answer = memory_answer
+    if args.workers > 1:
+        from concurrent.futures import ThreadPoolExecutor
+
+        def _answer_all_parallel(port, reader, axes, units, units_text, samples):
+            jobs = [(a["id"], side, s, claim) for a in axes for side, claim in (("support", a["claim_support"]), ("refute", a["claim_refute"]))
+                    for s in range(samples)]
+            with ThreadPoolExecutor(max_workers=args.workers) as ex:
+                outs = list(ex.map(lambda j: P.answer(port, reader, units, units_text, j[3], j[2]), jobs))
+            return {(j[0], j[1], j[2]): o for j, o in zip(jobs, outs)}
+        P3._answer_all = _answer_all_parallel
 
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)

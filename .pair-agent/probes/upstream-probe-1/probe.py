@@ -56,13 +56,41 @@ def render_units(units: list[tuple[str, str]]) -> str:
 
 # ---------------------------------------------------------------- L0 読み手ポート（キャッシュ付き）
 
+SCHEMA_IN_PROMPT = True  # 設計 L0 の三段構え: ネイティブ指定 ＋ 指示への明記 ＋ 受信検証。クラウドモデルは format= を守らない（2026-09-22 実測）
+
+
+def _with_schema(messages: list[dict], schema: dict) -> list[dict]:
+    """最後の user メッセージにスキーマを明記する（ネイティブ指定を信用しない）。"""
+    if not SCHEMA_IN_PROMPT:
+        return messages
+    msgs = [dict(m) for m in messages]
+    for m in reversed(msgs):
+        if m["role"] == "user":
+            m["content"] = (m["content"] + "\n\n## 出力形式\n次の JSON Schema に厳密に一致する JSON オブジェクトだけを出力する。"
+                            "キー名はスキーマのとおり。コードフェンス・前置き・後書きは禁止。\n" + json.dumps(schema, ensure_ascii=False))
+            break
+    return msgs
+
+
+def strip_fence(content: str) -> str:
+    """全文が単一のコードフェンスならフェンスだけ剥がす。部分抽出（修復）はしない。"""
+    s = content.strip()
+    if s.startswith("```") and s.endswith("```"):
+        lines = s.splitlines()
+        if len(lines) >= 2:
+            return "\n".join(lines[1:-1]).strip()
+    return s
+
+
 class Port:
     def __init__(self, cache_path: Path, cache_only: bool = False):
+        import threading
         self.cache_path = cache_path
         self.cache_only = cache_only
         self.cache: dict[str, dict] = {}
         self.calls_live = 0
         self.calls_cached = 0
+        self._lock = threading.Lock()
         if cache_path.exists():
             for line in cache_path.read_text(encoding="utf-8").splitlines():
                 if line.strip():
@@ -87,10 +115,12 @@ class Port:
 
     def chat(self, model: str, messages: list[dict], schema: dict, sample: int, version: str) -> dict:
         """戻り値: {"ok": bool, "content": str|None, "error": str|None, "cached": bool}"""
+        messages = _with_schema(messages, schema)
         key = self._key(model, messages, schema, sample, version)
-        if key in self.cache:
-            self.calls_cached += 1
-            return {**self.cache[key], "cached": True}
+        with self._lock:
+            if key in self.cache:
+                self.calls_cached += 1
+                return {**self.cache[key], "cached": True}
         if self.cache_only:
             return {"ok": False, "content": None, "error": "cache-only miss", "cached": False}
         payload: dict
@@ -102,16 +132,17 @@ class Port:
                     raw = self._post(model, messages, schema, think=None)
                 else:
                     raise
-            content = (raw.get("message") or {}).get("content") or ""
+            content = strip_fence((raw.get("message") or {}).get("content") or "")
             payload = {"ok": True, "content": content, "error": None,
                        "eval_count": raw.get("eval_count"), "total_duration": raw.get("total_duration")}
         except Exception as e:  # noqa: BLE001 — 生応答の失敗も記録に残す
             payload = {"ok": False, "content": None, "error": f"{type(e).__name__}: {e}"}
-        self.calls_live += 1
-        with self.cache_path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps({"key": key, "model": model, "sample": sample, "version": version,
-                                "payload": payload}, ensure_ascii=False) + "\n")
-        self.cache[key] = payload
+        with self._lock:
+            self.calls_live += 1
+            with self.cache_path.open("a", encoding="utf-8") as f:
+                f.write(json.dumps({"key": key, "model": model, "sample": sample, "version": version,
+                                    "payload": payload}, ensure_ascii=False) + "\n")
+            self.cache[key] = payload
         return {**payload, "cached": False}
 
 

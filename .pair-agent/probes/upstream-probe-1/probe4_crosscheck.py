@@ -97,12 +97,31 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--results", nargs="+", default=[str(P.HERE / "out3" / "results.json")])
     ap.add_argument("--materials", nargs="+", default=[str(P.HERE / "materials.json"), str(P.HERE / "materials2.json")])
-    ap.add_argument("--checkers", nargs="*", default=["qwen3.5:9b", "qwen3.5:4b", "gemma3:4b"],
-                    help="生成器（gemma4:12b）と別のモデル。先頭は読み手とも別のモデルにする")
+    ap.add_argument("--checkers", nargs="*", default=["glm-5.2:cloud", "qwen3.5:397b-cloud"],
+                    help="生成器と別のモデル。2 体なら「過半数」は両者一致")
     ap.add_argument("--out", required=True)
     ap.add_argument("--cache-only", action="store_true")
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--workers", type=int, default=1)
     args = ap.parse_args()
+    if args.workers > 1:
+        # 向きの質問を先に並列で温めておく（キャッシュに落ちるので、後続の逐次処理はキャッシュ命中になる）
+        from concurrent.futures import ThreadPoolExecutor
+        prewarm_port = P.Port(Path(args.out) / "llm_cache.jsonl", cache_only=args.cache_only)
+        jobs = []
+        for path in args.results:
+            for r in json.loads(Path(path).read_text(encoding="utf-8")):
+                for a in (r["plan"]["axes"] or []):
+                    for claim in (a["claim_support"], a["claim_refute"]):
+                        for c in args.checkers:
+                            for rev in (False, True):
+                                jobs.append((c, orient_prompt(r["proposition"], claim, rev), ORIENT_SCHEMA, "orientation", int(rev)))
+                    for c in args.checkers:
+                        jobs.append((c, excl_prompt(a["claim_support"], a["claim_refute"]), EXCL_SCHEMA, "compatible", 0))
+        Path(args.out).mkdir(parents=True, exist_ok=True)
+        with ThreadPoolExecutor(max_workers=args.workers) as ex:
+            list(ex.map(lambda j: ask(prewarm_port, j[0], j[1], j[2], j[3], sample=j[4]), jobs))
+        print(f"prewarm: live={prewarm_port.calls_live} cached={prewarm_port.calls_cached}", flush=True)
 
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
