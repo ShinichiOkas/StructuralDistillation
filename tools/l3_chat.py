@@ -11,7 +11,7 @@ import argparse
 import json
 from dataclasses import replace
 
-from _cli import LABEL_JA, fmt, utf8_io
+from _cli import LABEL_JA, REASON_JA, fmt, utf8_io
 from probe_records import iter_rows, load_results, matrix_from_probe
 
 from structural_distillation import l3
@@ -21,7 +21,8 @@ from structural_distillation.contracts import AnswerMatrix, QuestionSet, Thresho
 def show(reading) -> None:
     c, d = reading.counts, reading.diagnostics
     tag = "（偽読み手）" if reading.calibration else ""
-    print(f"■ {reading.reader}{tag}: p={fmt(reading.p)} w={fmt(reading.w)} 札={LABEL_JA[reading.label.value]}")
+    why = f"（{REASON_JA.get(reading.reason.value, reading.reason.value)}）" if reading.reason else ""
+    print(f"■ {reading.reader}{tag}: p={fmt(reading.p)} w={fmt(reading.w)} 札={LABEL_JA[reading.label.value]}{why}")
     print(f"   s={c.s} r={c.r} 沈黙 u1={c.u1} 無効 u2={c.u2} 同数 u3={c.u3} 矛盾 u4={c.u4} / n={c.n}")
     print(f"   有効率 {fmt(d.valid_rate)}（支持側 {fmt(d.valid_rate_by_side['support'])}・反証側 {fmt(d.valid_rate_by_side['refute'])}）"
           f" 沈黙率 {fmt(d.silent_rate)} 無効率 {fmt(d.invalid_rate)} 矛盾率 {fmt(d.contradiction_rate)} 一致率 {fmt(d.agreement_mean)}"

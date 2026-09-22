@@ -34,6 +34,36 @@ class Label(str, enum.Enum):
 NO_VALUE_LABELS = frozenset({Label.NO_EVIDENCE, Label.INSTRUMENT_FAULT})
 
 
+class Reason(str, enum.Enum):
+    """札がその値になった理由（機械が読む符号。人が読む文は CLI と RetryHint.message）。
+
+    師匠 2026-09-23:「(b)『計器不良』にする。ただし理由をつけて。」
+    """
+    NO_ACTIVE_AXES = "no_active_axes"          # 計器不良: 判定に使える軸が 0 本（交差検証で全軸が外れた・渡された問いが空）
+    INVALID_EVIDENCE = "invalid_evidence"      # 計器不良: 根拠 id が実在しない回答が多い（無効率 ≥ ι）
+    CONTRADICTORY_AXES = "contradictory_axes"  # 計器不良: 軸の両側に証拠が出た軸が多い（矛盾率 ≥ κ）
+    NO_DEFINITE_AXIS = "no_definite_axis"      # 本文に根拠が無い: 向きの定まった軸が 0（s + r = 0）
+    LOW_VALID_RATE = "low_valid_rate"          # 本文に根拠が無い: 向きの定まった軸の割合が低い（有効率 < ρ）
+
+
+class RetryAction(str, enum.Enum):
+    """上位がリトライするときに取る手（師匠 2026-09-23「上位がリトライできるだけの情報を返す必要あり」）。
+    ⚠ ライブラリは自動でリトライしない。何回試すか・生成器を替えるかは用途ごとの判断なので、材料だけ返す。"""
+    REGENERATE = "regenerate"                    # 保存庫を使っている: judge(..., regenerate=True) で問いを作り直す
+    REPLAN = "replan"                            # 保存庫は無い: judge をもう一度呼べば問いは作り直される
+    SUPPLY_QUESTION_SET = "supply_question_set"  # 問いの集合を渡された: 渡す側が作り直す
+
+
+@dataclass
+class RetryHint:
+    """作り直しの材料。どこが壊れていて、次に何をすればよいか、判断の材料はどこにあるか。"""
+    reason: Reason
+    scope: str          # "question_set"（問いの集合の問題）/ "readers"（読み手の問題）
+    action: RetryAction
+    message: str        # 人が読む一言
+    details: dict       # flagged（外れた軸）・verifiers・n_axes・store_key・readers など
+
+
 # ---------------------------------------------------------------- 例外
 
 class InputError(ValueError):
@@ -384,7 +414,7 @@ class Reading:
     value: Value | None
     diagnostics: Diagnostics
     axes: list[AxisReading]
-    note: str | None = None   # "no_active_axes" / "all_axes_flagged"（札の原因が本文でなく問いの集合のとき）
+    reason: Reason | None = None   # 札がその値になった理由（偏り・割れるでは None）
 
 
 @dataclass
@@ -443,6 +473,7 @@ class Judgment:
     thresholds: Thresholds
     at: str
     notes: list[str] = field(default_factory=list)   # 利用者に知らせること（保存庫の問いと今の条件の違いなど）
+    retry: RetryHint | None = None                   # 作り直しの材料（判定できなかったとき）
 
     def to_record(self) -> dict:
         """追記のみの記録 1 行（実装設計 §6。schema_version 1）。"""
@@ -460,4 +491,5 @@ class Judgment:
                      "missed": self.cost.missed},
             "versions": dict(self.versions),
             "notes": list(self.notes),
+            "retry": to_jsonable(self.retry),
         }

@@ -7,7 +7,7 @@ import random
 import pytest
 
 from structural_distillation import l3
-from structural_distillation.contracts import Answer, AnswerMatrix, Label, Thresholds, Verdict
+from structural_distillation.contracts import Answer, AnswerMatrix, Label, Reason, Thresholds, Verdict
 
 from conftest import need_out4
 from probe_records import AGG_ARMS, LABEL, iter_rows, load_results, matrix_from_probe
@@ -78,21 +78,25 @@ def test_counts_rates_and_label():
     assert r.value is None                                  # 値は L4
 
 
-def test_label_order():
+def test_label_order_and_reason():
+    """札と理由（師匠決定 2026-09-23: 軸 0 本は計器不良・理由つき）。順序は 軸 0 → ι → κ → ρ → ω。"""
     t = T
     f = l3.label
-    assert f(5, 0, 6, 0.0, 1.0, invalid_rate=0.3, contradiction_rate=0.0, t=t) == Label.INSTRUMENT_FAULT
-    assert f(5, 0, 6, 0.0, 1.0, invalid_rate=0.0, contradiction_rate=0.7, t=t) == Label.INSTRUMENT_FAULT
-    assert f(2, 0, 6, 0.0, 1.0, invalid_rate=0.0, contradiction_rate=0.0, t=t) == Label.NO_EVIDENCE
-    assert f(0, 0, 0, None, None, invalid_rate=0.0, contradiction_rate=0.0, t=t) == Label.NO_EVIDENCE
-    assert f(4, 1, 6, 0.4, 0.8, invalid_rate=0.0, contradiction_rate=0.0, t=t) == Label.LEAN_SUPPORT
-    assert f(1, 4, 6, 0.4, 0.2, invalid_rate=0.0, contradiction_rate=0.0, t=t) == Label.LEAN_REFUTE
-    assert f(3, 3, 6, 1.0, 0.5, invalid_rate=0.0, contradiction_rate=0.0, t=t) == Label.SPLIT
+    assert f(0, 0, 0, None, None, invalid_rate=0.0, contradiction_rate=0.0, t=t) == (Label.INSTRUMENT_FAULT, Reason.NO_ACTIVE_AXES)
+    assert f(5, 0, 6, 0.0, 1.0, invalid_rate=0.3, contradiction_rate=0.0, t=t) == (Label.INSTRUMENT_FAULT, Reason.INVALID_EVIDENCE)
+    assert f(5, 0, 6, 0.0, 1.0, invalid_rate=0.0, contradiction_rate=0.7, t=t) == (Label.INSTRUMENT_FAULT, Reason.CONTRADICTORY_AXES)
+    assert f(0, 0, 6, None, None, invalid_rate=0.0, contradiction_rate=0.0, t=t) == (Label.NO_EVIDENCE, Reason.NO_DEFINITE_AXIS)
+    assert f(2, 0, 6, 0.0, 1.0, invalid_rate=0.0, contradiction_rate=0.0, t=t) == (Label.NO_EVIDENCE, Reason.LOW_VALID_RATE)
+    assert f(4, 1, 6, 0.4, 0.8, invalid_rate=0.0, contradiction_rate=0.0, t=t) == (Label.LEAN_SUPPORT, None)
+    assert f(1, 4, 6, 0.4, 0.2, invalid_rate=0.0, contradiction_rate=0.0, t=t) == (Label.LEAN_REFUTE, None)
+    assert f(3, 3, 6, 1.0, 0.5, invalid_rate=0.0, contradiction_rate=0.0, t=t) == (Label.SPLIT, None)
 
 
-def test_no_axes_is_no_evidence_and_rates_are_not_measured():
+def test_no_axes_is_an_instrument_fault_and_rates_are_not_measured():
+    """判定に使える軸が 0 本 ＝ 計器（問いの集合）の側の問題（師匠決定 2026-09-23）。"""
     r = l3.aggregate(mx({}), [], T)
-    assert r.p is None and r.w is None and r.label == Label.NO_EVIDENCE and r.counts.n == 0
+    assert r.p is None and r.w is None and r.counts.n == 0
+    assert r.label == Label.INSTRUMENT_FAULT and r.reason == Reason.NO_ACTIVE_AXES
     d = r.diagnostics   # 測って 0 だったのと区別する（受入 M5）
     assert d.valid_rate is None and d.invalid_rate is None and d.contradiction_rate is None and d.silent_rate is None
     assert d.valid_rate_by_side == {"support": None, "refute": None}

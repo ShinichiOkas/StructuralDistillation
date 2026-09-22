@@ -12,7 +12,10 @@ import pytest
 
 import structural_distillation as sd
 from structural_distillation import judge, judge_sync, replay
-from structural_distillation.contracts import Budget, InputError, Label, Ordinal, PlanningFailed, Probability, Thresholds
+from dataclasses import replace
+
+from structural_distillation.contracts import (Budget, InputError, Label, Ordinal, PlanningFailed, Probability, Reason,
+                                               RetryAction, Thresholds)
 from structural_distillation.l0 import CachedPort, FakeReader
 
 from conftest import ScriptedReader
@@ -109,8 +112,9 @@ def test_public_judge_is_the_function_whatever_the_import_order():
     assert r.returncode == 0, r.stderr
 
 
-def test_all_axes_flagged_is_no_evidence_with_a_note():
-    """交差検証で全軸が外れたとき: 札は上流 F4 どおり NO_EVIDENCE・値なし。率は測っていないので None、注記で原因を区別する（受入 M5）。"""
+def test_all_axes_flagged_is_an_instrument_fault_with_a_reason_and_retry_hint():
+    """交差検証で全軸が外れたとき（師匠決定 2026-09-23）: 札は計器不良・値なし・理由つき。
+    さらに、上位が作り直せるだけの材料（どこが壊れたか・次に取る手・外れた軸・票の在りか）を返す。"""
     def against(messages, schema, sample, version):
         if "orientation" in schema["properties"]:
             c = re.search(r"記述: 「(.*)」", messages[-1]["content"]).group(1)
@@ -119,9 +123,41 @@ def test_all_axes_flagged_is_no_evidence_with_a_note():
     j = asyncio.run(judge(TEXT, PROP, Probability(), readers=[reader("r1", 4)], planner=planner(),
                           verifiers=[ScriptedReader("v1", against), ScriptedReader("v2", against)]))
     r = j.readings["r1"]
-    assert j.question_set.active_ids == [] and r.label == Label.NO_EVIDENCE and r.value is None
-    assert r.note == "all_axes_flagged" and r.diagnostics.valid_rate is None and j.matrices[0].answers == []
-    assert j.cost.answer.live == 0
+    assert j.question_set.active_ids == [] and r.label == Label.INSTRUMENT_FAULT and r.value is None
+    assert r.reason == Reason.NO_ACTIVE_AXES and r.diagnostics.valid_rate is None
+    assert j.matrices[0].answers == [] and j.cost.answer.live == 0
+    h = j.retry
+    assert h.reason == Reason.NO_ACTIVE_AXES and h.scope == "question_set" and h.action == RetryAction.REPLAN
+    assert h.details["flagged"] == [f"a{i:02d}" for i in range(1, N + 1)] and h.details["n_axes"] == N
+    assert h.details["verifiers"] == ["v1", "v2"] and h.details["votes_in"] == "question_set.crosscheck.votes"
+    assert h.details["source"] == "generated" and h.details["store_key"] is None and h.details["readers"] == ["r1"]
+    assert "作り直" in h.message or "渡す" in h.message
+    # 票は記録に残るので、上位は「どの軸がなぜ外れたか」を見てから作り直せる
+    assert len(j.question_set.crosscheck.votes) == N
+
+
+def test_given_question_set_with_no_active_axes_tells_the_caller_to_supply_one():
+    j = run(readers=[reader("r1", 4)], planner=planner())
+    empty = replace(j.question_set, active_ids=[])
+    k = run(readers=[reader("r1", 4)], question_set=empty)
+    assert k.readings["r1"].label == Label.INSTRUMENT_FAULT and k.readings["r1"].reason == Reason.NO_ACTIVE_AXES
+    assert k.retry.action == RetryAction.SUPPLY_QUESTION_SET and k.retry.details["flagged"] == []
+
+
+def test_retry_hint_and_reason_survive_the_record(tmp_path):
+    def against(messages, schema, sample, version):
+        if "orientation" in schema["properties"]:
+            c = re.search(r"記述: 「(.*)」", messages[-1]["content"]).group(1)
+            return json.dumps({"orientation": "支持" if c.endswith("しなかった") else "反証"}, ensure_ascii=False)
+        return json.dumps({"compatible": "両立しない"}, ensure_ascii=False)
+    path = tmp_path / "r.jsonl"
+    asyncio.run(judge(TEXT, PROP, Probability(), readers=[reader("r1", 4)], planner=planner(),
+                      verifiers=[ScriptedReader("v1", against), ScriptedReader("v2", against)], record_path=path))
+    rec = json.loads(path.read_text(encoding="utf-8"))
+    assert rec["readings"]["r1"]["reason"] == "no_active_axes" and rec["readings"]["r1"]["label"] == "INSTRUMENT_FAULT"
+    assert rec["retry"]["action"] == "replan" and rec["retry"]["details"]["n_axes"] == N
+    again = replay(rec)
+    assert again.retry.action == RetryAction.REPLAN and again.readings["r1"].reason == Reason.NO_ACTIVE_AXES
 
 
 def test_duplicate_reader_names_and_fake_planner_are_rejected():

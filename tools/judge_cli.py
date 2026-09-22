@@ -11,14 +11,26 @@ from __future__ import annotations
 
 import argparse
 import logging
+import re
+import sys
 import time
+from pathlib import Path
 
-from _cli import LABEL_JA, fmt, guard_write_path, read_text, utf8_io
+from _cli import LABEL_JA, REASON_JA, fmt, guard_write_path, read_text, utf8_io
 
 from structural_distillation import judge_sync
 from structural_distillation.contracts import (Budget, InputError, Ordinal, PlanningFailed, Probability, StoreError,
                                                Thresholds)
 from structural_distillation.l0 import CachedPort, FakeReader, OllamaReader
+
+
+def retry_command(args) -> str:
+    """同じ引数に作り直しを足したコマンド（保存庫が無ければ同じコマンドをもう一度打てば作り直される）。"""
+    argv = list(sys.argv[1:])
+    if args.questions and "--regenerate" not in argv:
+        argv.append("--regenerate")
+    return f"{Path(sys.executable).as_posix()} {Path(sys.argv[0]).as_posix()} " + " ".join(
+        a if not re.search(r"\s", a) else f'"{a}"' for a in argv)
 
 
 def main() -> int:
@@ -99,7 +111,8 @@ def main() -> int:
         dirs = " ".join(f"{x.axis_id}{ {1: '＋', -1: '－', 0: '・'}[x.d] }" for x in r.axes)
         tag = "（偽読み手）" if r.calibration else ""
         d = r.diagnostics
-        print(f"■ {name}{tag}: {val}・札 {LABEL_JA[r.label.value]}・p={fmt(r.p)} w={fmt(r.w)}" + (f"・注記 {r.note}" if r.note else ""))
+        why = f"・理由 {REASON_JA.get(r.reason.value, r.reason.value)}" if r.reason else ""
+        print(f"■ {name}{tag}: {val}・札 {LABEL_JA[r.label.value]}{why}・p={fmt(r.p)} w={fmt(r.w)}")
         print(f"   {dirs}")
         print(f"   有効率 {fmt(d.valid_rate)} 沈黙率 {fmt(d.silent_rate)} 無効率 {fmt(d.invalid_rate)} 矛盾率 {fmt(d.contradiction_rate)}"
               f" 一致率 {fmt(d.agreement_mean)}")
@@ -110,6 +123,13 @@ def main() -> int:
     c = j.cost
     print(f"# 呼び出し: 生成 実 {c.plan.live}／交差検証 実 {c.crosscheck.live}／回答 実 {c.answer.live}・キャッシュ {c.cached}"
           f"・偽読み手 {c.calibration_calls}・{time.time() - t0:.0f} 秒")
+    if j.retry is not None:
+        print(f"\n# 判定できなかった（{j.retry.reason.value}）: {j.retry.message}")
+        print(f"# 外れた軸 {j.retry.details['flagged'] or 'なし'} / 軸 {j.retry.details['n_axes']}"
+              f"・検証役の票は記録の question_set.crosscheck.votes にある")
+        print("# 作り直すなら:")
+        print(f"    {retry_command(args)}")
+        return 2
     return 0
 
 

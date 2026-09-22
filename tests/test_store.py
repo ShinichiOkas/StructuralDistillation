@@ -14,7 +14,8 @@ from datetime import datetime, timezone
 import pytest
 
 from structural_distillation import judge
-from structural_distillation.contracts import Budget, InputError, Label, PlanningFailed, Probability, StoreError
+from structural_distillation.contracts import (Budget, InputError, Label, PlanningFailed, Probability, RetryAction,
+                                               StoreError)
 from structural_distillation.l0 import CachedPort, FakeReader
 from structural_distillation.store import QuestionStore, question_key
 from structural_distillation.units import rule_version, segment
@@ -191,7 +192,8 @@ def test_reusing_a_set_with_no_active_axes_says_so(tmp_path):
     d["question_set"]["active_ids"] = []
     p.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
     k = run(tmp_path)
-    assert k.readings["r1"].label == Label.NO_EVIDENCE and any("有効な軸が 0 本" in n for n in k.notes)
+    assert k.readings["r1"].label == Label.INSTRUMENT_FAULT and any("有効な軸が 0 本" in n for n in k.notes)
+    assert k.retry.action == RetryAction.REGENERATE and k.retry.details["store_key"] == j.question_set.store_key
 
 
 def test_a_held_lock_is_waited_for_and_a_stale_one_is_broken(tmp_path):

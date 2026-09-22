@@ -14,7 +14,7 @@ from collections import Counter
 from typing import Sequence
 
 from .contracts import (NO_VALUE_LABELS, SIDES, AnswerMatrix, AxisReading, Counts, Diagnostics, Label, Reading,
-                        ReaderSummary, Thresholds, Value)
+                        ReaderSummary, Reason, Thresholds, Value)
 
 _ZERO_PRIORITY = ("contradiction", "invalid", "silent")   # 0 票の種類が同数のときの優先順位
 _ZERO_FIELD = {"silent": "u1", "invalid": "u2", "tie": "u3", "contradiction": "u4"}
@@ -57,21 +57,29 @@ def _p_w(s: int, r: int) -> tuple[float | None, float | None]:
 
 
 def label(s: int, r: int, n: int, w: float | None, p: float | None, *, invalid_rate: float,
-          contradiction_rate: float, t: Thresholds) -> Label:
-    """札（上流 §7.4）。順序 ι → κ → ρ → ω。s + r = 0 は ρ に関わらず NO_EVIDENCE（上流 F4。受入 M3: ρ = 0 で落ちていた）。"""
+          contradiction_rate: float, t: Thresholds) -> tuple[Label, Reason | None]:
+    """札と、その札になった理由（上流 §7.4）。順序 軸 0 → ι → κ → ρ → ω。
+
+    - 判定に使える軸が 0 本 → **計器不良**（師匠決定 2026-09-23。原因は本文ではなく問いの集合）
+    - s + r = 0 は ρ に関わらず「本文に根拠が無い」（上流 F4。受入 M3: ρ = 0 で落ちていた）
+    """
+    if n == 0:
+        return Label.INSTRUMENT_FAULT, Reason.NO_ACTIVE_AXES
     if invalid_rate >= t.iota:
-        return Label.INSTRUMENT_FAULT
+        return Label.INSTRUMENT_FAULT, Reason.INVALID_EVIDENCE
     if contradiction_rate >= t.kappa:
-        return Label.INSTRUMENT_FAULT
-    if n == 0 or s + r == 0 or (s + r) / n < t.rho:
-        return Label.NO_EVIDENCE
+        return Label.INSTRUMENT_FAULT, Reason.CONTRADICTORY_AXES
+    if s + r == 0:
+        return Label.NO_EVIDENCE, Reason.NO_DEFINITE_AXIS
+    if (s + r) / n < t.rho:
+        return Label.NO_EVIDENCE, Reason.LOW_VALID_RATE
     if w is None or p is None:   # s + r > 0 なら定義されている。ここに来るのはプログラムの誤り
         raise ValueError("p / w が未定義のまま ω の判定に来た")
     if w <= t.omega and p > 0.5:
-        return Label.LEAN_SUPPORT
+        return Label.LEAN_SUPPORT, None
     if w <= t.omega and p < 0.5:
-        return Label.LEAN_REFUTE
-    return Label.SPLIT
+        return Label.LEAN_REFUTE, None
+    return Label.SPLIT, None
 
 
 def aggregate(matrix: AnswerMatrix, axis_ids: Sequence[str], thresholds: Thresholds, *, retries: int = 0) -> Reading:
@@ -136,10 +144,10 @@ def aggregate(matrix: AnswerMatrix, axis_ids: Sequence[str], thresholds: Thresho
     diag = Diagnostics(valid_rate=valid_rate, valid_rate_by_side=by_side, silent_rate=silent_rate,
                        invalid_rate=invalid_rate, agreement_mean=agreement_mean, contradiction_rate=contradiction_rate,
                        retries=retries, p_by_sample=p_by_sample)
-    lab = label(counts.s, counts.r, n, w, p, invalid_rate=invalid_rate or 0.0,
-                contradiction_rate=contradiction_rate or 0.0, t=thresholds)
+    lab, reason = label(counts.s, counts.r, n, w, p, invalid_rate=invalid_rate or 0.0,
+                        contradiction_rate=contradiction_rate or 0.0, t=thresholds)
     return Reading(reader=matrix.reader, calibration=matrix.calibration, counts=counts, p=p, w=w, label=lab,
-                   value=None, diagnostics=diag, axes=axes)
+                   value=None, diagnostics=diag, axes=axes, reason=reason)
 
 
 def summarize_readers(readings: Sequence[Reading], thresholds: Thresholds) -> ReaderSummary:

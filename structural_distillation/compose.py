@@ -18,7 +18,7 @@ from typing import Sequence
 
 from . import __version__, l1, l2, l3, l4
 from .contracts import (AnswerMatrix, Budget, Cost, InputError, Judgment, Ordinal, OutputType, QuestionSet, Reading,
-                        ReaderSummary, Thresholds, Unit, output_from_dict)
+                        ReaderSummary, Reason, RetryAction, RetryHint, Thresholds, Unit, output_from_dict)
 from .l0 import Meter, Reader
 from .prompts import PromptSet, get_prompts
 from .store import QuestionStore, question_key
@@ -82,10 +82,32 @@ def _summary(readings: dict[str, Reading], output: OutputType, t: Thresholds) ->
 def _read(matrix: AnswerMatrix, qs: QuestionSet, output: OutputType, t: Thresholds) -> Reading:
     r = l3.aggregate(matrix, qs.active_ids, t, retries=qs.retries)
     r.value = l4.to_value(r.p, r.label, output)
-    if not qs.active_ids:
-        # 有効な軸が 0 本: 札は上流 F4 どおり「本文に根拠が無い」だが、原因は本文ではなく問いの集合（受入 M5・師匠に確認中）
-        r.note = "all_axes_flagged" if qs.crosscheck and qs.crosscheck.flagged else "no_active_axes"
     return r
+
+
+def _retry_hint(qs: QuestionSet, readings: dict[str, Reading], store_used: bool) -> RetryHint | None:
+    """作り直しの材料（師匠 2026-09-23「上位がリトライできるだけの情報を返す」）。ライブラリは自動でリトライしない。"""
+    if qs.active_ids:
+        return None
+    flagged = list(qs.crosscheck.flagged) if qs.crosscheck else []
+    if qs.source == "given":
+        action = RetryAction.SUPPLY_QUESTION_SET
+        how = "渡した問いの集合に有効な軸が無い。作り直した問いの集合を渡す"
+    elif store_used:
+        action = RetryAction.REGENERATE
+        how = "judge(..., regenerate=True) で問いを作り直す（保存庫の古い問いは別名で残る）"
+    else:
+        action = RetryAction.REPLAN
+        how = "judge をもう一度呼べば問いは作り直される（生成器を替えるのも手）"
+    why = (f"向きの交差検証で全 {len(qs.axes)} 軸が外れた（検証役 {', '.join(qs.crosscheck.verifiers)}）"
+           if flagged else f"判定に使える軸が 0 本（軸 {len(qs.axes)}）")
+    return RetryHint(reason=Reason.NO_ACTIVE_AXES, scope="question_set", action=action,
+                     message=f"{why}。判定は計器不良（値なし）。{how}",
+                     details={"flagged": flagged, "n_axes": len(qs.axes),
+                              "verifiers": list(qs.crosscheck.verifiers) if qs.crosscheck else [],
+                              "store_key": qs.store_key, "source": qs.source,
+                              "votes_in": "question_set.crosscheck.votes",
+                              "readers": sorted(readings)})
 
 
 def _note_differences(stored: QuestionSet, p: PromptSet, budget: Budget, want_planner: str | None,
@@ -203,7 +225,7 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     j = Judgment(proposition=proposition, output=output, units=units, segmentation=segmentation, question_set=qs,
                  matrices=matrices, readings=readings, summary=_summary(readings, output, thresholds),
                  cost=meter.cost, versions=_versions(p, segmentation), budget=budget, thresholds=thresholds, at=_now(),
-                 notes=notes)
+                 notes=notes, retry=_retry_hint(qs, readings, store is not None))
     if record_path is not None:
         _append(record_path, j.to_record())
     return j
@@ -243,8 +265,10 @@ def replay(record: dict, *, thresholds: Thresholds | None = None, output: Output
     out = output or output_from_dict(inp["output"])
     l4.check_output(out)
     readings = {m.reader: _read(m, qs, out, t) for m in matrices}
+    store_used = bool(qs.store_key)
     versions = dict(record.get("versions") or {})
     versions.update({"library": __version__, "aggregation": AGGREGATION_VERSION, "replayed_from": record.get("at", "")})
     return Judgment(proposition=inp["proposition"], output=out, units=units, segmentation=inp["segmentation"],
                     question_set=qs, matrices=matrices, readings=readings, summary=_summary(readings, out, t),
-                    cost=Cost(), versions=versions, budget=Budget.from_dict(inp["budget"]), thresholds=t, at=_now())
+                    cost=Cost(), versions=versions, budget=Budget.from_dict(inp["budget"]), thresholds=t, at=_now(),
+                    notes=list(record.get("notes") or []), retry=_retry_hint(qs, readings, store_used))

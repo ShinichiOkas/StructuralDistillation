@@ -24,8 +24,8 @@ _EXPORTS: dict[str, str] = {
 }
 for _n in ("Answer", "AnswerMatrix", "Attempt", "Axis", "AxisReading", "Budget", "Cost", "Counts", "CrossCheck",
            "Diagnostics", "InputError", "Judgment", "Label", "Ordinal", "PlanningFailed", "Probability",
-           "PromptVersion", "QuestionSet", "Reading", "ReaderSummary", "StoreError", "Thresholds", "Unit", "Value",
-           "Verdict"):
+           "PromptVersion", "QuestionSet", "Reading", "ReaderSummary", "Reason", "RetryAction", "RetryHint",
+           "StoreError", "Thresholds", "Unit", "Value", "Verdict"):
     _EXPORTS[_n] = ".contracts"
 
 __all__ = ["__version__", *_EXPORTS]
@@ -44,7 +44,7 @@ if TYPE_CHECKING:  # 静的解析のためだけ
     from .contracts import (  # noqa: F401
         Answer, AnswerMatrix, Attempt, Axis, AxisReading, Budget, Cost, Counts, CrossCheck, Diagnostics, InputError,
         Judgment, Label, Ordinal, PlanningFailed, Probability, PromptVersion, QuestionSet, Reading, ReaderSummary,
-        StoreError, Thresholds, Unit, Value, Verdict,
+        Reason, RetryAction, RetryHint, StoreError, Thresholds, Unit, Value, Verdict,
     )
     from .store import QuestionStore, question_key  # noqa: F401
     from .compose import judge, judge_sync, replay  # noqa: F401
