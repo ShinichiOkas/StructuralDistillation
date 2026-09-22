@@ -9,3 +9,5 @@ venv/
 .ruff_cache/
 .mypy_cache/
 .env
+# CLI を試したときのキャッシュと記録（examples/README.md）
+scratch/

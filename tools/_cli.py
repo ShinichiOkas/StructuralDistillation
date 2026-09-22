@@ -41,7 +41,14 @@ def fmt(x) -> str:
 
 
 def read_text(path: str | None) -> str:
+    """本文を読む（- で標準入力）。見つからなければトレースバックではなく一言で止める。"""
     if path in (None, "-"):
         return sys.stdin.read()
-    with open(path, encoding="utf-8") as f:
-        return f.read()
+    p = Path(path)
+    if not p.is_file():
+        raise SystemExit(f"本文のファイルが見つからない: {path}（今いるディレクトリ: {Path.cwd()}）。"
+                         f"試すなら examples/ の本文を使う（examples/README.md）")
+    try:
+        return p.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        raise SystemExit(f"本文のファイルが UTF-8 ではない: {path}") from None

@@ -123,7 +123,8 @@ print(j.summary.delta, j.summary.representative)  # 読み手間の差と代表�
 
 - 読み手ごとに値を返し、読み手間の差（Δ）を隠しません。札が「本文に根拠が無い」「計器不良」のときは値を返しません
 - 記録（`record_path`）には本文の単位列・問いの集合・回答（生応答つき）・集約が残り、`replay()` で LLM を呼ばずに引き直せます
-- 各層を単独で触る CLI が `tools/` にあります（`l0_chat.py`・`units_chat.py`・`l1_chat.py`・`l2_chat.py`・`l3_chat.py`・`l4_chat.py`・`judge_cli.py`）
+- 各層を単独で触る CLI が `tools/` にあります（`l0_chat.py`・`units_chat.py`・`l1_chat.py`・`l2_chat.py`・`l3_chat.py`・`l4_chat.py`・`judge_cli.py`）。
+  試すための本文とそのまま打てるコマンドは [`examples/README.md`](examples/README.md) にあります
 
 開発:
 
