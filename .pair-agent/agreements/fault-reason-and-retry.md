@@ -7,7 +7,7 @@ updated_at: 2026-09-23T09:10:00+09:00
 domain_tags: [implementation, python-library, contracts]
 slice_size: XS（親が実装し、受入だけ別コンテキストの協議エンジンで検める）
 change_count_premise: 0
-change_count_improvement: 0
+change_count_improvement: 1
 ---
 
 # スプリントゴール
