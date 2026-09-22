@@ -49,6 +49,7 @@ def read_text(path: str | None) -> str:
         raise SystemExit(f"本文のファイルが見つからない: {path}（今いるディレクトリ: {Path.cwd()}）。"
                          f"試すなら examples/ の本文を使う（examples/README.md）")
     try:
-        return p.read_text(encoding="utf-8")
+        # utf-8-sig: BOM 付きで保存した本文も同じ本文として読む（BOM があると 1 文目が変わり、問いが再利用されない。受入 m8）
+        return p.read_text(encoding="utf-8-sig")
     except UnicodeDecodeError:
         raise SystemExit(f"本文のファイルが UTF-8 ではない: {path}") from None

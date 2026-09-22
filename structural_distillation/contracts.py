@@ -442,6 +442,7 @@ class Judgment:
     budget: Budget
     thresholds: Thresholds
     at: str
+    notes: list[str] = field(default_factory=list)   # 利用者に知らせること（保存庫の問いと今の条件の違いなど）
 
     def to_record(self) -> dict:
         """追記のみの記録 1 行（実装設計 §6。schema_version 1）。"""
@@ -458,4 +459,5 @@ class Judgment:
             "cost": {**to_jsonable(self.cost), "live": self.cost.live, "cached": self.cost.cached,
                      "missed": self.cost.missed},
             "versions": dict(self.versions),
+            "notes": list(self.notes),
         }

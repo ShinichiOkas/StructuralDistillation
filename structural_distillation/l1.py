@@ -73,7 +73,9 @@ def _sem(sem: asyncio.Semaphore | None):
 
 async def plan(planner: Reader, units: list[Unit], proposition: str, *, budget: Budget, prompts: PromptSet,
                verifiers: Sequence[Reader] = (), sem: asyncio.Semaphore | None = None,
-               meter: Meter | None = None) -> QuestionSet:
+               meter: Meter | None = None, sample_base: int = 0) -> QuestionSet:
+    """sample_base: 試行の標本番号の起点（既定 0 ＝ 空撃ちと同じ鍵）。問いの保存庫の作り直しでは、前の生成と鍵を分けて
+    キャッシュに当たらないよう起点をずらす（受入 M3）。"""
     meter = meter or Meter()
     units_text = render(units)
     schema = plan_schema()
@@ -82,7 +84,8 @@ async def plan(planner: Reader, units: list[Unit], proposition: str, *, budget: 
     for index in range(budget.plan_retries + 1):
         async with _sem(sem):
             s = await structured(planner, prompts.plan_messages(units_text, proposition, budget.axes), schema,
-                                 version=prompts.plan.version, sample=index, notice=prompts.schema_notice, retry=False)
+                                 version=prompts.plan.version, sample=sample_base + index, notice=prompts.schema_notice,
+                                 retry=False)
         meter.add("plan", s, calibration=planner.calibration)
         if not s.ok:
             attempts.append(Attempt(index, ("L0 失敗",), None, s.error))

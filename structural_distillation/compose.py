@@ -88,14 +88,25 @@ def _read(matrix: AnswerMatrix, qs: QuestionSet, output: OutputType, t: Threshol
     return r
 
 
-def _note_differences(stored: QuestionSet, p: PromptSet, budget: Budget) -> None:
-    """再利用する問いの集合が、今の生成の条件と違えばログに残す（合意 question-store Q2: 違っても再利用する）。"""
-    if stored.prompt.plan != p.plan.version:
-        log.warning("問いの保存庫: 保存された問いは生成の指示 %s で作られた（今は %s）。再利用する", stored.prompt.plan,
-                    p.plan.version)
-    if len(stored.axes) != budget.axes or stored.budget.crosscheck != budget.crosscheck:
-        log.info("問いの保存庫: 保存された問いは軸 %d・交差検証 %s（今の予算は軸 %d・交差検証 %s）。再利用する",
-                 len(stored.axes), stored.budget.crosscheck, budget.axes, budget.crosscheck)
+def _note_differences(stored: QuestionSet, p: PromptSet, budget: Budget, want_planner: str | None,
+                      n_verifiers: int) -> list[str]:
+    """再利用する問いの集合が、今の生成の条件と違えば知らせる（合意 question-store Q2: 違っても再利用する）。
+    違いは WARNING のログと Judgment.notes（記録・CLI に出る）の両方に出す。"""
+    notes = []
+    if want_planner is not None and stored.planner != want_planner:
+        notes.append(f"保存された問いは生成器 {stored.planner} が作った（今回の指定は {want_planner}）")
+    if stored.prompt.set != p.name or stored.prompt.plan != p.plan.version:
+        notes.append(f"保存された問いは指示 {stored.prompt.set}:{stored.prompt.plan} で作った（今は {p.name}:{p.plan.version}）")
+    if not budget.lo <= len(stored.axes) <= budget.hi:
+        want = f"{budget.lo}" if budget.lo == budget.hi else f"{budget.lo}〜{budget.hi}"
+        notes.append(f"保存された問いは軸 {len(stored.axes)} 本（今回の予算は {want} 本）")
+    if stored.crosscheck is None and budget.crosscheck and n_verifiers >= 2:
+        notes.append("保存された問いは交差検証していない（今回は交差検証を求めているが、保存された問いをそのまま使う）")
+    if not stored.active_ids:
+        notes.append("保存された問いは有効な軸が 0 本（作り直すなら regenerate）")
+    for n in notes:
+        log.warning("問いの保存庫: %s。再利用する", n)
+    return notes
 
 
 def _versions(p: PromptSet, segmentation: str) -> dict[str, str]:
@@ -135,11 +146,15 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     """
     p = get_prompts(prompts)
     _check_input(text, proposition, output, readers, budget, segmentation, question_set, thresholds)
+    if regenerate and question_store is None:
+        raise InputError("regenerate は question_store と一緒に使う（作り直した問いの置き場が無い）")
     units = segment(text, segmentation)
     real = [r for r in readers if not r.calibration]
     meter = Meter()
     sem = asyncio.Semaphore(budget.workers)
-    store = key = None
+    notes: list[str] = []
+    store: QuestionStore | None = None
+    key: str | None = None
     stored: QuestionSet | None = None
     if question_set is None and question_store is not None:
         store = question_store if isinstance(question_store, QuestionStore) else QuestionStore(question_store)
@@ -147,9 +162,13 @@ async def judge(text: str, proposition: str, output: OutputType, *,
         if not regenerate:
             stored = store.load(key, units=units, proposition=proposition)
             if stored is not None:
-                _note_differences(stored, p, budget)
+                want_planner = planner.name if planner is not None else (real[0].name if real else None)
+                n_verifiers = len(verifiers) if verifiers is not None else len(real)
+                notes += _note_differences(stored, p, budget, want_planner, n_verifiers)
+        if stored is None:
+            store.check_writable()   # 生成（LLM の費用）の前に、保存できる置き場所かを確かめる
     if question_set is not None:
-        qs = replace(question_set, source="given")
+        qs = replace(question_set, source="given", store_key=None)
     elif stored is not None:
         qs = replace(stored, source="stored", store_key=key)
     else:
@@ -163,11 +182,18 @@ async def judge(text: str, proposition: str, output: OutputType, *,
             raise InputError("偽読み手は検証役になれない")
         if len({v.name for v in vs}) != len(vs):
             raise InputError("検証役の名前が重複している（1 体が過半数を作ってしまう）")
-        qs = await l1.plan(gen, units, proposition, budget=budget, prompts=p, verifiers=vs, sem=sem, meter=meter)
+        # 作り直しは、前の生成と標本番号の起点をずらす（同じ鍵だと生応答のキャッシュに当たり、前と同じ問いが返る。受入 M3）
+        base = store.generations(key) * (budget.plan_retries + 1) if (store is not None and key is not None and regenerate) else 0
+        qs = await l1.plan(gen, units, proposition, budget=budget, prompts=p, verifiers=vs, sem=sem, meter=meter,
+                           sample_base=base)
         if store is not None and key is not None:
             qs = replace(qs, store_key=key)
-            path = store.save(key, qs, units=units, units_rule=rule_version(segmentation), proposition=proposition)
+            path, old = store.save(key, qs, units=units, units_rule=rule_version(segmentation), proposition=proposition)
             log.info("問いの保存庫: 新しい問いの集合を %s に保存した", path.name)
+            if old is not None:
+                notes.append(f"作り直した。前の問いの集合は {old.name} に残した")
+            if regenerate and meter.cost.plan.live == 0 and meter.cost.plan.cached > 0:
+                notes.append("作り直したが、生成の応答はキャッシュから引いた（前と同じ問いの可能性がある）")
     matrices: list[AnswerMatrix] = []
     readings: dict[str, Reading] = {}
     for r in readers:
@@ -176,7 +202,8 @@ async def judge(text: str, proposition: str, output: OutputType, *,
         readings[r.name] = _read(m, qs, output, thresholds)
     j = Judgment(proposition=proposition, output=output, units=units, segmentation=segmentation, question_set=qs,
                  matrices=matrices, readings=readings, summary=_summary(readings, output, thresholds),
-                 cost=meter.cost, versions=_versions(p, segmentation), budget=budget, thresholds=thresholds, at=_now())
+                 cost=meter.cost, versions=_versions(p, segmentation), budget=budget, thresholds=thresholds, at=_now(),
+                 notes=notes)
     if record_path is not None:
         _append(record_path, j.to_record())
     return j

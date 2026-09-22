@@ -26,6 +26,9 @@ def main() -> int:
     sh.add_argument("key", help="鍵（先頭の何文字かでよい）")
     args = ap.parse_args()
     s = QuestionStore(args.store)
+    if not s.root.is_dir():
+        print(f"保存庫 {args.store} が無い（judge_cli に --questions {args.store} を付けて判定すると作られる）")
+        return 0 if args.cmd == "list" else 1
     try:
         if args.cmd == "list":
             es = s.entries()
@@ -36,21 +39,23 @@ def main() -> int:
                     print(f"✗ {e['key']}: {e['error']}")
                     continue
                 head = e["first_unit"][:24] + ("…" if len(e["first_unit"]) > 24 else "")
+                gens = f"  作り直し {e['generations'] - 1} 回" if e.get("generations", 1) > 1 else ""
                 print(f"{e['key'][:12]}  {e['created_at']}  命題「{e['proposition']}」  軸 {e['n_axes']}（有効 {e['n_active']}）"
-                      f"  生成器 {e['planner']}  本文 {e['n_units']} 文「{head}」")
+                      f"  生成器 {e['planner']}  本文 {e['n_units']} 文「{head}」{gens}")
             return 0
         key = s.resolve(args.key)
+        qs_obj = s.load(key)                      # 形を検めてから見せる（壊れていれば StoreError）
         d = s.entry(key)
-        qs = d["question_set"]
-        print(f"# 鍵 {key}\n# 作成 {d['created_at']}・ライブラリ {d['library']}・単位化 {d['units_rule']}・生成器 {qs['planner']}"
-              f"・生成の指示 {qs['prompt']['plan']}\n# 命題「{d['proposition']}」・本文 {len(d['units'])} 文")
-        for a in qs["axes"]:
-            mark = " " if a["id"] in qs["active_ids"] else "✗"
-            print(f"{mark} {a['id']} [{a['name']}]\n     支持側: {a['claim_support']}\n     反証側: {a['claim_refute']}")
-        cc = qs.get("crosscheck")
+        print(f"# 鍵 {key}\n# 作成 {d.get('created_at')}・ライブラリ {d.get('library')}・単位化 {d.get('units_rule')}"
+              f"・生成器 {qs_obj.planner}・生成の指示 {qs_obj.prompt.plan}\n# 命題「{d.get('proposition')}」"
+              f"・本文 {len(d.get('units') or [])} 文・作り直し {s.generations(key) - 1} 回")
+        for a in qs_obj.axes:
+            mark = " " if a.id in qs_obj.active_ids else "✗"
+            print(f"{mark} {a.id} [{a.name}]\n     支持側: {a.claim_support}\n     反証側: {a.claim_refute}")
+        cc = qs_obj.crosscheck
         if cc:
-            print(f"# 交差検証（{', '.join(cc['verifiers'])}）: 外した {cc['flagged'] or 'なし'}・弱 {cc['weak'] or 'なし'}"
-                  f"・非排他 {cc['nonexclusive'] or 'なし'}")
+            print(f"# 交差検証（{', '.join(cc.verifiers)}）: 外した {cc.flagged or 'なし'}・弱 {cc.weak or 'なし'}"
+                  f"・非排他 {cc.nonexclusive or 'なし'}")
         else:
             print("# 交差検証なし")
         print(f"# ファイル {s.path(key)}")

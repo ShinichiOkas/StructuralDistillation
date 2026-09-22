@@ -196,6 +196,12 @@ def test_prompt_set_rejects_duplicate_words_and_missing_slots():
         PromptSet.from_json(json.dumps(hole, ensure_ascii=False))
 
 
+def test_an_empty_cached_port_is_still_truthy(tmp_path):
+    """空のキャッシュが偽になると、`planner or 既定` で黙って別の読み手に差し替わる（2026-09-23 に踏んだ）。"""
+    port = CachedPort(ScriptedReader("m", []), None)
+    assert bool(port) is True and port.size == 0
+
+
 def test_cached_port_cache_only_miss_and_extra(tmp_path):
     extra = tmp_path / "x.jsonl"
     msgs = [{"role": "user", "content": "U"}]

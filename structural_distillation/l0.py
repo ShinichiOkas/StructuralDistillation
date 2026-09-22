@@ -230,7 +230,9 @@ class CachedPort:
         if skipped:
             log.info("L0: %s の失敗の行 %d を読み飛ばした", p, skipped)
 
-    def __len__(self) -> int:
+    @property
+    def size(self) -> int:
+        """読み込んでいる応答の数。⚠ __len__ にしない（空のキャッシュが偽になり、`planner or 既定` で黙って差し替わる）"""
         return len(self._cache)
 
     def _append(self, key: str, sample: int, version: str, payload: dict) -> None:

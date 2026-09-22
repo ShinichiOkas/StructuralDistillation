@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import argparse
+import logging
 import time
 
 from _cli import LABEL_JA, fmt, guard_write_path, read_text, utf8_io
@@ -47,6 +48,9 @@ def main() -> int:
     for k, v in Thresholds().to_dict().items():
         ap.add_argument(f"--{k}", type=float, default=v)
     args = ap.parse_args()
+    # ライブラリの警告は「# ログ:」の形で出す。保存庫の条件の違いは j.notes で「# 注意:」として出すので、合成のログは重ねない
+    logging.basicConfig(level=logging.WARNING, format="# ログ: %(message)s")
+    logging.getLogger("structural_distillation.compose").setLevel(logging.ERROR)
     guard_write_path(args.cache)
     guard_write_path(args.record)
     guard_write_path(args.questions)
@@ -76,8 +80,12 @@ def main() -> int:
     print(f"# 命題「{j.proposition}」・単位 {len(j.units)}・生成器 {qs.planner}・軸 {len(qs.axes)}（有効 {len(qs.active_ids)}）"
           f"・型 {output}")
     if qs.store_key:
-        how = {"stored": "保存庫の問いを再利用した", "generated": "新しく作って保存庫に保存した"}[qs.source]
+        how = {"stored": "保存庫の問いを再利用した", "generated": "新しく作って保存庫に保存した"}.get(qs.source, qs.source)
         print(f"# 問い: {how}（鍵 {qs.store_key[:12]}…）")
+    for n in j.notes:
+        print(f"# 注意: {n}")
+    if qs.crosscheck is None:
+        print("# 交差検証なし")
     if qs.crosscheck:
         cc = qs.crosscheck
         print(f"# 交差検証: 外した {cc.flagged or 'なし'}・弱 {cc.weak or 'なし'}・非排他 {cc.nonexclusive or 'なし'}")

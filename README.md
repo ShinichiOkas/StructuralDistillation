@@ -125,7 +125,7 @@ print(j.summary.delta, j.summary.representative)  # 読み手間の差と代表�
 - 記録（`record_path`）には本文の単位列・問いの集合・回答（生応答つき）・集約が残り、`replay()` で LLM を呼ばずに引き直せます
 - 問いの保存庫（`question_store="questions"`）を渡すと、同じ命題と本文では過去に作った問いの集合を再利用します。
   生成器も交差検証も呼ばず、同じ問いで答えさせます。保存庫の中身は 1 本文 × 1 命題 ＝ 1 JSON で、開いて読めます
-- 各層を単独で触る CLI が `tools/` にあります（`l0_chat.py`・`units_chat.py`・`l1_chat.py`・`l2_chat.py`・`l3_chat.py`・`l4_chat.py`・`judge_cli.py`）。
+- 各層を単独で触る CLI が `tools/` にあります（`l0_chat.py`・`units_chat.py`・`l1_chat.py`・`l2_chat.py`・`l3_chat.py`・`l4_chat.py`・`judge_cli.py`、保存庫を見る `questions_cli.py`）。
   試すための本文とそのまま打てるコマンドは [`examples/README.md`](examples/README.md) にあります
 
 開発:
