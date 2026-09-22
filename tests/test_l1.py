@@ -64,6 +64,15 @@ def test_h3_paraphrase_of_the_proposition():
     assert l1.check_harness(bad, PROP, 6, 6) == ["H3 非自明（命題の言い換え）: ゲンは悪人である"]
 
 
+def test_h3_threshold_sits_at_0_6():
+    """言い換えの閾値（2-gram Jaccard 0.6）を、閾値の上下の記述で固定する（変異試験で見つかった穴）。"""
+    near, far = "ゲンは悪人であった", "ゲンは悪人と呼ばれた"
+    assert 0.6 <= l1._bigram_jaccard(near, PROP) < 0.99
+    assert l1._bigram_jaccard(far, PROP) < 0.6
+    assert l1.check_harness(GOOD[:5] + [ax("近", near, "ゲンは善行を積んだ")], PROP, 6, 6) == [f"H3 非自明（命題の言い換え）: {near}"]
+    assert l1.check_harness(GOOD[:5] + [ax("遠", far, "ゲンは善人と呼ばれた")], PROP, 6, 6) == []
+
+
 @pytest.mark.parametrize("q", ["ゲンは盗んだか", "ゲンは盗んだ？", "ゲンは盗んだ?"])
 def test_h11_question_form(q):
     bad = GOOD[:5] + [ax("問", q, "ゲンは何も盗まなかった")]

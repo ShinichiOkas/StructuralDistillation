@@ -116,6 +116,24 @@ def test_default_planner_and_verifiers_are_the_real_readers():
     assert j.cost.crosscheck.live == N * 2 * 2 * 2 + N * 2
 
 
+def test_flagged_axes_are_neither_answered_nor_aggregated():
+    """交差検証で外した軸は回答も集約もしない（変異試験で見つかった穴）。"""
+    def verifier(messages, schema, sample, version):
+        if "orientation" in schema["properties"]:
+            c = re.search(r"記述: 「(.*)」", messages[-1]["content"]).group(1)
+            if c == "甲は0番目の悪事をした":
+                return json.dumps({"orientation": "反証"}, ensure_ascii=False)   # 生成器の向きと反対
+            return json.dumps({"orientation": "反証" if c.endswith("しなかった") else "支持"}, ensure_ascii=False)
+        return json.dumps({"compatible": "両立しない"}, ensure_ascii=False)
+    j = asyncio.run(judge(TEXT, PROP, Probability(), readers=[reader("r1", 4)], planner=planner(),
+                          verifiers=[ScriptedReader("v1", verifier), ScriptedReader("v2", verifier)]))
+    assert j.question_set.crosscheck.flagged == ["a01"] and "a01" not in j.question_set.active_ids
+    assert {a.axis_id for a in j.matrices[0].answers} == {f"a{i:02d}" for i in range(2, N + 1)}
+    r = j.readings["r1"]
+    assert r.counts.n == N - 1 and [x.axis_id for x in r.axes] == [f"a{i:02d}" for i in range(2, N + 1)]
+    assert r.p == pytest.approx(3 / 5)
+
+
 def test_given_question_set_skips_generation():
     j = run(readers=[reader("r1", 4)], planner=planner())
     p2 = planner()
