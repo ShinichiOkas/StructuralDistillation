@@ -1,14 +1,16 @@
-# 空撃ち 2 周目（p3・排他な対）結果（読み手 gemma4:31b-cloud, fake:all_yes, fake:all_undetermined / 標本 4 / 軸 6）
+# 空撃ち 2 周目（p3・排他な対）結果（読み手 gemma4:31b-cloud, fake:all_yes, fake:all_no, fake:all_undetermined / 標本 4 / 軸 6）
 
 ## 題材ごと
 
 | 題材 | 想定 | 読み手 | p | w | 札 | 段(5) | 矛盾率 | 沈黙率 | 無効率 | 標本間 |p差| |
 |---|---|---|---|---|---|---|---|---|---|---|
 | r01 | split | gemma4:31b-cloud | 1.00 | 0.00 | 偏り（支持） | 5 | 0.17 | 0.00 | 0.00 | 0.00 |
-| r01 | split | fake:all_yes | — | — | 本文に根拠が無い | — | 1.00 | 0.00 | 0.00 | — |
+| r01 | split | fake:all_yes | — | — | 計器不良 | — | 1.00 | 0.00 | 0.00 | — |
+| r01 | split | fake:all_no | — | — | 計器不良 | — | 1.00 | 0.00 | 0.00 | — |
 | r01 | split | fake:all_undetermined | — | — | 本文に根拠が無い | — | 0.00 | 1.00 | 0.00 | — |
 | r02 | split | gemma4:31b-cloud | 1.00 | 0.00 | 偏り（支持） | 5 | 0.17 | 0.00 | 0.00 | 0.00 |
-| r02 | split | fake:all_yes | — | — | 本文に根拠が無い | — | 1.00 | 0.00 | 0.00 | — |
+| r02 | split | fake:all_yes | — | — | 計器不良 | — | 1.00 | 0.00 | 0.00 | — |
+| r02 | split | fake:all_no | — | — | 計器不良 | — | 1.00 | 0.00 | 0.00 | — |
 | r02 | split | fake:all_undetermined | — | — | 本文に根拠が無い | — | 0.00 | 1.00 | 0.00 | — |
 
 ## 想定との照合（実読み手・p の平均）
@@ -22,16 +24,17 @@
 
 ## 読み手間の差（U3）
 
-| 題材 | gemma4:31b-cloud | fake:all_yes | fake:all_undetermined | Δ | 段の一致 |
-|---|---|---|---|---|---|
-| r01 | 1.00 | — | — | — | 一致 |
-| r02 | 1.00 | — | — | — | 一致 |
+| 題材 | gemma4:31b-cloud | fake:all_yes | fake:all_no | fake:all_undetermined | Δ | 段の一致 |
+|---|---|---|---|---|---|---|
+| r01 | 1.00 | — | — | — | — | 一致 |
+| r02 | 1.00 | — | — | — | — | 一致 |
 - 標本間 |p差|: 平均 0.00、最大 0.00（n=2）
 
 ## 矛盾率（U1・両側に証拠があった軸の割合）
 
 - gemma4:31b-cloud: 平均 0.17、最大 0.17
 - fake:all_yes: 平均 1.00、最大 1.00
+- fake:all_no: 平均 1.00、最大 1.00
 - fake:all_undetermined: 平均 0.00、最大 0.00
 
 ## 本文追従（S10・反事実）

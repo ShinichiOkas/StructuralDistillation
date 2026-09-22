@@ -259,7 +259,7 @@ def main() -> int:
     L.append(f"\n## 対の排他性: 検証役の過半数が「両立しうる」とした軸 {sum(len(r['nonexclusive']) for r in rows)}/{tot_axes}")
     L.append(f"\n## 札の変化 {label_changes}/{n_rd} 行、段の変化 {level_changes}/{n_rd} 行（過半数規則で外した後）")
     L.append("\n## 反事実の追従（対応のある行。外した後に p が未定義なら ✗）\n")
-    for name, filt in (("事実 1 箇所の反事実（m01〜m10・m01b・m12）", lambda x: x[5]), ("別本文（新規 10 本のうち m12 以外）", lambda x: not x[5])):
+    for name, filt in (("事実 1 箇所の反事実（m01〜m10。m01b は反事実なし・m12 は前の p が未定義で行なし）", lambda x: x[5]), ("別本文（新規 10 本のうち m12 以外）", lambda x: not x[5])):
         sub = [x for x in paired if filt(x)]
         if not sub:
             continue

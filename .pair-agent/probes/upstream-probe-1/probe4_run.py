@@ -151,7 +151,7 @@ def main() -> int:
         mats = [m for m in mats if m["id"] in set(args.only)]
     readers = list(args.readers)
     if args.fake:
-        readers = readers + ["fake:all_yes", "fake:all_undetermined"]
+        readers = readers + ["fake:all_yes", "fake:all_no", "fake:all_undetermined"]  # 合意 K7: 偽読み手 3 種
     log_path = out / "run.log"
 
     def log(msg: str):

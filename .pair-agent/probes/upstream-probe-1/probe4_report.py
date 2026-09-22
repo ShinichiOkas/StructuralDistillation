@@ -93,11 +93,14 @@ def cf_follow(results: list[dict], only_ids: set | None = None) -> tuple[int, in
     return ok, n, endpoint
 
 
-def relabel(results: list[dict], v: dict) -> tuple[int, int, list[str], bool]:
-    """昇格した閾値で全読み手を再ラベル。(変わった行, 行数, 変わった行の一覧, all_yes が全部「計器不良」か)"""
+def relabel(results: list[dict], v: dict) -> tuple[int, int, list[str], str]:
+    """昇格した閾値で全読み手を再ラベル。(変わった行, 行数, 変わった行の一覧, 偽読み手の判定の説明)
+    偽読み手の期待: all_yes・all_no → 計器不良（矛盾率 1.0）、all_undetermined → 本文に根拠が無い。偽読み手の無い腕は「偽読み手なし」。"""
     changed = n = 0
     rows = []
-    all_yes_ok = True
+    fake_seen = {}
+    fake_bad = []
+    expect = {"fake:all_yes": "計器不良", "fake:all_no": "計器不良", "fake:all_undetermined": "本文に根拠が無い"}
     for r in results:
         for rd, agg in r["readers"].items():
             n += 1
@@ -107,9 +110,15 @@ def relabel(results: list[dict], v: dict) -> tuple[int, int, list[str], bool]:
                 changed += 1
                 rows.append(f"{r['id']}/{rd}: {agg['label']}→{new}")
             agg["label_promoted"] = new
-            if rd == "fake:all_yes" and new != "計器不良":
-                all_yes_ok = False
-    return changed, n, rows, all_yes_ok
+            if rd in expect:
+                fake_seen[rd] = fake_seen.get(rd, 0) + 1
+                if new != expect[rd]:
+                    fake_bad.append(f"{r['id']}/{rd}={new}")
+    if not fake_seen:
+        fake_note = "偽読み手なし"
+    else:
+        fake_note = "偽読み手 " + "・".join(f"{k.split(':')[1]}×{c}" for k, c in fake_seen.items()) + (f" → 期待どおり" if not fake_bad else f" → 期待と違う: {fake_bad[:6]}")
+    return changed, n, rows, fake_note
 
 
 def levels3(p: float | None) -> str:
@@ -142,7 +151,8 @@ def main() -> int:
     xcs = load(root / "xc_self" / "crosscheck.json")
     p3 = load(Path(args.out3))
     L = ["# 測定 2 周目 — 判断規則に照らした読み v2（自動生成。手で書き換えない）\n",
-         f"母数の扱い: 本文についての命題 {sorted(META)} と、測ったあとに想定を直した題材 {sorted(POSTHOC)} は、想定一致・閾値・ω の当て先/読み先のすべてから外す。\n"]
+         f"母数の扱い（K12 の適用範囲）: 本文についての命題 {sorted(META)} と、測ったあとに想定を直した題材 {sorted(POSTHOC)} は、"
+         "想定一致・閾値（M4）・ω の当て先/読み先・M3・M3b の p 比較から外す。M1（交差検証の軸数・反事実の別本文群）と M2 の表には入ったまま（結論は動かない）。\n"]
 
     # ---- ゼロ点
     L.append("## ゼロ点（S0a: 記録の答えから §5.3 の向き d を再計算して照合／A の s,r を再計算して照合）\n")
@@ -173,8 +183,9 @@ def main() -> int:
     for name, res in arms.items():
         if not res:
             continue
-        ch, n, rows, ay = relabel(res, values)
-        L.append(f"- {name}: 札が変わった行 {ch}/{n}。偽読み手 all_yes が全部「計器不良」: {ay}" + (f"。変化: {', '.join(rows[:12])}{' …' if len(rows) > 12 else ''}" if rows else ""))
+        ch, n, rows, fake_note = relabel(res, values)
+        real_changed = [x for x in rows if "/fake:" not in x]
+        L.append(f"- {name}: 札が変わった行 {ch}/{n}（うち実読み手 {len(real_changed)}）。{fake_note}" + (f"。実読み手の変化: {', '.join(real_changed[:12])}" if real_changed else ""))
 
     # ---- 想定一致（基準走行）
     def hit_table(res, title):
@@ -234,7 +245,8 @@ def main() -> int:
                 p3_pairs.append(max(ps) - min(ps))
         p3_contra = {rd: statistics.mean(r["readers"][rd]["contradiction_rate"] for r in p3 if rd in r["readers"]) for rd in ("qwen3.5:4b", "gemma3:4b")}
         L.append(f"参照点（p3・弱い 2 体・同じ軸）: Δ 平均 {statistics.mean(p3_pairs):.3f}、矛盾率 {', '.join(f'{k} {v:.3f}' for k, v in p3_contra.items())}")
-        w95 = T.q(within, .95) or delta_thr
+        w95_measured = T.q(within, .95)
+        w95 = w95_measured if w95_measured else delta_thr  # 退化（0）なら比較には仮置き Δ を使う
         nog = [ds for (x, y), ds in pair_d.items() if "gemma4" not in x and "gemma4" not in y]
         withg = [ds for (x, y), ds in pair_d.items() if "gemma4" in x or "gemma4" in y]
         d_nog = statistics.mean(sum(nog, [])) if nog else None
@@ -242,7 +254,8 @@ def main() -> int:
         confound = (d_nog is not None and d_withg is not None and abs(d_withg - d_nog) >= DELTA_CONFOUND)
         d_use = d_nog if d_nog is not None else d_withg
         band = "弱さ由来" if d_use <= w95 else ("中間" if d_use < 2 * w95 else "仕組み由来")
-        L.append(f"\n規則: 標本内 95% 分位 {w95:.3f}。生成器と同家系（gemma4）を含む対 Δ {P.fmt(d_withg)} vs 含まない対 Δ {P.fmt(d_nog)}（差 {abs((d_withg or 0) - (d_nog or 0)):.3f}、交絡の閾値 {DELTA_CONFOUND}）→ "
+        L.append(f"\n規則: この腕の標本内 95% 分位 {P.fmt(w95_measured)}{'（退化）→ 比較には仮置き Δ ' + f'{delta_thr:.3f}' + ' を使う' if not w95_measured else ''}。"
+                 f"生成器と同家系（gemma4）を含む対 Δ {P.fmt(d_withg)} vs 含まない対 Δ {P.fmt(d_nog)}（差 {abs((d_withg or 0) - (d_nog or 0)):.3f}、交絡の閾値 {DELTA_CONFOUND}）→ "
                  f"{'交絡あり（含まない対を採る）' if confound else '交絡なし'}。採る Δ {d_use:.3f} → **{band}**（弱い 2 体の Δ {statistics.mean(p3_pairs):.3f} から）")
         if d_nog is not None and d_nog == 0 and d_withg:
             L.append("⚠ 読み手間の差はすべて gemma4（p3 の生成器 gemma4:12b と同家系）側から出ている。qwen × glm は完全一致")
@@ -355,11 +368,13 @@ def main() -> int:
                     nonmeta_dp.append(abs(a["A"]["p"] - ba["A"]["p"]))
                     nonmeta_ds.append(abs(a["silent_rate"] - ba["silent_rate"]))
         fakes_ok = all(r["readers"].get("fake:all_yes", {}).get("label_promoted") == "計器不良" and
+                       r["readers"].get("fake:all_no", {}).get("label_promoted", "計器不良") == "計器不良" and
                        r["readers"].get("fake:all_undetermined", {}).get("label_promoted") == "本文に根拠が無い"
                        for r in meta2 if "fake:all_yes" in r["readers"])
         c1 = bool(meta_cf_after) and all(meta_cf_after)
         c4 = (not nonmeta_dp) or (max(nonmeta_dp) <= delta_thr and max(nonmeta_ds) <= delta_thr)
-        L.append(f"\n- ⑴ 本文についての命題の反事実（指示あり）: {sum(meta_cf_after)}/{len(meta_cf_after)} ⑵ 根拠なし題材が「本文に根拠が無い」のまま: {leak_ok} "
+        L.append(f"\n- ⑷ の母数: 本文についてでない題材 = 型が meta・none 以外の {sorted({r['id'] for r in meta2 if kinds.get(r['id']) not in ('meta', 'none')})} × 実読み手 2。根拠なし（none）型の沈黙率の動きは ⑵ で見る")
+        L.append(f"- ⑴ 本文についての命題の反事実（指示あり）: {sum(meta_cf_after)}/{len(meta_cf_after)} ⑵ 根拠なし題材が「本文に根拠が無い」のまま: {leak_ok} "
                  f"⑶ 偽読み手の出力が保たれる（昇格閾値で再ラベル後、all_yes＝計器不良・all_undetermined＝根拠が無い）: {fakes_ok} "
                  f"⑷ 本文についてでない題材の |Δp| max {P.fmt(max(nonmeta_dp) if nonmeta_dp else None)}・|Δ沈黙率| max {P.fmt(max(nonmeta_ds) if nonmeta_ds else None)}（閾値 {delta_thr:.3f}）")
         verdict = "採用（命題の型を利用側が宣言したときだけ ON。既定 OFF）" if (c1 and leak_ok and fakes_ok and c4) else "不採用"

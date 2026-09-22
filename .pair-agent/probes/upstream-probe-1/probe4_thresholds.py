@@ -88,21 +88,39 @@ def compute(base: list[str], materials: list[str], fit_ids: set | None = None, e
     hmax = max(invalid) if invalid else None
     out.append(("ι 無効率", f"**仮置き {FALLBACK['iota']} のまま**（既知不良が無い。健全側 max={fmt(hmax)}）", f"95%={fmt(q(invalid, .95))}"))
 
+    MIN_OBS = 3  # 合意 K13 ⑵: 分離に効く非ゼロ観測が両側に 3 件以上
+
     contra = [a["contradiction_rate"] for _, _, a in rows]
     cmax = max(contra) if contra else None
     cmax_row = next((f"{m}/{rd}" for m, rd, a in rows if a["contradiction_rate"] == cmax), "—") if contra else "—"
     bad_min = min(fake_contra) if fake_contra else None
+    n_healthy_nz = sum(1 for c in contra if c > 0)
+    n_bad = len(fake_contra)
     if cmax is not None and bad_min is not None and bad_min > cmax:
-        values["kappa"] = (cmax + bad_min) / 2
-        out.append(("κ 矛盾率", f"分離点 **{values['kappa']:.3f}**（健全側 max {fmt(cmax)}［{cmax_row}］・偽読み手 min {fmt(bad_min)} の中点）", f"健全側 95%={fmt(q(contra, .95))} 中央値={fmt(statistics.median(contra))}"))
+        cand = (cmax + bad_min) / 2
+        if n_healthy_nz >= MIN_OBS and n_bad >= MIN_OBS and abs(cand - FALLBACK["kappa"]) > 1e-9:
+            values["kappa"] = cand
+            out.append(("κ 矛盾率", f"分離点 **{cand:.3f}**（健全側 max {fmt(cmax)}［{cmax_row}］・偽読み手 min {fmt(bad_min)} の中点）",
+                        f"K13 ⑵: 健全側の非ゼロ {n_healthy_nz} 件・偽読み手 {n_bad} 件。健全側 95%={fmt(q(contra, .95))} 中央値={fmt(statistics.median(contra))}"))
+        else:
+            out.append(("κ 矛盾率", f"**仮置き {FALLBACK['kappa']} のまま**（分離は確認: 候補 {cand:.3f}。K13 ⑵ 未満か仮置きと同値）",
+                        f"健全側の非ゼロ {n_healthy_nz} 件・偽読み手 {n_bad} 件（要 {MIN_OBS}）"))
     else:
         out.append(("κ 矛盾率", f"**仮置き {FALLBACK['kappa']} のまま**（健全側と偽読み手が重なる、または偽読み手なし）", f"健全側 max={fmt(cmax)} 偽読み手 min={fmt(bad_min)}"))
 
     valid_none = [(a["A"]["s"] + a["A"]["r"]) / a["A"]["n"] for m, _, a in rows if expected.get(m) == "none" and a["A"]["n"]]
     valid_ev = [(a["A"]["s"] + a["A"]["r"]) / a["A"]["n"] for m, _, a in rows if expected.get(m) != "none" and a["A"]["n"]]
+    n_none_nz = sum(1 for v in valid_none if v > 0)          # 境界に効く: 根拠なし側で有効率が 0 でない行
+    n_ev_lt1 = sum(1 for v in valid_ev if v < 1)              # 境界に効く: 根拠あり側で有効率が 1 でない行
     if valid_none and valid_ev and max(valid_none) < min(valid_ev):
-        values["rho"] = (max(valid_none) + min(valid_ev)) / 2
-        out.append(("ρ 有効率", f"分離点 **{values['rho']:.3f}**（根拠なし max {fmt(max(valid_none))}・根拠あり min {fmt(min(valid_ev))} の中点）", f"根拠あり 5%={fmt(q(valid_ev, .05))} n_none={len(valid_none)}"))
+        cand = (max(valid_none) + min(valid_ev)) / 2
+        if n_none_nz >= MIN_OBS and n_ev_lt1 >= MIN_OBS and abs(cand - FALLBACK["rho"]) > 1e-9:
+            values["rho"] = cand
+            out.append(("ρ 有効率", f"分離点 **{cand:.3f}**（根拠なし max {fmt(max(valid_none))}・根拠あり min {fmt(min(valid_ev))} の中点）",
+                        f"K13 ⑵: 根拠なし側の非ゼロ {n_none_nz} 件・根拠あり側の 1 未満 {n_ev_lt1} 件。根拠あり 5%={fmt(q(valid_ev, .05))} n_none={len(valid_none)}"))
+        else:
+            out.append(("ρ 有効率", f"**仮置き {FALLBACK['rho']} のまま**（分離は確認: 候補 {cand:.3f}。K13 ⑵ 未満か仮置きと同値）",
+                        f"根拠なし側の非ゼロ {n_none_nz} 件（要 {MIN_OBS}）・根拠あり側の 1 未満 {n_ev_lt1} 件。根拠なし max={fmt(max(valid_none))} 根拠あり min={fmt(min(valid_ev))}"))
     else:
         out.append(("ρ 有効率", f"**仮置き {FALLBACK['rho']} のまま**（根拠なしと根拠ありが重なる）",
                     f"根拠なし max={fmt(max(valid_none) if valid_none else None)} 根拠あり min={fmt(min(valid_ev) if valid_ev else None)}"))

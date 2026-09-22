@@ -199,7 +199,7 @@
       "silent": 0
      }
     ],
-    "seconds": 22.0
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -346,7 +346,7 @@
       "silent": 0
      }
     ],
-    "seconds": 20.5
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -364,7 +364,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -488,6 +488,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "人命救助の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "拾得物の所有権処理",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "救助行為の秘匿",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "金銭の使途",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "救助後の処遇",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "社会的評価",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -1134,7 +1281,7 @@
       "silent": 2
      }
     ],
-    "seconds": 22.1
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -1281,7 +1428,7 @@
       "silent": 2
      }
     ],
-    "seconds": 25.0
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -1299,7 +1446,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -1423,6 +1570,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "子供の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "子供の性別",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "子供の職業",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "親子の血縁関係",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "家族構成の記述",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "親族の職業的属性",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -1780,7 +2074,7 @@
       "silent": 0
      }
     ],
-    "seconds": 22.5
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -1927,7 +2221,7 @@
       "silent": 0
      }
     ],
-    "seconds": 23.3
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -1945,7 +2239,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -2069,6 +2363,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "動作環境の特定",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "操作手順の完結性",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "設定変更内容の具体性",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "期待される挙動の定義",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "発生事象の定義",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "再現性の根拠",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -2715,7 +3156,7 @@
       "silent": 0
      }
     ],
-    "seconds": 22.0
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -2862,7 +3303,7 @@
       "silent": 0
      }
     ],
-    "seconds": 19.9
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -2880,7 +3321,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -3004,6 +3445,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "採否の決定タイミング",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "決定事項の記載",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "議長の最終指示",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "実装への合意",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "懸念事項の解消",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "結論の明示",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -3650,7 +4238,7 @@
       "silent": 0
      }
     ],
-    "seconds": 22.3
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -3797,7 +4385,7 @@
       "silent": 0
      }
     ],
-    "seconds": 20.8
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -3815,7 +4403,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -3939,6 +4527,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "吸引力",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "重量",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "動作音",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "バッテリー持続時間",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "メンテナンス性",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "再購入意向",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -4585,7 +5320,7 @@
       "silent": 0
      }
     ],
-    "seconds": 24.1
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -4732,7 +5467,7 @@
       "silent": 0
      }
     ],
-    "seconds": 19.9
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -4750,7 +5485,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -4874,6 +5609,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "Python経験年数",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "英語会話能力",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "大阪事業所への勤務可能性",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "Python経験の具体的内容",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "英語の使用実績",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "居住地の条件",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -5520,7 +6402,7 @@
       "silent": 0
      }
     ],
-    "seconds": 12.0
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -5667,7 +6549,7 @@
       "silent": 0
      }
     ],
-    "seconds": 20.2
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -5685,7 +6567,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -5809,6 +6691,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "訪問先の網羅性",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "訪問スケジュールの順守",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "交通手段の予定通りか",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "到着時間の適切さ",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "宿泊予約の状況",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "帰宅日の日程",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -6455,7 +7484,7 @@
       "silent": 2
      }
     ],
-    "seconds": 21.7
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -6602,7 +7631,7 @@
       "silent": 2
      }
     ],
-    "seconds": 21.8
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -6620,7 +7649,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -6744,6 +7773,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "貸出の可否",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "紛失物の捜索協力",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "学習支援の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "学習支援の方法",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "弟への感情",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "物理的接触",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -7390,7 +8566,7 @@
       "silent": 0
      }
     ],
-    "seconds": 22.4
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -7537,7 +8713,7 @@
       "silent": 0
      }
     ],
-    "seconds": 21.3
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -7555,7 +8731,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -7679,6 +8855,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "発芽率の比較",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "環境条件の統一",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "対照群の設定",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "サンプルの同一性",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "測定期間の妥当性",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "有意な差の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -8325,7 +9648,7 @@
       "silent": 0
      }
     ],
-    "seconds": 21.7
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -8472,7 +9795,7 @@
       "silent": 0
      }
     ],
-    "seconds": 21.2
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -8490,7 +9813,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -8614,6 +9937,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "謝罪表現の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "過失の認容",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "弁明の扱い",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "損害への言及",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "補償の提案",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "関係修復の要望",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -9260,7 +10730,7 @@
       "silent": 0
      }
     ],
-    "seconds": 22.3
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -9407,7 +10877,7 @@
       "silent": 0
      }
     ],
-    "seconds": 31.7
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -9425,7 +10895,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -9549,6 +11019,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "解約可能期間",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "中途解約時の手数料",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "サービス停止時の特例",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "解約理由による費用変動",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "解約手続きの手法",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "手数料の請求タイミング",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -10195,7 +11812,7 @@
       "silent": 0
      }
     ],
-    "seconds": 21.9
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -10342,7 +11959,7 @@
       "silent": 0
      }
     ],
-    "seconds": 28.4
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -10360,7 +11977,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -10484,6 +12101,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "決定事項セクションの有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "議題一の結論",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "議題二の結論",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "合意形成プロセスの記述",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "タスクの割り当て",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "未決定事項の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -11130,7 +12894,7 @@
       "silent": 2
      }
     ],
-    "seconds": 22.2
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -11277,7 +13041,7 @@
       "silent": 1
      }
     ],
-    "seconds": 23.9
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -11295,7 +13059,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -11419,6 +13183,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "中途解約条項の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "通知期間の指定",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "解除事由の定義",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "合意解約の手続き",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "即時解約権の付与",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "期間満了以外の終了条件",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -12065,7 +13976,7 @@
       "silent": 2
      }
     ],
-    "seconds": 22.2
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -12212,7 +14123,7 @@
       "silent": 2
      }
     ],
-    "seconds": 21.2
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -12230,7 +14141,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -12354,6 +14265,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "項目一の完了状況",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "項目二の完了状況",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "項目三の完了状況",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "項目四の完了状況",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "項目五の完了状況",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "未記載項目の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -13000,7 +15058,7 @@
       "silent": 0
      }
     ],
-    "seconds": 22.1
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -13147,7 +15205,7 @@
       "silent": 0
      }
     ],
-    "seconds": 34.1
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -13165,7 +15223,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -13289,6 +15347,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "ミスの修正方法",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "遅延時の対応",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "失敗時の責任の取り方",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "業務量の調整",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "肯定的な評価の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "部下からの心理的印象",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -13935,7 +16140,7 @@
       "silent": 0
      }
     ],
-    "seconds": 22.5
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -14082,7 +16287,7 @@
       "silent": 0
      }
     ],
-    "seconds": 24.6
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -14100,7 +16305,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -14224,6 +16429,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "過剰受領金の対応",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "商品の欠陥告知",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "作業未完了時の料金請求",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "売掛金の記録精度",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "不明な情報の回答",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "利益の優先度",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -14870,7 +17222,7 @@
       "silent": 0
      }
     ],
-    "seconds": 23.3
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -15017,7 +17369,7 @@
       "silent": 0
      }
     ],
-    "seconds": 39.8
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -15035,7 +17387,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -15159,6 +17511,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "雨の日数",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "降水日の具体的な回数",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "週のまとめの記述",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "晴天の日数",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "降水の継続性",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "曇天の日数",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -15609,7 +18108,7 @@
   "id": "m17",
   "title": "豚肉と玉ねぎの炒め物",
   "proposition": "このレシピは分量と火加減と時間を数値で指定している",
-  "expected_lean": "support",
+  "expected_lean": "split",
   "n_units": 10,
   "plan": {
    "ok": true,
@@ -15805,7 +18304,7 @@
       "silent": 0
      }
     ],
-    "seconds": 22.6
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -15952,7 +18451,7 @@
       "silent": 0
      }
     ],
-    "seconds": 31.7
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -15970,7 +18469,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -16094,6 +18593,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "材料の分量の数値表記",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "火加減の数値表記",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "調理時間の数値表記",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "分量の単位の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "時間の単位の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "数値指定の網羅性",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -16740,7 +19386,7 @@
       "silent": 0
      }
     ],
-    "seconds": 204.4
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -16887,7 +19533,7 @@
       "silent": 0
      }
     ],
-    "seconds": 21.0
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -16905,7 +19551,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -17029,6 +19675,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "日程の合意",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "目的地の合意",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "宿泊予算の合意",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "食事の形態の合意",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "宿の決定状態",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "最終的な合意の宣言",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -17675,7 +20468,7 @@
       "silent": 0
      }
     ],
-    "seconds": 22.6
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -17822,7 +20615,7 @@
       "silent": 0
      }
     ],
-    "seconds": 21.7
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -17840,7 +20633,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -17964,6 +20757,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "発売日",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "発売日の変更",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "部品の不具合への対応",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "部品の供給状況",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "量販店での販売開始日",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "顧客への延期案内",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
@@ -18610,7 +21550,7 @@
       "silent": 2
      }
     ],
-    "seconds": 23.1
+    "seconds": 0.0
    },
    "glm-5.2:cloud": {
     "A": {
@@ -18757,7 +21697,7 @@
       "silent": 2
      }
     ],
-    "seconds": 21.5
+    "seconds": 0.0
    },
    "fake:all_yes": {
     "A": {
@@ -18775,7 +21715,7 @@
     "invalid_rate": 0.0,
     "silent_rate": 0.0,
     "contradiction_rate": 1.0,
-    "label": "本文に根拠が無い",
+    "label": "計器不良",
     "per_axis": [
      {
       "id": "a01",
@@ -18899,6 +21839,153 @@
       "v_refute": [
        "Yes",
        "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "作物に関する記述",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "農業用設備への言及",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "気象情報の詳細度",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "土地の用途",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "職業的活動の記述",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "時間配分の記述",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
       ],
       "invalid": 0,
       "silent": 0
