@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "structural-distillation"
+dynamic = ["version"]
+description = "命題を本文に当て、支持・反証の両側から立てた問いの答えの分布で判定する汎用ライブラリ（レイヤー 1・2）"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools]
+packages = ["structural_distillation"]
+
+[tool.setuptools.dynamic]
+version = { attr = "structural_distillation.__version__" }
+
+[tool.setuptools.package-data]
+structural_distillation = ["prompt_sets/*/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "integration: 実 LLM に接続するテスト。SD_LIVE=1 と SD_LIVE_MODEL が無ければ skip する",
+]
+addopts = "-m \"not integration\""

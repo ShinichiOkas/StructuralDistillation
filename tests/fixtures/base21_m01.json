@@ -1,0 +1,1098 @@
+{
+ "_note": "out4/base21/results.json の m01（生成器 gemma4:31b-cloud・読み手 qwen3.5:397b-cloud / glm-5.2:cloud・標本 2・軸 6）。札は走行時の κ=0.5。2026-09-22",
+ "material": {
+  "id": "m01",
+  "domain": "物語（評価的な命題・割れる想定）",
+  "title": "灯台守",
+  "text": "岬の灯台を守るゲンは、六十を過ぎてから目が悪くなり、薬代に困っていた。ある嵐の夜、灯台の下で貨物船が座礁した。ゲンは小舟を出し、海に投げ出された船員三人を岸へ引き上げた。船員たちはゲンの小屋で三日間、火と粥で看病された。同じ夜、ゲンは浜に流れ着いた木箱を拾い、中の反物を町の商人に売って薬代にあてた。反物は船会社のものだった。村の者はゲンを盗人と呼び、灯台の交代を求める声を上げた。ゲンは「拾ったものを売っただけだ」と言い、船員を助けたことは口にしなかった。船会社は反物の代金を請求したが、船員の一人がゲンの看病を証言し、請求は取り下げられた。ゲンは今も灯台にいる。",
+  "proposition": "ゲンは悪人である",
+  "expected_lean": "split",
+  "counterfactual": {
+   "text": "岬の灯台を守るゲンは、六十を過ぎてから目が悪くなり、薬代に困っていた。ある嵐の夜、灯台の下で貨物船が座礁した。ゲンは小舟を出さず、海に投げ出された船員三人を見て小屋の戸を閉めた。船員たちは自力で岸に這い上がり、翌朝まで浜で震えていた。同じ夜、ゲンは浜に流れ着いた木箱を拾い、中の反物を町の商人に売って薬代にあてた。反物は船会社のものだった。村の者はゲンを盗人と呼び、灯台の交代を求める声を上げた。ゲンは「拾ったものを売っただけだ」と言った。船会社は反物の代金を請求し、ゲンは払わなかった。ゲンは今も灯台にいる。",
+   "changed": "船員を救助・看病した → 見捨てた（請求も取り下げられない）",
+   "expected_change": "support_up"
+  }
+ },
+ "result": {
+  "id": "m01",
+  "title": "灯台守",
+  "proposition": "ゲンは悪人である",
+  "expected_lean": "split",
+  "n_units": 10,
+  "plan": {
+   "ok": true,
+   "axes": [
+    {
+     "axis": "人命救助の有無",
+     "claim_support": "座礁した船員を救助しなかった",
+     "claim_refute": "座礁した船員を救助した",
+     "id": "a01"
+    },
+    {
+     "axis": "拾得物の所有権処理",
+     "claim_support": "拾った反物を所有者に返さず売却した",
+     "claim_refute": "拾った反物を所有者に届け出たか返還した",
+     "id": "a02"
+    },
+    {
+     "axis": "救助行為の秘匿",
+     "claim_support": "自分が船員を助けたことを他者に伏せた",
+     "claim_refute": "自分が船員を助けたことを他者に公表した",
+     "id": "a03"
+    },
+    {
+     "axis": "金銭の使途",
+     "claim_support": "反物の売却益を贅沢品などの私欲に充てた",
+     "claim_refute": "反物の売却益を薬代などの生存に必要な費用に充てた",
+     "id": "a04"
+    },
+    {
+     "axis": "救助後の処遇",
+     "claim_support": "救助した船員に代価を請求したか不当な扱いをした",
+     "claim_refute": "救助した船員に無償で食事や看護を提供した",
+     "id": "a05"
+    },
+    {
+     "axis": "社会的評価",
+     "claim_support": "周囲の人々から盗人と呼ばれた",
+     "claim_refute": "周囲の人々から善人と呼ばれた",
+     "id": "a06"
+    }
+   ],
+   "attempts": [
+    {
+     "try": 0,
+     "violations": [],
+     "n_axes": 6
+    }
+   ]
+  },
+  "readers": {
+   "qwen3.5:397b-cloud": {
+    "A": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0
+    },
+    "p_by_sample": [
+     0.5,
+     0.5
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "label": "割れる",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "人命救助の有無",
+      "d": -1,
+      "agree": 1.0,
+      "d_samples": [
+       -1,
+       -1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "拾得物の所有権処理",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "救助行為の秘匿",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "金銭の使途",
+      "d": -1,
+      "agree": 1.0,
+      "d_samples": [
+       -1,
+       -1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "救助後の処遇",
+      "d": -1,
+      "agree": 1.0,
+      "d_samples": [
+       -1,
+       -1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "社会的評価",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "glm-5.2:cloud": {
+    "A": {
+     "s": 3,
+     "r": 3,
+     "u": 0,
+     "n": 6,
+     "p": 0.5,
+     "w": 1.0
+    },
+    "p_by_sample": [
+     0.5,
+     0.5
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "label": "割れる",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "人命救助の有無",
+      "d": -1,
+      "agree": 1.0,
+      "d_samples": [
+       -1,
+       -1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "拾得物の所有権処理",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "救助行為の秘匿",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "金銭の使途",
+      "d": -1,
+      "agree": 1.0,
+      "d_samples": [
+       -1,
+       -1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "救助後の処遇",
+      "d": -1,
+      "agree": 1.0,
+      "d_samples": [
+       -1,
+       -1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "社会的評価",
+      "d": 1,
+      "agree": 1.0,
+      "d_samples": [
+       1,
+       1
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_yes": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "人命救助の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "拾得物の所有権処理",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "救助行為の秘匿",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "金銭の使途",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "救助後の処遇",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "社会的評価",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "Yes",
+       "Yes"
+      ],
+      "v_refute": [
+       "Yes",
+       "Yes"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_no": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "label": "計器不良",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "人命救助の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a02",
+      "axis": "拾得物の所有権処理",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a03",
+      "axis": "救助行為の秘匿",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a04",
+      "axis": "金銭の使途",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a05",
+      "axis": "救助後の処遇",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     },
+     {
+      "id": "a06",
+      "axis": "社会的評価",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 1.0,
+      "v_support": [
+       "No",
+       "No"
+      ],
+      "v_refute": [
+       "No",
+       "No"
+      ],
+      "invalid": 0,
+      "silent": 0
+     }
+    ],
+    "seconds": 0.0
+   },
+   "fake:all_undetermined": {
+    "A": {
+     "s": 0,
+     "r": 0,
+     "u": 6,
+     "n": 6,
+     "p": null,
+     "w": null
+    },
+    "p_by_sample": [
+     null,
+     null
+    ],
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "label": "本文に根拠が無い",
+    "per_axis": [
+     {
+      "id": "a01",
+      "axis": "人命救助の有無",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a02",
+      "axis": "拾得物の所有権処理",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a03",
+      "axis": "救助行為の秘匿",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a04",
+      "axis": "金銭の使途",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a05",
+      "axis": "救助後の処遇",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     },
+     {
+      "id": "a06",
+      "axis": "社会的評価",
+      "d": 0,
+      "agree": 1.0,
+      "d_samples": [
+       0,
+       0
+      ],
+      "contradiction": 0.0,
+      "v_support": [
+       "判定不能",
+       "判定不能"
+      ],
+      "v_refute": [
+       "判定不能",
+       "判定不能"
+      ],
+      "invalid": 0,
+      "silent": 2
+     }
+    ],
+    "seconds": 0.0
+   }
+  },
+  "counterfactual": {
+   "changed": "船員を救助・看病した → 見捨てた（請求も取り下げられない）",
+   "expected_change": "support_up",
+   "readers": {
+    "qwen3.5:397b-cloud": {
+     "A": {
+      "s": 4,
+      "r": 1,
+      "u": 1,
+      "n": 6,
+      "p": 0.8,
+      "w": 0.4
+     },
+     "label": "偏り（支持）",
+     "changed_axes": 2,
+     "p_orig": 0.5,
+     "p_cf": 0.8,
+     "per_axis": [
+      {
+       "id": "a01",
+       "axis": "人命救助の有無",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a02",
+       "axis": "拾得物の所有権処理",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a03",
+       "axis": "救助行為の秘匿",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "判定不能",
+        "判定不能"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a04",
+       "axis": "金銭の使途",
+       "d": -1,
+       "agree": 1.0,
+       "d_samples": [
+        -1,
+        -1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "No",
+        "No"
+       ],
+       "v_refute": [
+        "Yes",
+        "Yes"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a05",
+       "axis": "救助後の処遇",
+       "d": 0,
+       "agree": 0.5,
+       "d_samples": [
+        1,
+        0
+       ],
+       "contradiction": 0.5,
+       "v_support": [
+        "判定不能",
+        "No"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a06",
+       "axis": "社会的評価",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      }
+     ]
+    },
+    "glm-5.2:cloud": {
+     "A": {
+      "s": 3,
+      "r": 2,
+      "u": 1,
+      "n": 6,
+      "p": 0.6,
+      "w": 0.8
+     },
+     "label": "割れる",
+     "changed_axes": 3,
+     "p_orig": 0.5,
+     "p_cf": 0.6,
+     "per_axis": [
+      {
+       "id": "a01",
+       "axis": "人命救助の有無",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a02",
+       "axis": "拾得物の所有権処理",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a03",
+       "axis": "救助行為の秘匿",
+       "d": -1,
+       "agree": 1.0,
+       "d_samples": [
+        -1,
+        -1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "No",
+        "No"
+       ],
+       "v_refute": [
+        "判定不能",
+        "判定不能"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a04",
+       "axis": "金銭の使途",
+       "d": -1,
+       "agree": 1.0,
+       "d_samples": [
+        -1,
+        -1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "No",
+        "No"
+       ],
+       "v_refute": [
+        "Yes",
+        "Yes"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a05",
+       "axis": "救助後の処遇",
+       "d": 0,
+       "agree": 0.5,
+       "d_samples": [
+        0,
+        1
+       ],
+       "contradiction": 0.5,
+       "v_support": [
+        "No",
+        "判定不能"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      },
+      {
+       "id": "a06",
+       "axis": "社会的評価",
+       "d": 1,
+       "agree": 1.0,
+       "d_samples": [
+        1,
+        1
+       ],
+       "contradiction": 0.0,
+       "v_support": [
+        "Yes",
+        "Yes"
+       ],
+       "v_refute": [
+        "No",
+        "No"
+       ],
+       "invalid": 0,
+       "silent": 0
+      }
+     ]
+    }
+   }
+  }
+ }
+}
