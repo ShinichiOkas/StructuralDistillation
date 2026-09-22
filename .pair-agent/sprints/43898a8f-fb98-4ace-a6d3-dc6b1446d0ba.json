@@ -1,0 +1,21 @@
+{
+  "sprint_id": "43898a8f-fb98-4ace-a6d3-dc6b1446d0ba",
+  "status": "deliberating",
+  "goal": "1 つのモデルしか使えない運用で、この仕組みが何を保証できるかを決めて測る（振り返りで出た師匠の懸念）",
+  "created_at": "2026-09-23T09:45:00+09:00",
+  "agreement_path": ".pair-agent/agreements/single-model-operation.md",
+  "slice_size": "未定（協議中）",
+  "previous_sprints": [
+    "973b8c7c（測定 2 周目。completed）",
+    "bb3c8a3c（実装設計。completed）",
+    "6ddf00eb（実装 v1。completed）",
+    "d1adbe14（問いの保存庫。completed）",
+    "f9554c9d（理由とリトライ。completed）"
+  ],
+  "経過": [
+    {
+      "at": "2026-09-23T09:45:00+09:00",
+      "event": "振り返りで師匠「実際の運用では複数モデルを使えるケースが少ないのでその点が懸念ではあります」。合意を起草し、決めてもらうこと D1〜D3（どこまでやるか・何を試すか・弱い単一系統を測るか）を提示。過去の仕掛との関係: 測定 2 周目の M3b（強い単一系統）と C-3（弱い単一系統・未測定）、上流設計 §13 の候補 1（検出項目）と直結する"
+    }
+  ]
+}

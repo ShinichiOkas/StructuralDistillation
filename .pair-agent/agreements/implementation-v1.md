@@ -1,7 +1,7 @@
 ---
 sprint_id: 6ddf00eb-32f5-469d-b2e5-85acb583cfac
 version: 2
-status: retrospecting
+status: completed
 created_at: 2026-09-22T22:20:00+09:00
 updated_at: 2026-09-22T23:20:00+09:00
 domain_tags: [implementation, python-library, llm-judgment]
@@ -34,7 +34,7 @@ D1・D2 の読み（AI 判断・事後確認対象。`implementation-design.md` 
 - [x] E 実接続の端から端まで（クラウドモデルだけ）: 新しい本文 2 本。記録は `.pair-agent/probes/impl-v1-live/`
 - [x] F 設計 v3 / v3.1・README
 - [x] G 受入: 協議エンジン（critical 0・major 5・minor 16）。すべて処理（下の表）
-- [ ] H 師匠に CLI を触ってもらう（人間ゲート）・振り返りを伺う（前 2 スプリント分と合わせて）・M5 の札を決めてもらう
+- [x] H 師匠に CLI を触ってもらった（`judge_cli` で灯台守・出力の読み方を伺われた）・M5 の札は師匠決定（計器不良＋理由＋材料。f9554c9d）・振り返り済（2026-09-23。5 スプリントまとめて）
 
 ## スコープ
 
