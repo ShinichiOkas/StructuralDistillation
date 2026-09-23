@@ -88,6 +88,9 @@ async def main_async(args) -> int:
     cache = out_dir / "local_cache.jsonl"
     res_path = out_dir / "w5.json"
     out = json.loads(res_path.read_text(encoding="utf-8")) if res_path.exists() else {}
+    # 走行の実測を載せた前の結果（既定はこのディレクトリの記録）。--out を変えても実測を引き継ぐ
+    prev_path = Path(args.measured) if args.measured else (Path(__file__).resolve().parent / "w5.json")
+    previous = json.loads(prev_path.read_text(encoding="utf-8")) if prev_path.exists() else {}
     for i, mid in enumerate(recs, 1):
         if mid in out and not args.force:
             print(f"[{mid}] 済み", flush=True)
@@ -115,7 +118,15 @@ async def main_async(args) -> int:
             row[f"strong_readers_s{samples}"] = reading_row(a)
             row[f"strong_delta_s{samples}"] = a.summary.delta
             row[f"strong_cost_s{samples}"] = {"live": a.cost.live, "cached": a.cost.cached, "missed": a.cost.missed}
+        # ⚠ 走行の実測（時計と実呼び出し）は引き直しで上書きしない（受入 5 回目 M-1・6 回目 m-5）
         row["seconds"] = round(time.time() - t0, 1)
+        keep = out.get(mid) or previous.get(mid) or {}
+        for k in ("seconds", "cost_s1", "cost_s2"):
+            if k in keep and keep.get("_measured"):
+                row[k] = keep[k]
+        row["_measured"] = keep.get("_measured", row["cost_s2"]["live"] > 0)
+        row["_note"] = ("seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ"
+                        "（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し")
         out[mid] = row
         res_path.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
         ps = {n.split("#")[-1]: v["p"] for n, v in row["weak_readers_s2"].items()}
@@ -132,6 +143,7 @@ def main() -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--only", nargs="*", default=None)
+    ap.add_argument("--measured", default=None, help="実測（seconds・cost_*）を引き継ぐ w5.json。既定はこの台本の隣")
     args = ap.parse_args()
     return asyncio.run(main_async(args))
 

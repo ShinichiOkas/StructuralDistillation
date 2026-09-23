@@ -62,4 +62,10 @@ W5 は強い生成器が作った軸（`out4/base21`）を弱い読み手 2 体�
 python single_model_report.py --run . --w5 w5 --c2 c_samples2   # 読みだけ引き直す（LLM を呼ばない。report.md と完全一致）
 python w5/threshold_sweep.py                                     # 閾値を入れ替えて 6 つの升目を数え直す
 python w5/w5_run.py --out <作業ディレクトリ>                      # W5 を引き直す（キャッシュを置けば呼び出し 0）
+
+# 記録（notes）をいまのライブラリで作り直す。3 つとも作り直すこと。LLM は呼ばない（--cache-only）
+python single_model_run.py --out <作業> --extra <この probe> --cache-only               # 本走行
+python single_model_run.py --out <作業> --extra <この probe> <この probe>/c_samples2 \
+       --samples 2 --cache-only                                                         # 腕 C の標本 2
+python w5/w5_run.py --out <作業>                                                        # W5
 ```

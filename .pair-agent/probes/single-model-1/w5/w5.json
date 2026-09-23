@@ -288,7 +288,8 @@
    "missed": 0
   },
   "seconds": 109.2,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m01b": {
   "id": "m01b",
@@ -579,7 +580,8 @@
    "missed": 0
   },
   "seconds": 108.4,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m02": {
   "id": "m02",
@@ -870,7 +872,8 @@
    "missed": 0
   },
   "seconds": 110.3,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m03": {
   "id": "m03",
@@ -1161,7 +1164,8 @@
    "missed": 0
   },
   "seconds": 109.0,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m04": {
   "id": "m04",
@@ -1452,7 +1456,8 @@
    "missed": 0
   },
   "seconds": 109.8,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m05": {
   "id": "m05",
@@ -1743,7 +1748,8 @@
    "missed": 0
   },
   "seconds": 110.3,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m06": {
   "id": "m06",
@@ -2034,7 +2040,8 @@
    "missed": 0
   },
   "seconds": 110.7,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m07": {
   "id": "m07",
@@ -2325,7 +2332,8 @@
    "missed": 0
   },
   "seconds": 110.5,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m08": {
   "id": "m08",
@@ -2616,7 +2624,8 @@
    "missed": 0
   },
   "seconds": 110.0,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m09": {
   "id": "m09",
@@ -2907,7 +2916,8 @@
    "missed": 0
   },
   "seconds": 110.3,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m10": {
   "id": "m10",
@@ -3198,7 +3208,8 @@
    "missed": 0
   },
   "seconds": 110.5,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m11": {
   "id": "m11",
@@ -3489,7 +3500,8 @@
    "missed": 0
   },
   "seconds": 111.1,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m12": {
   "id": "m12",
@@ -3780,7 +3792,8 @@
    "missed": 0
   },
   "seconds": 108.7,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m13": {
   "id": "m13",
@@ -4071,7 +4084,8 @@
    "missed": 0
   },
   "seconds": 110.1,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m14": {
   "id": "m14",
@@ -4362,7 +4376,8 @@
    "missed": 0
   },
   "seconds": 109.7,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m15": {
   "id": "m15",
@@ -4653,7 +4668,8 @@
    "missed": 0
   },
   "seconds": 109.9,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m16": {
   "id": "m16",
@@ -4944,7 +4960,8 @@
    "missed": 0
   },
   "seconds": 110.4,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m17": {
   "id": "m17",
@@ -5235,7 +5252,8 @@
    "missed": 0
   },
   "seconds": 110.2,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m18": {
   "id": "m18",
@@ -5526,7 +5544,8 @@
    "missed": 0
   },
   "seconds": 110.6,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m19": {
   "id": "m19",
@@ -5817,7 +5836,8 @@
    "missed": 0
   },
   "seconds": 110.6,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  },
  "m20": {
   "id": "m20",
@@ -6108,6 +6128,7 @@
    "missed": 0
   },
   "seconds": 108.2,
-  "_note": "seconds と cost_* は 2026-09-23 の本走行の実測（引き直しでは 0 になるので保つ。受入 5 回目 M-1）"
+  "_note": "seconds と cost_s1・cost_s2 は本走行の実測。_measured が真なら引き直しでも保つ（受入 5 回目 M-1）。strong_* はいつでもキャッシュからの引き直し",
+  "_measured": true
  }
 }
