@@ -1,0 +1,435 @@
+{
+ "schema_version": 1,
+ "key": "12b7e5c79ec3373d369d570a43e12eed97b18168",
+ "created_at": "2026-09-23T13:00:06+09:00",
+ "library": "0.1.0",
+ "proposition": "この会議で新機能の採用が決定された",
+ "units_rule": "ja-sentence/v1",
+ "units": [
+  {
+   "id": "s1",
+   "text": "議題: 予約アプリに「友人と席を共有する」機能を入れるか。"
+  },
+  {
+   "id": "s2",
+   "text": "営業の川田は、法人客から要望が三件来ていると述べた。"
+  },
+  {
+   "id": "s3",
+   "text": "開発の森は、実装に約二か月かかり、現在の改修が遅れると述べた。"
+  },
+  {
+   "id": "s4",
+   "text": "サポートの葉山は、共有された席の取り消しをどちらが行えるかで問い合わせが増えると懸念を示した。"
+  },
+  {
+   "id": "s5",
+   "text": "川田は取り消しは共有した側だけができればよいと答えた。"
+  },
+  {
+   "id": "s6",
+   "text": "森は仕様が固まれば見積もりを出し直すと述べた。"
+  },
+  {
+   "id": "s7",
+   "text": "議長は、仕様の論点を川田と葉山で来週までにまとめること、採否は次回の会議で判断することを確認した。"
+  },
+  {
+   "id": "s8",
+   "text": "決定事項: なし。"
+  },
+  {
+   "id": "s9",
+   "text": "宿題: 仕様の論点整理（川田・葉山、期限は来週金曜）。"
+  }
+ ],
+ "question_set": {
+  "axes": [
+   {
+    "id": "a01",
+    "name": "議論の進捗段階",
+    "claim_support": "議事の最終結論として新機能の採用が決定された旨が述べている。",
+    "claim_refute": "議事の最終結論として新機能の採用が未決または未発表であることを示している。",
+    "origin": "retry",
+    "kind": "substantive"
+   },
+   {
+    "id": "a02",
+    "name": "決定機関の権限行使",
+    "claim_support": "議長が行った確認で議題への採否について合意した旨を述べている。",
+    "claim_refute": "議長の確認は単なる議題の確認であり、実際の採否判断には至っていないことを示している。",
+    "origin": "retry",
+    "kind": "substantive"
+   },
+   {
+    "id": "a03",
+    "name": "最終的な結論",
+    "claim_support": "会議で決定事項として新機能の採用が正式に決まっていた旨を述べている。",
+    "claim_refute": "会議における決定事項として何もしなかったことを明記している。",
+    "origin": "retry",
+    "kind": "substantive"
+   },
+   {
+    "id": "a04",
+    "name": "採否に関する合意",
+    "claim_support": "議長が行った確認で、新機能の採用・否決について合意を交わした旨が述べられている。",
+    "claim_refute": "議長が行った確認は単なる議題の確認であり、実際の採否に合意はないことを示している。",
+    "origin": "retry",
+    "kind": "substantive"
+   },
+   {
+    "id": "a05",
+    "name": "今後の対応",
+    "claim_support": "議会で新機能の採用が決まり、その実行に移すことが明記されている。",
+    "claim_refute": "議会で決定事項なしとされ、将来に渡り議論が続くことを示唆している。",
+    "origin": "retry",
+    "kind": "substantive"
+   },
+   {
+    "id": "a06",
+    "name": "会議の結果として生成された記録",
+    "claim_support": "会議の決断を裏付ける正式な決議文書が存在する旨を述べている。",
+    "claim_refute": "会議で決定事項なしとされ、新たな記録は存在しないことを示している。",
+    "origin": "retry",
+    "kind": "substantive"
+   }
+  ],
+  "active_ids": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "planner": "qwen3.5:4b#plan",
+  "prompt": {
+   "set": "ja",
+   "plan": "p3",
+   "answer": "p2",
+   "orient": "xc2",
+   "exclusive": "xc2",
+   "digest": "ff8796d4fb3e29e415d6c23aedd73c614281f3de"
+  },
+  "budget": {
+   "axes": 6,
+   "axes_min": null,
+   "axes_max": null,
+   "samples": 1,
+   "plan_retries": 2,
+   "workers": 1,
+   "crosscheck": true,
+   "max_chars": 12000
+  },
+  "attempts": [
+   {
+    "try": 0,
+    "violations": [
+     "H3 非自明（命題の言い換え）: この会議で新機能の採否が決定された"
+    ],
+    "n_axes": 6,
+    "error": null
+   },
+   {
+    "try": 1,
+    "violations": [],
+    "n_axes": 6,
+    "error": null
+   }
+  ],
+  "crosscheck": {
+   "verifiers": [
+    "qwen3.5:4b#v1",
+    "qwen3.5:4b#v2"
+   ],
+   "votes": [
+    {
+     "id": "a01",
+     "axis": "議論の進捗段階",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a02",
+     "axis": "決定機関の権限行使",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a03",
+     "axis": "最終的な結論",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a04",
+     "axis": "採否に関する合意",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a05",
+     "axis": "今後の対応",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a06",
+     "axis": "会議の結果として生成された記録",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "NEITHER"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    }
+   ],
+   "flagged": [],
+   "weak": [
+    "a02",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "source": "generated",
+  "store_key": "12b7e5c79ec3373d369d570a43e12eed97b18168"
+ }
+}

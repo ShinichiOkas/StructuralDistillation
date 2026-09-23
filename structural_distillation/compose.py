@@ -19,7 +19,7 @@ from typing import Sequence
 from . import __version__, l1, l2, l3, l4
 from .contracts import (AnswerMatrix, Budget, Cost, InputError, Judgment, Ordinal, OutputType, QuestionSet, Reading,
                         ReaderSummary, Reason, RetryAction, RetryHint, RoleCost, Thresholds, Unit, output_from_dict)
-from .l0 import Meter, Reader
+from .l0 import Meter, Reader, model_of
 from .prompts import PromptSet, get_prompts
 from .store import QuestionStore, question_key
 from .units import RULES, rule_version, segment
@@ -148,6 +148,29 @@ def _note_differences(stored: QuestionSet, p: PromptSet, budget: Budget, want_pl
     return notes
 
 
+def _note_models(qs: QuestionSet, budget: Budget, readers: Sequence[Reader], verifiers: Sequence[Reader],
+                 planner: Reader) -> list[str]:
+    """1 つのモデルしか使っていないことを黙って済ませない（単一モデル運用の測定 2026-09-23）。
+
+    測定（弱いモデル 1 体・題材 21）: 想定一致 7/18（多系統の基準 16/18）。同じモデルを 2 体に見せても Δ は 0.00。
+    自己交差検証が外せた軸は他系統の検証役の 1/4。
+    """
+    notes = []
+    if budget.crosscheck and qs.crosscheck is None:
+        notes.append(f"向きの交差検証をしていない（検証役 {len(verifiers)} 体。2 体以上が要る）。"
+                     "生成器が付けた向きの誤りは外されないまま判定に入る")
+    elif qs.crosscheck is not None and {model_of(v) for v in verifiers} == {model_of(planner)}:
+        notes.append("検証役が生成器と同じモデル（自己交差検証）。測定では、弱いモデルの自己検証が外せた軸は"
+                     "他系統の検証役の 1/4 だった")
+    real = [r for r in readers if not r.calibration]
+    if len(real) >= 2 and len({model_of(r) for r in real}) == 1:
+        notes.append(f"読み手が全部同じモデル（{model_of(real[0])}）。読み手間の差 Δ は同じモデルの揺れで、"
+                     "読み手非依存（Q1）の計器にはならない")
+    for n in notes:
+        log.warning("%s", n)
+    return notes
+
+
 def _versions(p: PromptSet, segmentation: str) -> dict[str, str]:
     v = p.version()
     return {"library": __version__, "prompts": f"{v.set}:{v.plan}/{v.answer}/{v.orient}/{v.exclusive}",
@@ -229,6 +252,7 @@ async def judge(text: str, proposition: str, output: OutputType, *,
         base = store.generations(key) * (budget.plan_retries + 1) if (store is not None and key is not None and regenerate) else 0
         qs = await l1.plan(gen, units, proposition, budget=budget, prompts=p, verifiers=vs, sem=sem, meter=meter,
                            sample_base=base)
+        notes += _note_models(qs, budget, readers, vs, gen)
         if store is not None and key is not None:
             qs = replace(qs, store_key=key)
             path, old = store.save(key, qs, units=units, units_rule=rule_version(segmentation), proposition=proposition)

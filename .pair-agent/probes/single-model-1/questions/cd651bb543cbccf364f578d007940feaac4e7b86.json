@@ -1,0 +1,431 @@
+{
+ "schema_version": 1,
+ "key": "cd651bb543cbccf364f578d007940feaac4e7b86",
+ "created_at": "2026-09-23T13:04:11+09:00",
+ "library": "0.1.0",
+ "proposition": "レビュアーはこの製品に満足している",
+ "units_rule": "ja-sentence/v1",
+ "units": [
+  {
+   "id": "s1",
+   "text": "三か月使った感想です。"
+  },
+  {
+   "id": "s2",
+   "text": "吸引力は前に使っていた紙パック式より強く、カーペットの砂もよく取れます。"
+  },
+  {
+   "id": "s3",
+   "text": "本体が軽いので階段の掃除が楽になりました。"
+  },
+  {
+   "id": "s4",
+   "text": "ただ、標準モードでも音がかなり大きく、夜は使えません。"
+  },
+  {
+   "id": "s5",
+   "text": "バッテリーは強モードだと十二分ほどしか持たず、居間と廊下で切れます。"
+  },
+  {
+   "id": "s6",
+   "text": "ゴミ捨てのときに粉が舞うのも気になります。"
+  },
+  {
+   "id": "s7",
+   "text": "付属のすき間ノズルは便利でした。"
+  },
+  {
+   "id": "s8",
+   "text": "値段のわりに満足していますが、次に買い替えるときは別の機種も比べると思います。"
+  },
+  {
+   "id": "s9",
+   "text": "星は三つにしました。"
+  }
+ ],
+ "question_set": {
+  "axes": [
+   {
+    "id": "a01",
+    "name": "本体の重量による掃除の容易さ",
+    "claim_support": "階段の掃除を楽になったと述べた",
+    "claim_refute": "階段の掃除が困難だと述べた",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a02",
+    "name": "標準モードでの音量",
+    "claim_support": "夜にも使用可能であると述べた",
+    "claim_refute": "夜には使えないと述べた",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a03",
+    "name": "バッテリーの持ち時間",
+    "claim_support": "十二分以上持続すると述べた",
+    "claim_refute": "十二分より短い時間しか持続しないと述べた",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a04",
+    "name": "ゴミ捨て時の粉塵舞い上がりの発生",
+    "claim_support": "粉が舞うと気にならないと述べた",
+    "claim_refute": "粉が舞うことに気にされると述べた",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a05",
+    "name": "付属すき間ノズルの機能",
+    "claim_support": "便利な付与品であると述べた",
+    "claim_refute": "不便な付与品であると述べた",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a06",
+    "name": "価格と価値に対するレビューヤーの評価",
+    "claim_support": "値切るような製品であると述べた",
+    "claim_refute": "安くはない製品であると述べた",
+    "origin": "initial",
+    "kind": "substantive"
+   }
+  ],
+  "active_ids": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "planner": "qwen3.5:4b#plan",
+  "prompt": {
+   "set": "ja",
+   "plan": "p3",
+   "answer": "p2",
+   "orient": "xc2",
+   "exclusive": "xc2",
+   "digest": "ff8796d4fb3e29e415d6c23aedd73c614281f3de"
+  },
+  "budget": {
+   "axes": 6,
+   "axes_min": null,
+   "axes_max": null,
+   "samples": 1,
+   "plan_retries": 2,
+   "workers": 1,
+   "crosscheck": true,
+   "max_chars": 12000
+  },
+  "attempts": [
+   {
+    "try": 0,
+    "violations": [],
+    "n_axes": 6,
+    "error": null
+   }
+  ],
+  "crosscheck": {
+   "verifiers": [
+    "qwen3.5:4b#v1",
+    "qwen3.5:4b#v2"
+   ],
+   "votes": [
+    {
+     "id": "a01",
+     "axis": "本体の重量による掃除の容易さ",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a02",
+     "axis": "標準モードでの音量",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a03",
+     "axis": "バッテリーの持ち時間",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a04",
+     "axis": "ゴミ捨て時の粉塵舞い上がりの発生",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a05",
+     "axis": "付属すき間ノズルの機能",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a06",
+     "axis": "価格と価値に対するレビューヤーの評価",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "REFUTE",
+         "NEITHER"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    }
+   ],
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a06"
+   ]
+  },
+  "source": "generated",
+  "store_key": "cd651bb543cbccf364f578d007940feaac4e7b86"
+ }
+}

@@ -1,0 +1,427 @@
+{
+ "schema_version": 1,
+ "key": "a7c51ee5e284753f771645da2a6a9eeea799a3b1",
+ "created_at": "2026-09-23T13:46:28+09:00",
+ "library": "0.1.0",
+ "proposition": "井口は部下に厳しい",
+ "units_rule": "ja-sentence/v1",
+ "units": [
+  {
+   "id": "s1",
+   "text": "係長の井口は、報告書の誤字を見つけると本人を呼んで一文ずつ直させる。"
+  },
+  {
+   "id": "s2",
+   "text": "締め切りに遅れた者には、理由を聞く前に「まず謝れ」と言う。"
+  },
+  {
+   "id": "s3",
+   "text": "一方で、部下が客先で失敗したときは自分が先に頭を下げに行き、部下には後で一度だけ理由を聞いた。"
+  },
+  {
+   "id": "s4",
+   "text": "残業が続く者の仕事を黙って引き取ることもある。"
+  },
+  {
+   "id": "s5",
+   "text": "新人の歓迎会では最後まで残り、帰りの電車の時刻まで気にしていた。"
+  },
+  {
+   "id": "s6",
+   "text": "部下の一人は「怖いが、見捨てられたことはない」と言う。"
+  },
+  {
+   "id": "s7",
+   "text": "別の一人は「褒められた記憶がない」と言う。"
+  }
+ ],
+ "question_set": {
+  "axes": [
+   {
+    "id": "a01",
+    "name": "井口が部下に直接声を掛けた回数",
+    "claim_support": "井口が複数の部下を個別に呼び出して指導した",
+    "claim_refute": "井口は部下を呼んで指導することをした",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a02",
+    "name": "井口が理由を聞くかどうか",
+    "claim_support": "井口は理由を聞く前に部下に対し命令しか行わなかった",
+    "claim_refute": "井口は理由を聞く前のまま、部下に対して謝るよう求める言葉を述べた",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a03",
+    "name": "井口が自分から頭を下げるか否か",
+    "claim_support": "井口が自分の失敗があるとき自ら頭を下げていた",
+    "claim_refute": "井口が客先での部下の失敗には、自ら率先して頭を下げて行った",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a04",
+    "name": "井口が部下に理由を尋ねる頻度",
+    "claim_support": "井口は部下に対して理由を一度きりしか尋ねていなかった",
+    "claim_refute": "井口は客先での失敗について、部下に対して理由を一度だけ聞いていた",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a05",
+    "name": "井口が勤務状況を把握する程度",
+    "claim_support": "井口が新人の帰りを電車に乗るかどうかまで気にしていた",
+    "claim_refute": "井口が新人の歓迎会の終幕まで参加し、その帰りまでの行動まで気配を感じていた",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a06",
+    "name": "部下に対する評価の受容状況",
+    "claim_support": "一部の下級者の記憶に褒められたエピソードが存在しない",
+    "claim_refute": "一部の部下が井口に対して良い印象を持っていない",
+    "origin": "initial",
+    "kind": "substantive"
+   }
+  ],
+  "active_ids": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "planner": "qwen3.5:4b#plan",
+  "prompt": {
+   "set": "ja",
+   "plan": "p3",
+   "answer": "p2",
+   "orient": "xc2",
+   "exclusive": "xc2",
+   "digest": "ff8796d4fb3e29e415d6c23aedd73c614281f3de"
+  },
+  "budget": {
+   "axes": 6,
+   "axes_min": null,
+   "axes_max": null,
+   "samples": 1,
+   "plan_retries": 2,
+   "workers": 1,
+   "crosscheck": true,
+   "max_chars": 12000
+  },
+  "attempts": [
+   {
+    "try": 0,
+    "violations": [],
+    "n_axes": 6,
+    "error": null
+   }
+  ],
+  "crosscheck": {
+   "verifiers": [
+    "qwen3.5:4b#v1",
+    "qwen3.5:4b#v2"
+   ],
+   "votes": [
+    {
+     "id": "a01",
+     "axis": "井口が部下に直接声を掛けた回数",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a02",
+     "axis": "井口が理由を聞くかどうか",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "SUPPORT",
+         "NEITHER"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a03",
+     "axis": "井口が自分から頭を下げるか否か",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a04",
+     "axis": "井口が部下に理由を尋ねる頻度",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "SUPPORT",
+         "NEITHER"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a05",
+     "axis": "井口が勤務状況を把握する程度",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a06",
+     "axis": "部下に対する評価の受容状況",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    }
+   ],
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a01",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ]
+  },
+  "source": "generated",
+  "store_key": "a7c51ee5e284753f771645da2a6a9eeea799a3b1"
+ }
+}

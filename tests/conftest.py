@@ -27,8 +27,9 @@ class ScriptedReader:
     content が None なら ok=False（L0 の失敗）。呼ばれた記録は `calls` に残る。
     """
 
-    def __init__(self, name: str, script: list | Callable, *, calibration: bool = False):
+    def __init__(self, name: str, script: list | Callable, *, calibration: bool = False, model: str | None = None):
         self.name = name
+        self.model = model or name        # 同じモデルを別名で差すときは model を揃える
         self.calibration = calibration
         self._script = script
         self.calls: list[dict] = []

@@ -1,0 +1,426 @@
+{
+ "schema_version": 1,
+ "key": "6ee850f3506fd17676bc2ba9906dd6e4c72a940d",
+ "created_at": "2026-09-23T13:38:20+09:00",
+ "library": "0.1.0",
+ "proposition": "この契約書には契約を途中で終了する条件が書かれている",
+ "units_rule": "ja-sentence/v1",
+ "units": [
+  {
+   "id": "s1",
+   "text": "第一条（目的）甲は乙に対し、ウェブサイトの保守業務を委託し、乙はこれを受託する。"
+  },
+  {
+   "id": "s2",
+   "text": "第二条（期間）契約期間は四月一日から翌年三月三十一日までとする。"
+  },
+  {
+   "id": "s3",
+   "text": "第三条（報酬）甲は乙に対し、月額十万円を翌月末日までに支払う。"
+  },
+  {
+   "id": "s4",
+   "text": "第四条（秘密保持）乙は業務上知り得た甲の情報を第三者に漏らしてはならない。"
+  },
+  {
+   "id": "s5",
+   "text": "第五条（再委託）乙は甲の書面による承諾なく業務を第三者に再委託してはならない。"
+  },
+  {
+   "id": "s6",
+   "text": "第六条（協議）本契約に定めのない事項は、甲乙協議のうえ決定する。"
+  },
+  {
+   "id": "s7",
+   "text": "以上。"
+  }
+ ],
+ "question_set": {
+  "axes": [
+   {
+    "id": "a01",
+    "name": "契約の終了時期",
+    "claim_support": "第四条または第六条において、契約期間の満了以外の時点で契約を終了する手続きや条件が含まれていない",
+    "claim_refute": "第三条における報酬未払いなどが自動的に契約の終了を意味する文言が存在する",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a02",
+    "name": "解約事由",
+    "claim_support": "第四条において、乙が第三者に情報を漏らす場合にその行為を規定している",
+    "claim_refute": "第四条において、甲に対して情報漏洩を行った場合の契約終了について言及していない",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a03",
+    "name": "通知義務",
+    "claim_support": "第六条において、本契約に定めのない事項は甲乙協議のうえ決定すると述べている",
+    "claim_refute": "第六条において、解約に関する事前通知の期間や手続を定める文言が含まれていない",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a04",
+    "name": "違約金の設定",
+    "claim_support": "第三条において、甲が報酬を支払う期限と金額のみを述べている",
+    "claim_refute": "第四条または第六条に、違反した場合の金銭的処罰として違約金を定めている文言がない",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a05",
+    "name": "解除権の行使条件",
+    "claim_support": "第五条において、乙が第三者に業務を再委託する際に甲の書面による承諾が必要であるとする規定がある",
+    "claim_refute": "第五条において、甲の書面による承諾がなければその行為を禁止しているとする規定がない",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a06",
+    "name": "契約期間",
+    "claim_support": "第二条において、契約期間は四月一日から翌年三月三十一日であるとする記述がある",
+    "claim_refute": "第二条において、契約期間の上限のみを指定している",
+    "origin": "initial",
+    "kind": "substantive"
+   }
+  ],
+  "active_ids": [
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "planner": "qwen3.5:4b#plan",
+  "prompt": {
+   "set": "ja",
+   "plan": "p3",
+   "answer": "p2",
+   "orient": "xc2",
+   "exclusive": "xc2",
+   "digest": "ff8796d4fb3e29e415d6c23aedd73c614281f3de"
+  },
+  "budget": {
+   "axes": 6,
+   "axes_min": null,
+   "axes_max": null,
+   "samples": 1,
+   "plan_retries": 2,
+   "workers": 1,
+   "crosscheck": true,
+   "max_chars": 12000
+  },
+  "attempts": [
+   {
+    "try": 0,
+    "violations": [],
+    "n_axes": 6,
+    "error": null
+   }
+  ],
+  "crosscheck": {
+   "verifiers": [
+    "qwen3.5:4b#v1",
+    "qwen3.5:4b#v2"
+   ],
+   "votes": [
+    {
+     "id": "a01",
+     "axis": "契約の終了時期",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a02",
+     "axis": "解約事由",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a03",
+     "axis": "通知義務",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a04",
+     "axis": "違約金の設定",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "SUPPORT",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a05",
+     "axis": "解除権の行使条件",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "NEITHER"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a06",
+     "axis": "契約期間",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    }
+   ],
+   "flagged": [
+    "a01"
+   ],
+   "weak": [
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a02",
+    "a03",
+    "a04",
+    "a05"
+   ]
+  },
+  "source": "generated",
+  "store_key": "6ee850f3506fd17676bc2ba9906dd6e4c72a940d"
+ }
+}

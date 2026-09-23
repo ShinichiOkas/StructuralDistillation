@@ -1,0 +1,443 @@
+{
+ "schema_version": 1,
+ "key": "19c71ea654e349ca31491bdbf5f2aceed9e6cdd7",
+ "created_at": "2026-09-23T12:55:58+09:00",
+ "library": "0.1.0",
+ "proposition": "この報告には再現に必要な手順が揃っている",
+ "units_rule": "ja-sentence/v1",
+ "units": [
+  {
+   "id": "s1",
+   "text": "件名: 設定画面で保存ボタンを押すとアプリが終了する。"
+  },
+  {
+   "id": "s2",
+   "text": "環境: Windows 11、アプリ版 2.3.1、画面の拡大率 150%。"
+  },
+  {
+   "id": "s3",
+   "text": "手順: 1. アプリを起動する。"
+  },
+  {
+   "id": "s4",
+   "text": "2. 右上の歯車から設定画面を開く。"
+  },
+  {
+   "id": "s5",
+   "text": "3. 「通知」タブでトグルを一つ切り替える。"
+  },
+  {
+   "id": "s6",
+   "text": "4. 画面下の保存ボタンを押す。"
+  },
+  {
+   "id": "s7",
+   "text": "期待結果: 設定が保存され、設定画面が閉じる。"
+  },
+  {
+   "id": "s8",
+   "text": "実際の結果: アプリのウィンドウが消え、プロセスも終了している。"
+  },
+  {
+   "id": "s9",
+   "text": "再現率: 3 回試して 3 回。"
+  },
+  {
+   "id": "s10",
+   "text": "ログ末尾: settings.save: KeyError 'notify_channel'。"
+  },
+  {
+   "id": "s11",
+   "text": "拡大率を 100% に戻しても同じ。"
+  },
+  {
+   "id": "s12",
+   "text": "版 2.3.0 では起きない。"
+  }
+ ],
+ "question_set": {
+  "axes": [
+   {
+    "id": "a01",
+    "name": "手順の明確さ",
+    "claim_support": "設定画面で保存ボタンを押すという具体的な操作記述がある",
+    "claim_refute": "設定画面をどう開くか、または保存ボタンの位置が不明確に記述されている",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a02",
+    "name": "再現環境の特定",
+    "claim_support": "Windows 11、アプリ版 2.3.1、拡大率 150%という具体的な環境設定が記載されている",
+    "claim_refute": "どの OS やアプリバージョンか、拡大率が不明確に記述されている",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a03",
+    "name": "結果の確認手続",
+    "claim_support": "実際の結果として「アプリのウィンドウが消え、プロセスも終了している」が確認できた",
+    "claim_refute": "結果を確認する方法やプロセス終止の確認手がかりがない",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a04",
+    "name": "問題の発生頻度",
+    "claim_support": "3 回試して 3 回全てで発生したという確実な再現率は記載されている",
+    "claim_refute": "問題がどの程度の頻度で発生するか不明確に記述されている",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a05",
+    "name": "ログ情報の提供",
+    "claim_support": "エラーが発生した際のログ末尾の具体的なエントリ「KeyError 'notify_channel'」が示されている",
+    "claim_refute": "どのタイミングで問題が発生するか、またはエラーの詳細情報が不足している",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a06",
+    "name": "現象の条件外確認",
+    "claim_support": "拡大率を 100% に戻しても同じ現象が起きたという条件外での再現は記載されている",
+    "claim_refute": "特定の環境設定以外では問題が発生するかどうか不明確である",
+    "origin": "initial",
+    "kind": "substantive"
+   }
+  ],
+  "active_ids": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "planner": "qwen3.5:4b#plan",
+  "prompt": {
+   "set": "ja",
+   "plan": "p3",
+   "answer": "p2",
+   "orient": "xc2",
+   "exclusive": "xc2",
+   "digest": "ff8796d4fb3e29e415d6c23aedd73c614281f3de"
+  },
+  "budget": {
+   "axes": 6,
+   "axes_min": null,
+   "axes_max": null,
+   "samples": 1,
+   "plan_retries": 2,
+   "workers": 1,
+   "crosscheck": true,
+   "max_chars": 12000
+  },
+  "attempts": [
+   {
+    "try": 0,
+    "violations": [],
+    "n_axes": 6,
+    "error": null
+   }
+  ],
+  "crosscheck": {
+   "verifiers": [
+    "qwen3.5:4b#v1",
+    "qwen3.5:4b#v2"
+   ],
+   "votes": [
+    {
+     "id": "a01",
+     "axis": "手順の明確さ",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a02",
+     "axis": "再現環境の特定",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "NEITHER"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a03",
+     "axis": "結果の確認手続",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a04",
+     "axis": "問題の発生頻度",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "NEITHER"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a05",
+     "axis": "ログ情報の提供",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a06",
+     "axis": "現象の条件外確認",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    }
+   ],
+   "flagged": [],
+   "weak": [
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a05",
+    "a06"
+   ]
+  },
+  "source": "generated",
+  "store_key": "19c71ea654e349ca31491bdbf5f2aceed9e6cdd7"
+ }
+}

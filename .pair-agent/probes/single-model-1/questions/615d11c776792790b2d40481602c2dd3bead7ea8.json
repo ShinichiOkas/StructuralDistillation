@@ -1,0 +1,433 @@
+{
+ "schema_version": 1,
+ "key": "615d11c776792790b2d40481602c2dd3bead7ea8",
+ "created_at": "2026-09-23T13:12:40+09:00",
+ "library": "0.1.0",
+ "proposition": "旅は計画どおりに進んだ",
+ "units_rule": "ja-sentence/v1",
+ "units": [
+  {
+   "id": "s1",
+   "text": "計画では、初日に港町と城下町、二日目に温泉町と湖畔の町、三日目に帰るはずだった。"
+  },
+  {
+   "id": "s2",
+   "text": "初日の朝、乗るはずだった特急が強風で止まった。"
+  },
+  {
+   "id": "s3",
+   "text": "代わりのバスは満席で、港町に着いたのは夕方だった。"
+  },
+  {
+   "id": "s4",
+   "text": "城下町は翌日に回した。"
+  },
+  {
+   "id": "s5",
+   "text": "二日目は城下町で半日を使い、温泉町に着いたのは夜。"
+  },
+  {
+   "id": "s6",
+   "text": "湖畔の町には行けなかった。"
+  },
+  {
+   "id": "s7",
+   "text": "三日目、温泉町の朝市で買った干物を抱えて帰った。"
+  },
+  {
+   "id": "s8",
+   "text": "四つのうち三つの町を回れた。"
+  },
+  {
+   "id": "s9",
+   "text": "宿はどこも予約どおりに取れていた。"
+  },
+  {
+   "id": "s10",
+   "text": "予定は崩れたが、港町の夕焼けは計画にはなかった収穫だった。"
+  }
+ ],
+ "question_set": {
+  "axes": [
+   {
+    "id": "a01",
+    "name": "初日の特急の運行状況",
+    "claim_support": "初日の朝、乗るはずだった特急が計画どおりに出発し、目的地へ向かった",
+    "claim_refute": "初日の朝、乗るはずだった特急が強風の影響で停止した",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a02",
+    "name": "港町への到着時刻",
+    "claim_support": "港町には計画どおりの時間（朝）に到着した",
+    "claim_refute": "港町には遅れて夕方に初めて到着した",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a03",
+    "name": "城下町の訪問日程",
+    "claim_support": "城下町を翌日に行う予定通り訪問した",
+    "claim_refute": "城下町の訪問が翌日に回された",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a04",
+    "name": "湖畔町の訪問状況",
+    "claim_support": "湖畔の町には訪問して計画どおりに進んだ",
+    "claim_refute": "湖畔の町には行けなかった",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a05",
+    "name": "宿泊予約の実施状況",
+    "claim_support": "宿の予約は計画通り行い、どこでも成功した",
+    "claim_refute": "宿の予約が計画通りに取れていなかった",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a06",
+    "name": "総じて訪れた町の数",
+    "claim_support": "四つのうち三つの町を訪問した",
+    "claim_refute": "四つのうち全ての町を訪問した",
+    "origin": "initial",
+    "kind": "substantive"
+   }
+  ],
+  "active_ids": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "planner": "qwen3.5:4b#plan",
+  "prompt": {
+   "set": "ja",
+   "plan": "p3",
+   "answer": "p2",
+   "orient": "xc2",
+   "exclusive": "xc2",
+   "digest": "ff8796d4fb3e29e415d6c23aedd73c614281f3de"
+  },
+  "budget": {
+   "axes": 6,
+   "axes_min": null,
+   "axes_max": null,
+   "samples": 1,
+   "plan_retries": 2,
+   "workers": 1,
+   "crosscheck": true,
+   "max_chars": 12000
+  },
+  "attempts": [
+   {
+    "try": 0,
+    "violations": [],
+    "n_axes": 6,
+    "error": null
+   }
+  ],
+  "crosscheck": {
+   "verifiers": [
+    "qwen3.5:4b#v1",
+    "qwen3.5:4b#v2"
+   ],
+   "votes": [
+    {
+     "id": "a01",
+     "axis": "初日の特急の運行状況",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a02",
+     "axis": "港町への到着時刻",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "SUPPORT",
+         "NEITHER"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a03",
+     "axis": "城下町の訪問日程",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "NEITHER"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a04",
+     "axis": "湖畔町の訪問状況",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a05",
+     "axis": "宿泊予約の実施状況",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a06",
+     "axis": "総じて訪れた町の数",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    }
+   ],
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "source": "generated",
+  "store_key": "615d11c776792790b2d40481602c2dd3bead7ea8"
+ }
+}

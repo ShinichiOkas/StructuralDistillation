@@ -1,0 +1,435 @@
+{
+ "schema_version": 1,
+ "key": "f23a65d2f7254c3c827272da53335f97f9baf9e7",
+ "created_at": "2026-09-23T14:00:14+09:00",
+ "library": "0.1.0",
+ "proposition": "このレシピは分量と火加減と時間を数値で指定している",
+ "units_rule": "ja-sentence/v1",
+ "units": [
+  {
+   "id": "s1",
+   "text": "材料（二人分）: 豚こま切れ肉二百グラム、玉ねぎ一個、しょうゆ大さじ一、みりん大さじ一、サラダ油小さじ二。"
+  },
+  {
+   "id": "s2",
+   "text": "手順: 一、玉ねぎを薄切りにする。"
+  },
+  {
+   "id": "s3",
+   "text": "二、フライパンに油を入れ、中火で温める。"
+  },
+  {
+   "id": "s4",
+   "text": "三、豚肉を入れ、色が変わるまで二分ほど炒める。"
+  },
+  {
+   "id": "s5",
+   "text": "四、玉ねぎを加え、しんなりするまで三分ほど炒める。"
+  },
+  {
+   "id": "s6",
+   "text": "五、しょうゆとみりんを回し入れ、一分炒めて火を止める。"
+  },
+  {
+   "id": "s7",
+   "text": "調理時間: 約十分。"
+  },
+  {
+   "id": "s8",
+   "text": "使う道具: 包丁、まな板、フライパン、大さじ。"
+  },
+  {
+   "id": "s9",
+   "text": "コツ: 肉は重ならないように広げて入れる。"
+  },
+  {
+   "id": "s10",
+   "text": "失敗しやすい点: 火が強すぎると調味料が焦げるので、五の工程は中火のまま。"
+  }
+ ],
+ "question_set": {
+  "axes": [
+   {
+    "id": "a01",
+    "name": "成分の数値指定",
+    "claim_support": "材料として具体的なグラム数や大さじ・小さじ単位で分量が明記されている",
+    "claim_refute": "分量の単位は概略表現であるか、具体的な数値は書かれていない",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a02",
+    "name": "調理火加減の数値指定",
+    "claim_support": "加熱条件が中火・強火などの明確な程度表記で指定されている",
+    "claim_refute": "火加減は「色が変わるまで」や「しんなりするまで」のように状態依存の表現でしか記述されていない",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a03",
+    "name": "個別工程時間の数値指定",
+    "claim_support": "炒める・焼く工程ごとに具体的分単位での時間を示している",
+    "claim_refute": "時間表記は存在しない、または概略表現のみであるため正確な合計が保証できない",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a04",
+    "name": "総調理時間の数値指定",
+    "claim_support": "全体を約十分という数値でまとめている",
+    "claim_refute": "実際の各工程の合計時間が明示されていないためこの数値は推定に過ぎない",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a05",
+    "name": "分量計算の精度",
+    "claim_support": "豚肉と調味料の重量・体積単位が一定基準で明記されているため計量可能",
+    "claim_refute": "玉ねぎは「一個」としか指定されず、他の材料より計量的な不確実性が高い",
+    "origin": "initial",
+    "kind": "substantive"
+   },
+   {
+    "id": "a06",
+    "name": "手順の順序厳格化",
+    "claim_support": "工程ごとに具体的な順序と所要時間が定義されているため再現性は担保される",
+    "claim_refute": "火加減や状態変化による時間の変動により、厳密に同じ結果を得ることは困難である",
+    "origin": "initial",
+    "kind": "substantive"
+   }
+  ],
+  "active_ids": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "planner": "qwen3.5:4b#plan",
+  "prompt": {
+   "set": "ja",
+   "plan": "p3",
+   "answer": "p2",
+   "orient": "xc2",
+   "exclusive": "xc2",
+   "digest": "ff8796d4fb3e29e415d6c23aedd73c614281f3de"
+  },
+  "budget": {
+   "axes": 6,
+   "axes_min": null,
+   "axes_max": null,
+   "samples": 1,
+   "plan_retries": 2,
+   "workers": 1,
+   "crosscheck": true,
+   "max_chars": 12000
+  },
+  "attempts": [
+   {
+    "try": 0,
+    "violations": [],
+    "n_axes": 6,
+    "error": null
+   }
+  ],
+  "crosscheck": {
+   "verifiers": [
+    "qwen3.5:4b#v1",
+    "qwen3.5:4b#v2"
+   ],
+   "votes": [
+    {
+     "id": "a01",
+     "axis": "成分の数値指定",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a02",
+     "axis": "調理火加減の数値指定",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "SUPPORT",
+         "NEITHER"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a03",
+     "axis": "個別工程時間の数値指定",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "SUPPORT"
+        ],
+        "majority": "SUPPORT",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    },
+    {
+     "id": "a04",
+     "axis": "総調理時間の数値指定",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "REFUTE",
+         "REFUTE"
+        ],
+        "majority": "REFUTE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a05",
+     "axis": "分量計算の精度",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "SUPPORT",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "REFUTE"
+        ],
+        "majority": "TIE",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "COMPATIBLE",
+      "COMPATIBLE"
+     ]
+    },
+    {
+     "id": "a06",
+     "axis": "手順の順序厳格化",
+     "checkers": {
+      "qwen3.5:4b#v1": {
+       "support": {
+        "votes": [
+         "NEITHER",
+         "SUPPORT"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      },
+      "qwen3.5:4b#v2": {
+       "support": {
+        "votes": [
+         "SUPPORT",
+         "NEITHER"
+        ],
+        "majority": "TIE",
+        "expect": "SUPPORT"
+       },
+       "refute": {
+        "votes": [
+         "NEITHER",
+         "NEITHER"
+        ],
+        "majority": "NEITHER",
+        "expect": "REFUTE"
+       }
+      }
+     },
+     "exclusivity": [
+      "EXCLUSIVE",
+      "EXCLUSIVE"
+     ]
+    }
+   ],
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a04",
+    "a05"
+   ]
+  },
+  "source": "generated",
+  "store_key": "f23a65d2f7254c3c827272da53335f97f9baf9e7"
+ }
+}

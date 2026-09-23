@@ -1,0 +1,4343 @@
+{
+ "m01": {
+  "id": "m01",
+  "proposition": "ゲンは悪人である",
+  "expected_lean": "split",
+  "kind": null,
+  "seconds": 207.0,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "ゲンは海に投げ出された船員三人を岸へ引き上げた",
+    "refute": "ゲンは海に投げ出された船員三人を岸へ引き上げなかった"
+   },
+   {
+    "id": "a02",
+    "support": "ゲンは拾った木箱の反物を売って薬代にあてた",
+    "refute": "ゲンは拾った木箱の反物やそれらの販売による金銭を薬代にあてた"
+   },
+   {
+    "id": "a03",
+    "support": "船会社は反物の代金をゲンから請求した",
+    "refute": "船会社は反物の代金をゲンから請求しなかった"
+   },
+   {
+    "id": "a04",
+    "support": "船員一人はゲンの看病を証言した",
+    "refute": "船員一人はゲンの看病を証言しなかった"
+   },
+   {
+    "id": "a05",
+    "support": "船会社からの代金請求は船員の証言により取り下げられた",
+    "refute": "船会社からの代金請求は取り下げられなかった"
+   },
+   {
+    "id": "a06",
+    "support": "反物は船会社のものだった",
+    "refute": "反物は船会社のものではなかった"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a02"
+   ]
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.6666666666666666,
+    "d": [
+     0,
+     0,
+     0,
+     1,
+     1,
+     0
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": null,
+  "readers_split": null,
+  "cost": {
+   "plan": 2,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "船会社は反物の代金を請求したが、船員の一人がゲンの看病を証言し、請求は取り下げられた",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s9"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s9"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [
+    "a01"
+   ],
+   "weak": [
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m01b": {
+  "id": "m01b",
+  "proposition": "ゲンには医者の娘がいる",
+  "expected_lean": "none",
+  "kind": null,
+  "seconds": 192.5,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "ゲンは反物を売ることで薬代を捻出できる状態にいた",
+    "refute": "ゲンは薬代を捻出できず困っていた状態で反物も持っていない"
+   },
+   {
+    "id": "a02",
+    "support": "拾った木箱の中の物は船会社の物である",
+    "refute": "拾った木箱の中の物は自分のものではなく他人のものではない"
+   },
+   {
+    "id": "a03",
+    "support": "村人はゲンを盗人として非難している",
+    "refute": "村人はゲンの行為を正当化する声や行動を取っている"
+   },
+   {
+    "id": "a04",
+    "support": "船員はゲンが病気を治したことを証言している",
+    "refute": "船員はゲンの看病の事実について何も証言していない"
+   },
+   {
+    "id": "a05",
+    "support": "船会社は代金の請求を取り下げている",
+    "refute": "船会社は代金の請求を維持して取り消していない"
+   },
+   {
+    "id": "a06",
+    "support": "ゲンは誰を助け、どう助け、結果がどうなったかを明かしている",
+    "refute": "ゲンは誰を助け、どう助け、結果がどうなったかを一切明かにしていない"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.8,
+    "w": 0.4,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     -1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     0
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.19999999999999996,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "船会社は反物の代金を請求したが、船員の一人がゲンの看病を証言し、請求は取り下げられた",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s9"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s9"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m02": {
+  "id": "m02",
+  "proposition": "この報告には再現に必要な手順が揃っている",
+  "expected_lean": "support",
+  "kind": null,
+  "seconds": 194.3,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "設定画面で保存ボタンを押すという具体的な操作記述がある",
+    "refute": "設定画面をどう開くか、または保存ボタンの位置が不明確に記述されている"
+   },
+   {
+    "id": "a02",
+    "support": "Windows 11、アプリ版 2.3.1、拡大率 150%という具体的な環境設定が記載されている",
+    "refute": "どの OS やアプリバージョンか、拡大率が不明確に記述されている"
+   },
+   {
+    "id": "a03",
+    "support": "実際の結果として「アプリのウィンドウが消え、プロセスも終了している」が確認できた",
+    "refute": "結果を確認する方法やプロセス終止の確認手がかりがない"
+   },
+   {
+    "id": "a04",
+    "support": "3 回試して 3 回全てで発生したという確実な再現率は記載されている",
+    "refute": "問題がどの程度の頻度で発生するか不明確に記述されている"
+   },
+   {
+    "id": "a05",
+    "support": "エラーが発生した際のログ末尾の具体的なエントリ「KeyError 'notify_channel'」が示されている",
+    "refute": "どのタイミングで問題が発生するか、またはエラーの詳細情報が不足している"
+   },
+   {
+    "id": "a06",
+    "support": "拡大率を 100% に戻しても同じ現象が起きたという条件外での再現は記載されている",
+    "refute": "特定の環境設定以外では問題が発生するかどうか不明確である"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a05",
+    "a06"
+   ]
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.6666666666666666,
+    "d": [
+     0,
+     0,
+     1,
+     0,
+     0,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": null,
+  "readers_split": null,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "ログ末尾: settings.save: KeyError 'notify_channel'",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s10"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s10"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a01"
+   ],
+   "calls": 60
+  }
+ },
+ "m03": {
+  "id": "m03",
+  "proposition": "この会議で新機能の採用が決定された",
+  "expected_lean": "refute",
+  "kind": null,
+  "seconds": 199.1,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "議事の最終結論として新機能の採用が決定された旨が述べている。",
+    "refute": "議事の最終結論として新機能の採用が未決または未発表であることを示している。"
+   },
+   {
+    "id": "a02",
+    "support": "議長が行った確認で議題への採否について合意した旨を述べている。",
+    "refute": "議長の確認は単なる議題の確認であり、実際の採否判断には至っていないことを示している。"
+   },
+   {
+    "id": "a03",
+    "support": "会議で決定事項として新機能の採用が正式に決まっていた旨を述べている。",
+    "refute": "会議における決定事項として何もしなかったことを明記している。"
+   },
+   {
+    "id": "a04",
+    "support": "議長が行った確認で、新機能の採用・否決について合意を交わした旨が述べられている。",
+    "refute": "議長が行った確認は単なる議題の確認であり、実際の採否に合意はないことを示している。"
+   },
+   {
+    "id": "a05",
+    "support": "議会で新機能の採用が決まり、その実行に移すことが明記されている。",
+    "refute": "議会で決定事項なしとされ、将来に渡り議論が続くことを示唆している。"
+   },
+   {
+    "id": "a06",
+    "support": "会議の決断を裏付ける正式な決議文書が存在する旨を述べている。",
+    "refute": "会議で決定事項なしとされ、新たな記録は存在しないことを示している。"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a02",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.3333333333333333,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     0,
+     0,
+     -1,
+     1,
+     0,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.3333333333333333,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     0,
+     1,
+     -1,
+     0,
+     0,
+     -1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.0,
+  "readers_split": false,
+  "cost": {
+   "plan": 2,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "議長は、仕様の論点を川田と葉山で来週までにまとめること、採否は次回の会議で判断することを確認した",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s7"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s7"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a02",
+    "a04",
+    "a05"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m04": {
+  "id": "m04",
+  "proposition": "レビュアーはこの製品に満足している",
+  "expected_lean": "split",
+  "kind": null,
+  "seconds": 194.0,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "階段の掃除を楽になったと述べた",
+    "refute": "階段の掃除が困難だと述べた"
+   },
+   {
+    "id": "a02",
+    "support": "夜にも使用可能であると述べた",
+    "refute": "夜には使えないと述べた"
+   },
+   {
+    "id": "a03",
+    "support": "十二分以上持続すると述べた",
+    "refute": "十二分より短い時間しか持続しないと述べた"
+   },
+   {
+    "id": "a04",
+    "support": "粉が舞うと気にならないと述べた",
+    "refute": "粉が舞うことに気にされると述べた"
+   },
+   {
+    "id": "a05",
+    "support": "便利な付与品であると述べた",
+    "refute": "不便な付与品であると述べた"
+   },
+   {
+    "id": "a06",
+    "support": "値切るような製品であると述べた",
+    "refute": "安くはない製品であると述べた"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a06"
+   ]
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.25,
+    "w": 0.5,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     0,
+     -1,
+     -1,
+     -1,
+     1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.25,
+    "w": 0.5,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     0,
+     -1,
+     -1,
+     -1,
+     1,
+     0
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.0,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "値段のわりに満足していますが、次に買い替えるときは別の機種も比べると思います",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s8"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s8"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [
+    "a06"
+   ],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a06"
+   ],
+   "calls": 60
+  }
+ },
+ "m05": {
+  "id": "m05",
+  "proposition": "応募者は求人の必須要件をすべて満たしている",
+  "expected_lean": "refute",
+  "kind": null,
+  "seconds": 195.4,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "応募者の Python での開発経験は五年を超えている。",
+    "refute": "応募者の Python での開発経験が三年に満たない。"
+   },
+   {
+    "id": "a02",
+    "support": "応募者は Python 関連で二年以上チームリーダーを務めている。",
+    "refute": "応募者が Python 関連でチームリーダーを務めていない、あるいは二年未満である。"
+   },
+   {
+    "id": "a03",
+    "support": "応募者は会議を通じて顧客と英語で対話をしていた経験がある。",
+    "refute": "応募者が英語で顧客や会議に関与したことがない。"
+   },
+   {
+    "id": "a04",
+    "support": "応募者は大阪以外の地域の勤務が可能である（あるいは大阪から転居していない）。",
+    "refute": "応募者は大阪の事業所への勤務を不可能と明言している。"
+   },
+   {
+    "id": "a05",
+    "support": "求人票に在宅勤務に関する記載がないため、必須要件に含まれるか不明確であり、通常は含まないと推測される。",
+    "refute": "求人票に「在宅勤務」が明確な必須要件として明記されている。"
+   },
+   {
+    "id": "a06",
+    "support": "応募者の Python 経験や英語能力は、求人の指定している最低限の水準を超えている。",
+    "refute": "応募者の技術力や言語力は、求人の要件に到達していない、あるいは全く不足している。"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.8333333333333334,
+    "w": 0.3333333333333333,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     -1,
+     1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.8333333333333334,
+    "w": 0.3333333333333333,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     -1,
+     1,
+     1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.0,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "応募者の経歴書によると、Python での開発は五年、うち二年はチームリーダー",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s5"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s5"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m06": {
+  "id": "m06",
+  "proposition": "旅は計画どおりに進んだ",
+  "expected_lean": "refute",
+  "kind": null,
+  "seconds": 194.7,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "初日の朝、乗るはずだった特急が計画どおりに出発し、目的地へ向かった",
+    "refute": "初日の朝、乗るはずだった特急が強風の影響で停止した"
+   },
+   {
+    "id": "a02",
+    "support": "港町には計画どおりの時間（朝）に到着した",
+    "refute": "港町には遅れて夕方に初めて到着した"
+   },
+   {
+    "id": "a03",
+    "support": "城下町を翌日に行う予定通り訪問した",
+    "refute": "城下町の訪問が翌日に回された"
+   },
+   {
+    "id": "a04",
+    "support": "湖畔の町には訪問して計画どおりに進んだ",
+    "refute": "湖畔の町には行けなかった"
+   },
+   {
+    "id": "a05",
+    "support": "宿の予約は計画通り行い、どこでも成功した",
+    "refute": "宿の予約が計画通りに取れていなかった"
+   },
+   {
+    "id": "a06",
+    "support": "四つのうち三つの町を訪問した",
+    "refute": "四つのうち全ての町を訪問した"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.4,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     -1,
+     -1,
+     0,
+     -1,
+     1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     1,
+     1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.06666666666666671,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "計画では、初日に港町と城下町、二日目に温泉町と湖畔の町、三日目に帰るはずだった",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s1"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s1"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m07": {
+  "id": "m07",
+  "proposition": "書き手は弟に優しい",
+  "expected_lean": "split",
+  "kind": null,
+  "seconds": 195.0,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "弟はぼくのゲームを借用した",
+    "refute": "弟はぼくのゲームを借用しなかった"
+   },
+   {
+    "id": "a02",
+    "support": "弟がゲームを借用したいとは考えていなかった",
+    "refute": "弟がゲームを借用したいと考えていた"
+   },
+   {
+    "id": "a03",
+    "support": "弟はゲームを借用されたことに怒りを感じた",
+    "refute": "弟はゲームを借用されたことに怒りを示しなかった"
+   },
+   {
+    "id": "a04",
+    "support": "ぼくは宿題の解答をするための面倒くささを考えていなかった",
+    "refute": "ぼくは宿題の解答をするための面倒くささを考えていた"
+   },
+   {
+    "id": "a05",
+    "support": "ぼくは母に計算問題の答えを書かれたことについて何も伝えずにいた",
+    "refute": "ぼくは母に計算問題の答えを書かれたことについて伝えたいと考えていた"
+   },
+   {
+    "id": "a06",
+    "support": "弟はゲームを借用しようとしていたわけではない",
+    "refute": "弟はゲームを借用しようとしていた"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.2,
+    "w": 0.4,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     0,
+     -1,
+     -1,
+     -1,
+     1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.4,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     -1,
+     0,
+     1,
+     -1,
+     1,
+     -1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.2,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "ぼくは前に弟がコントローラーを落として壊したので、貸しませんでした",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s3"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s3"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m08": {
+  "id": "m08",
+  "proposition": "この実験は仮説を支持した",
+  "expected_lean": "refute",
+  "kind": null,
+  "seconds": 194.8,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "肥料 A の組の発芽率が水だけの組より高い",
+    "refute": "肥料 A の組の発芽率が水だけの組と同等かそれ以下の数値だった"
+   },
+   {
+    "id": "a02",
+    "support": "七日目と八日目の数え結果が同じだった",
+    "refute": "七日目と八日目の数え結果が異なるかった"
+   },
+   {
+    "id": "a03",
+    "support": "黄色い葉を持つ株が存在しなかった",
+    "refute": "黄色い葉を持つ株が存在した"
+   },
+   {
+    "id": "a04",
+    "support": "肥料 A の効果が確認できた",
+    "refute": "肥料 A の効果は確認できなかっただけでなく、逆に影響が出たかあった"
+   },
+   {
+    "id": "a05",
+    "support": "二組とも同一条件（同じ土、同じ温度・日照）下で実施された",
+    "refute": "二組に条件の違いが生じていた"
+   },
+   {
+    "id": "a06",
+    "support": "次回の実験において肥料の量は半分にして試す予定だった",
+    "refute": "次回の実験において肥料の量を半分にして試さなかったか、異なる変更点が行われた"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.4,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     -1,
+     1,
+     -1,
+     -1,
+     0,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     -1,
+     -1,
+     1,
+     1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.09999999999999998,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "方法: 同じ土を入れた鉢を二十個ずつ二組用意し、一組には肥料 A を規定量、もう一組には水だけを与える",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s2"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s2"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m09": {
+  "id": "m09",
+  "proposition": "差出人は相手に謝罪している",
+  "expected_lean": "support",
+  "kind": null,
+  "seconds": 194.1,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "駅で一時間も待たせたことについて述べた",
+    "refute": "駅で一時間も待たせたことを触れなかった"
+   },
+   {
+    "id": "a02",
+    "support": "相手の待ち時間を延ばしたことは、自分の不注意（時計設定の誤り）と携帯を忘れたことによる連絡猶予不足から生じた",
+    "refute": "相手の待ち時間を延ばしたことは、特定の理由ではなく単なる偶然や相手が怠慢だったからだ"
+   },
+   {
+    "id": "a03",
+    "support": "本当に申し訳なかったと明言した",
+    "refute": "申し訳ないという言葉を使わず、責任の所在を曖昧に保ったまま謝罪の意を否定した"
+   },
+   {
+    "id": "a04",
+    "support": "代わりに自分が店を予約し、代金を支払うという具体的な合意を示唆した",
+    "refute": "相手のために何かを犠牲にする行動を取ることや責任を譲ることを提案しなかった"
+   },
+   {
+    "id": "a05",
+    "support": "また会ってほしいという希望と、相手がその時間を確保するよう促す要望を示した",
+    "refute": "今後二度と会うことを望んでいない、あるいは相手との関係修復を拒否している"
+   },
+   {
+    "id": "a06",
+    "support": "せっかく取ってくれた時間を無駄にさせたことが認識され、相手が失った機会について発言した",
+    "refute": "相手が失った時間や機会については触れず、自分自身の行動の不備のみを強調した"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.0,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "連絡をしなかったのも、慌てて携帯を家に忘れたからで、言い訳にはなりません",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s4"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s4"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [
+    "a06"
+   ],
+   "weak": [
+    "a01",
+    "a02",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m10": {
+  "id": "m10",
+  "proposition": "この規約では解約は無料でできる",
+  "expected_lean": "split",
+  "kind": null,
+  "seconds": 227.9,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "契約日から十五日以内の解約は理由を問わず無料でできる。",
+    "refute": "契約日から十五日以内であっても、特定の理由があったため有料になる。"
+   },
+   {
+    "id": "a02",
+    "support": "当社の責めに帰すべき事由でサービスが三十日以上停止した場合、利用者は手数料なしで解約できる。",
+    "refute": "当社の責めに帰すべき事由でサービスが三十日以上停止する場合でも、利用者に一定の手数料がかかる。"
+   },
+   {
+    "id": "a03",
+    "support": "十五日目以降の解約には、残りの契約期間の利用料金の五割に相当する解約手数料がかかる。",
+    "refute": "十五日目以降の解約には、残りの契約期間の金額に関わらず一定の手数料のみがかかる。"
+   },
+   {
+    "id": "a04",
+    "support": "解約の申し出は会員ページの解約フォームからのみ受け付ける。",
+    "refute": "解約の申し出を電話または電子メールによって受付けることができる。"
+   },
+   {
+    "id": "a05",
+    "support": "解約手数料の支払いは解約月の利用料金と合わせて請求する。",
+    "refute": "解約手数料は別件で請求するか、解約月とは異なる期間に請求する。"
+   },
+   {
+    "id": "a06",
+    "support": "契約日から十四日以内であれば理由を問わず無料で解約できる。",
+    "refute": "契約日から十四日以内であっても、特定の理由がないと無料で解約できない。"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.0,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "3. 前項にかかわらず、当社の責めに帰すべき事由でサービスが三十日以上停止した場合、利用者は手数料なしで解約できる",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s4"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s4"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [
+    "a03",
+    "a05"
+   ],
+   "weak": [
+    "a01",
+    "a02",
+    "a04"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m11": {
+  "id": "m11",
+  "proposition": "この議事録には、会議で何が決まったかが書かれている",
+  "expected_lean": "support",
+  "kind": "meta",
+  "seconds": 220.9,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "各議題について何らかの具体的な決議や指示が記載されている",
+    "refute": "議案に対する合意や決定を示す記述がない"
+   },
+   {
+    "id": "a02",
+    "support": "議案が提出され、検討や説明を経て最終的な決まりに至ったことが記載されている",
+    "refute": "特定の議案について何らかの議論や合意プロセスが書かれている"
+   },
+   {
+    "id": "a03",
+    "support": "夏祭りの開催日程や屋台の出店料に関する具体的な数値や条件が記載されている",
+    "refute": "夏祭りの開催日程や屋台の出店料に関する具体的な数値や条件が記載されていない"
+   },
+   {
+    "id": "a04",
+    "support": "会議に出席した者の一覧が列挙されている",
+    "refute": "会議に出席した者の一覧が列挙されていない"
+   },
+   {
+    "id": "a05",
+    "support": "会議が行われた日付と時間が記載されている",
+    "refute": "会議が行われた日付や時間が記載されていない"
+   },
+   {
+    "id": "a06",
+    "support": "次回への持ち出しや提出期限を含む具体的な指示がなされている",
+    "refute": "次回への持ち出しや提出期限を含む具体的な指示がなされていない"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a02"
+   ]
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.6666666666666666,
+    "d": [
+     0,
+     0,
+     0,
+     1,
+     0,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.5,
+    "d": [
+     0,
+     0,
+     0,
+     1,
+     1,
+     1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": null,
+  "readers_split": null,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "会場の予約状況を会計が説明し、第一土曜は既に他団体が押さえていると報告した",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s5"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s5"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a02"
+   ],
+   "calls": 60
+  }
+ },
+ "m12": {
+  "id": "m12",
+  "proposition": "この契約書には契約を途中で終了する条件が書かれている",
+  "expected_lean": "refute",
+  "kind": "meta",
+  "seconds": 197.8,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "第四条または第六条において、契約期間の満了以外の時点で契約を終了する手続きや条件が含まれていない",
+    "refute": "第三条における報酬未払いなどが自動的に契約の終了を意味する文言が存在する"
+   },
+   {
+    "id": "a02",
+    "support": "第四条において、乙が第三者に情報を漏らす場合にその行為を規定している",
+    "refute": "第四条において、甲に対して情報漏洩を行った場合の契約終了について言及していない"
+   },
+   {
+    "id": "a03",
+    "support": "第六条において、本契約に定めのない事項は甲乙協議のうえ決定すると述べている",
+    "refute": "第六条において、解約に関する事前通知の期間や手続を定める文言が含まれていない"
+   },
+   {
+    "id": "a04",
+    "support": "第三条において、甲が報酬を支払う期限と金額のみを述べている",
+    "refute": "第四条または第六条に、違反した場合の金銭的処罰として違約金を定めている文言がない"
+   },
+   {
+    "id": "a05",
+    "support": "第五条において、乙が第三者に業務を再委託する際に甲の書面による承諾が必要であるとする規定がある",
+    "refute": "第五条において、甲の書面による承諾がなければその行為を禁止しているとする規定がない"
+   },
+   {
+    "id": "a06",
+    "support": "第二条において、契約期間は四月一日から翌年三月三十一日であるとする記述がある",
+    "refute": "第二条において、契約期間の上限のみを指定している"
+   }
+  ],
+  "active": [
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [
+    "a01"
+   ],
+   "weak": [
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a02",
+    "a03",
+    "a04",
+    "a05"
+   ]
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.8,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.2,
+    "d": [
+     1,
+     1,
+     1,
+     0,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.6,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.4,
+    "d": [
+     1,
+     1,
+     0,
+     0,
+     1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.0,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 20
+  },
+  "detection": {
+   "present": "第一条（目的）甲は乙に対し、ウェブサイトの保守業務を委託し、乙はこれを受託する",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s1"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s1"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [
+    "a01"
+   ],
+   "weak": [
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a02",
+    "a03",
+    "a04"
+   ],
+   "calls": 60
+  }
+ },
+ "m13": {
+  "id": "m13",
+  "proposition": "この点検では安全点検の項目がすべて完了している",
+  "expected_lean": "support",
+  "kind": "forall",
+  "seconds": 179.8,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "項目五までを含む少なくとも 5 つの項目について「確認済み」と記述がある。",
+    "refute": "項目一から項目四までの全項目について「確認済み」という記述がない。"
+   },
+   {
+    "id": "a02",
+    "support": "少なくとも 1 つの箇所に問題があったという記録がある。",
+    "refute": "全ての箇所において問題ないままであるとする記述がある。"
+   },
+   {
+    "id": "a03",
+    "support": "来月に実施することが明示的に記載されている。",
+    "refute": "次点検までに完了させることが明言される事項が存在しない。"
+   },
+   {
+    "id": "a04",
+    "support": "少なくとも 1 つの項目に対して問題が指摘されたという記述がある。",
+    "refute": "全ての項目において問題が認められていないとする記述がある。"
+   },
+   {
+    "id": "a05",
+    "support": "点検者により「四か所すべて締め直した」という記述が存在しない。",
+    "refute": "点検者により「四か所すべて締め直した」という記述が存在する。"
+   },
+   {
+    "id": "a06",
+    "support": "少なくとも 1 つの箇所において錆があるという記述がある。",
+    "refute": "全ての箇所で錆がないという記述がある。"
+   }
+  ],
+  "active": [
+   "a01",
+   "a03",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [
+    "a02",
+    "a04"
+   ],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.75,
+    "w": 0.5,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.75,
+    "w": 0.5,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.0,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 16
+  },
+  "detection": {
+   "present": "備考: 項目三で一か所の金具に錆があったため、来月交換する",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s14"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s14"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [
+    "a02",
+    "a04"
+   ],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a03"
+   ],
+   "calls": 60
+  }
+ },
+ "m14": {
+  "id": "m14",
+  "proposition": "井口は部下に厳しい",
+  "expected_lean": "split",
+  "kind": "evaluative",
+  "seconds": 196.5,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "井口が複数の部下を個別に呼び出して指導した",
+    "refute": "井口は部下を呼んで指導することをした"
+   },
+   {
+    "id": "a02",
+    "support": "井口は理由を聞く前に部下に対し命令しか行わなかった",
+    "refute": "井口は理由を聞く前のまま、部下に対して謝るよう求める言葉を述べた"
+   },
+   {
+    "id": "a03",
+    "support": "井口が自分の失敗があるとき自ら頭を下げていた",
+    "refute": "井口が客先での部下の失敗には、自ら率先して頭を下げて行った"
+   },
+   {
+    "id": "a04",
+    "support": "井口は部下に対して理由を一度きりしか尋ねていなかった",
+    "refute": "井口は客先での失敗について、部下に対して理由を一度だけ聞いていた"
+   },
+   {
+    "id": "a05",
+    "support": "井口が新人の帰りを電車に乗るかどうかまで気にしていた",
+    "refute": "井口が新人の歓迎会の終幕まで参加し、その帰りまでの行動まで気配を感じていた"
+   },
+   {
+    "id": "a06",
+    "support": "一部の下級者の記憶に褒められたエピソードが存在しない",
+    "refute": "一部の部下が井口に対して良い印象を持っていない"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a01",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ]
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     0,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "valid_rate": 0.16666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.6666666666666666,
+    "d": [
+     0,
+     -1,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": null,
+  "readers_split": null,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "一方で、部下が客先で失敗したときは自分が先に頭を下げに行き、部下には後で一度だけ理由を聞いた",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s3"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s3"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a01",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "calls": 60
+  }
+ },
+ "m15": {
+  "id": "m15",
+  "proposition": "宮下は客に対して誠実である",
+  "expected_lean": "support",
+  "kind": "evaluative",
+  "seconds": 193.5,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "店を閉める直前に客から誤って渡された千円札を翌朝に職場まで返しに行った",
+    "refute": "千円札は返すのを忘れたまま別の場所で留めていた"
+   },
+   {
+    "id": "a02",
+    "support": "底にひびがあることを客が気づく前に店主が自ら告げた、値下げを行った、と書かれた記録があった",
+    "refute": "底にひびがないことを伝えなかったため、本来は高い価格で売っていた、と書かれた記録があった"
+   },
+   {
+    "id": "a03",
+    "support": "修理を頼まれた時計を直せなかったとき、預かり料の受け取りを拒否した、と書かれた記録があった",
+    "refute": "修理が不可能であることが分かっても、代わりにもっと高く取った、と書かれた記録があった"
+   },
+   {
+    "id": "a04",
+    "support": "常連から依頼された複数の商品を一つで買うために、客に商品ごとに個々の金額を提示した、と書かれた記録があった",
+    "refute": "常連から一つの商品だけを買わせたために、それを複数の単価として別々に支払うよう要求しなかった、と書かれた記録があった"
+   },
+   {
+    "id": "a05",
+    "support": "誰かに売り物の由来を尋ねたとき、それを知っているものについては詳しく答えるが、知らないものはただ「分からない」と応えた、と書かれた記録があった",
+    "refute": "誰かに売り物の由来を尋ねたとき、知りたがる客には詳しい説明もしているが、知らないことは何も語らない、と書かれた記録があった"
+   },
+   {
+    "id": "a06",
+    "support": "宮下は客の利益を考え、自分の利益を犠牲にして行動している、と記載された記述がある、あるいは、近所の人がそう語るという記録がある",
+    "refute": "宮下は自分の利益を優先し、客からより多く得られるように行動している、と記載された記述がある、あるいは、近所の人がそう語るという記録がない"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a03"
+   ]
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     0,
+     1,
+     1,
+     0,
+     1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.0,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "古道具屋の店主、宮下は、客が千円札を一枚多く出したことに閉店後に気づき、翌朝その客の職場まで返しに行った",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s1"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s1"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [
+    "a04"
+   ],
+   "weak": [
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m16": {
+  "id": "m16",
+  "proposition": "この週は雨の日が多かった",
+  "expected_lean": "refute",
+  "kind": "fact",
+  "seconds": 297.4,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "雨が降った日が二日以上あった",
+    "refute": "雨が降った日が一日だった"
+   },
+   {
+    "id": "a02",
+    "support": "晴れの日が雨の日より多かった",
+    "refute": "雨の日が晴れの日より多かったか等しくなかった"
+   },
+   {
+    "id": "a03",
+    "support": "週全体で計った総雨量は二ミリ以上だった",
+    "refute": "周全体の総雨量が二ミリ未満だった"
+   },
+   {
+    "id": "a04",
+    "support": "降った日以外の日は晴れまたは曇りのどちらかに区分けたものがあった",
+    "refute": "降った日以外も雨の可能性がある天候が続いた"
+   },
+   {
+    "id": "a05",
+    "support": "週内六日目以降、雨を伴う天候が出現した",
+    "refute": "週内六日目以前にのみ雨が降った"
+   },
+   {
+    "id": "a06",
+    "support": "最高気温は二十七度以上だった",
+    "refute": "最高気温が二十七度未満だった"
+   }
+  ],
+  "active": [
+   "a01",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [
+    "a02"
+   ],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "valid_rate": 0.4,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.4,
+    "contradiction_rate": 0.2,
+    "d": [
+     -1,
+     0,
+     0,
+     1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "valid_rate": 0.6,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.2,
+    "contradiction_rate": 0.2,
+    "d": [
+     -1,
+     0,
+     1,
+     1,
+     0
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": null,
+  "readers_split": null,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 20
+  },
+  "detection": {
+   "present": "朝から夕方まで降り続き、雨量は十八ミリ",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s11"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s11"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [
+    "a02"
+   ],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m17": {
+  "id": "m17",
+  "proposition": "このレシピは分量と火加減と時間を数値で指定している",
+  "expected_lean": "split",
+  "kind": "fact",
+  "seconds": 194.3,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "材料として具体的なグラム数や大さじ・小さじ単位で分量が明記されている",
+    "refute": "分量の単位は概略表現であるか、具体的な数値は書かれていない"
+   },
+   {
+    "id": "a02",
+    "support": "加熱条件が中火・強火などの明確な程度表記で指定されている",
+    "refute": "火加減は「色が変わるまで」や「しんなりするまで」のように状態依存の表現でしか記述されていない"
+   },
+   {
+    "id": "a03",
+    "support": "炒める・焼く工程ごとに具体的分単位での時間を示している",
+    "refute": "時間表記は存在しない、または概略表現のみであるため正確な合計が保証できない"
+   },
+   {
+    "id": "a04",
+    "support": "全体を約十分という数値でまとめている",
+    "refute": "実際の各工程の合計時間が明示されていないためこの数値は推定に過ぎない"
+   },
+   {
+    "id": "a05",
+    "support": "豚肉と調味料の重量・体積単位が一定基準で明記されているため計量可能",
+    "refute": "玉ねぎは「一個」としか指定されず、他の材料より計量的な不確実性が高い"
+   },
+   {
+    "id": "a06",
+    "support": "工程ごとに具体的な順序と所要時間が定義されているため再現性は担保される",
+    "refute": "火加減や状態変化による時間の変動により、厳密に同じ結果を得ることは困難である"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a04",
+    "a05"
+   ]
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.75,
+    "w": 0.5,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     0,
+     -1,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.75,
+    "w": 0.5,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     -1,
+     0,
+     1,
+     1,
+     0
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.0,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "材料（二人分）: 豚こま切れ肉二百グラム、玉ねぎ一個、しょうゆ大さじ一、みりん大さじ一、サラダ油小さじ二",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s1"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s1"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a04",
+    "a05"
+   ],
+   "calls": 60
+  }
+ },
+ "m18": {
+  "id": "m18",
+  "proposition": "二人は旅行の計画について合意に達した",
+  "expected_lean": "split",
+  "kind": "fact",
+  "seconds": 199.8,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "旅行の目的地を温泉地とする計画に賛成した",
+    "refute": "温泉以外の種類の訪問先（例：海、山など）を選んだ"
+   },
+   {
+    "id": "a02",
+    "support": "宿の部屋代は一泊二万円以下にする計画を共有した",
+    "refute": "宿の部屋代は一泊二万円を超える予算にする計画を共有した"
+   },
+   {
+    "id": "a03",
+    "support": "宿泊施設付きの食事（付帯料金を含む）ではなく、外食で済ませるよう合意した",
+    "refute": "宿が食事を含めて提供するプランを支持した"
+   },
+   {
+    "id": "a04",
+    "support": "十月の三連休の期間を対象とする日程に同意した",
+    "refute": "十月の三連休以外の期間（例：九月、十一月など）を対象とする日程に同意した"
+   },
+   {
+    "id": "a05",
+    "support": "一泊二万円程度（特に一万五千円より安く）のホテルや旅館を探し合うことを合意した",
+    "refute": "一万五千円を下回る非常に安価な施設や、二万円を大幅に超える高価格の施設を探すことに合意した"
+   },
+   {
+    "id": "a06",
+    "support": "旅行の日程と訪問先については完全に決まり、進捗を確認した",
+    "refute": "旅行の日程や訪問先は確定しておらず、まだ検討中である"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.0,
+  "readers_split": false,
+  "cost": {
+   "plan": 2,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "一万五千までにしたい」A「食事が付くから二万でも損はないと思う」B「食事は外で食べればいい」A「じゃあ宿のことはもう少し考えよう」B「日程と温泉は決まりね」A「うん、そこは決まり」",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s2"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s3"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [
+    "a04",
+    "a05"
+   ],
+   "weak": [
+    "a01",
+    "a02",
+    "a03"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m19": {
+  "id": "m19",
+  "proposition": "新型掃除ロボットの発売は予定どおり行われた",
+  "expected_lean": "refute",
+  "kind": "fact",
+  "seconds": 194.8,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "四月一日に発売が開始された",
+    "refute": "四月一日に発売が開始されなかった"
+   },
+   {
+    "id": "a02",
+    "support": "五月二十日に発売が開始された",
+    "refute": "五月二十日に発売が開始されなかった"
+   },
+   {
+    "id": "a03",
+    "support": "発売日が二度変更された",
+    "refute": "発売日が一度も変更されないままであった"
+   },
+   {
+    "id": "a04",
+    "support": "初週の出荷量は計画の九割であった",
+    "refute": "初週の出荷量が計画の九割にならなかった"
+   },
+   {
+    "id": "a05",
+    "support": "製品の欠陥を放置せずに解決する判断を下した",
+    "refute": "製品の欠陥を放置して販売を進めた判断を下した"
+   },
+   {
+    "id": "a06",
+    "support": "延期のたびに顧客に対して案内の手紙を送った",
+    "refute": "延期の際に顧客に対して手紙を送らなかった"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": []
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.8333333333333334,
+    "w": 0.3333333333333333,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.8333333333333334,
+    "w": 0.3333333333333333,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": 0.0,
+  "readers_split": false,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "営業部長は「二度の延期は痛かったが、品質を優先した判断だった」と述べた",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s6"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s6"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [
+    "a03",
+    "a05",
+    "a06"
+   ],
+   "weak": [
+    "a01",
+    "a02",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [],
+   "calls": 60
+  }
+ },
+ "m20": {
+  "id": "m20",
+  "proposition": "この記録を付けた人は農家である",
+  "expected_lean": "none",
+  "kind": "none",
+  "seconds": 196.0,
+  "axes": [
+   {
+    "id": "a01",
+    "support": "雨が降った日の数が二日以上あった",
+    "refute": "雨が降った日の数は一日だった"
+   },
+   {
+    "id": "a02",
+    "support": "前日の雨で庭の土が湿っていたことが述べられたか否かの確認は行われていない",
+    "refute": "前日の雨で庭の土が湿っていたと記述されたか否かの確認は行われていない"
+   },
+   {
+    "id": "a03",
+    "support": "洗濯物がよく乾いたことに関する記述がない",
+    "refute": "洗濯物がよく乾いたことを理由に何かを記述したか否かの確認は行われていない"
+   },
+   {
+    "id": "a04",
+    "support": "晴天や雲一つという予報の記述がなくても良いと考える",
+    "refute": "晴天や雲一つという予報の記述がないことが問題だと考える"
+   },
+   {
+    "id": "a05",
+    "support": "十八ミリという具体的な数値が述べられていない",
+    "refute": "雨は降ったことと雨量の数値が述べられていることが確認できない"
+   },
+   {
+    "id": "a06",
+    "support": "六月八日から六月十四日までという期間の範囲が記述されている",
+    "refute": "六月八日から六月十四日までという期間の範囲が記述されていない"
+   }
+  ],
+  "active": [
+   "a01",
+   "a02",
+   "a03",
+   "a04",
+   "a05",
+   "a06"
+  ],
+  "self_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a02",
+    "a03",
+    "a05"
+   ]
+  },
+  "readings": {
+   "qwen3.5:4b#a": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     -1,
+     0,
+     1,
+     0,
+     0,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.3333333333333333,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     -1,
+     0,
+     0,
+     0,
+     -1,
+     0
+    ]
+   },
+   "fake:all_yes": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_no": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 1.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "fake:all_undetermined": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta": null,
+  "readers_split": null,
+  "cost": {
+   "plan": 1,
+   "crosscheck": 60,
+   "answer": 24
+  },
+  "detection": {
+   "present": "朝から夕方まで降り続き、雨量は十八ミリ",
+   "absent": "この出来事は月面の基地で起きた",
+   "answers": {
+    "qwen3.5:4b#a": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s11"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    },
+    "qwen3.5:4b#b": {
+     "support": {
+      "verdict": "STATES",
+      "valid": true,
+      "evidence": [
+       "s11"
+      ]
+     },
+     "refute": {
+      "verdict": "SILENT",
+      "valid": true,
+      "evidence": []
+     }
+    }
+   }
+  },
+  "cloud_crosscheck": {
+   "flagged": [],
+   "weak": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06"
+   ],
+   "nonexclusive": [
+    "a02",
+    "a03",
+    "a05"
+   ],
+   "calls": 60
+  }
+ }
+}

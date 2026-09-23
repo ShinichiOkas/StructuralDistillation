@@ -140,6 +140,7 @@ LLM の失敗（HTTP エラー・形式崩れ）は**例外にしない**。L0 �
 class Reader(Protocol):
     name: str                 # 記録と鍵に使う。モデル名（"gemma4:31b-cloud"）や "fake:all_yes"
     calibration: bool         # 偽読み手なら True（Δ と代表値から除く。費用は別枠）
+    model: str                # 任意。下にいるモデルの名前。同じモデルを別名で差すときも model は同じ（`model_of()` で引く）
     async def complete(self, messages: list[dict], schema: dict, *, sample: int, version: str) -> RawReply
         # RawReply(ok, content, error, meta)。content はフェンスを剥がした後。例外を投げない
         # meta: {"cached": bool, "key": str | None, "eval_count", "total_duration", "prompt_eval_count"}
@@ -155,7 +156,7 @@ class Reader(Protocol):
 | `cache_key(model, messages, schema, sample, version) -> str` | `sha1(json.dumps({"m": model, "msgs": messages, "schema": schema, "sample": sample, "v": version}, ensure_ascii=False, sort_keys=True))`。**`messages` は `with_schema` 適用後**。`sample` は int。**空撃ちと同一**（⚠ I3） | 純関数 |
 | `structured(reader, messages, schema, *, version, sample, notice, retry=False) -> Structured` | **三段構え**: ① `schema` を読み手に渡す（ネイティブ指定。信用しない）② `with_schema` で指示にも明記 ③ 受信で `strip_fence → json.loads → validate`（アダプタも剥がして返すが、利用側の `Reader` が剥がさなくても通るよう冪等にもう一度。v3）。`retry=True` のときだけ、失敗なら `version + ":retry"` で**再送 1 回**（空撃ちで再送するのは回答だけ。⚠ I18）。`Structured(ok, obj, content, error, attempts, cached, key)` | I/O を呼ぶが自分は判断しない |
 | `CachedPort(reader, path, *, cache_only=False, read_only=False, extra=())` | `Reader` を包む `Reader`（`name` は素通し。鍵の `m` はモデル名。`path=None` ならメモリだけ）。鍵で引き、無ければ `reader.complete` → **成功した応答だけ**を追記のみ JSONL に `{"key","model","sample","version","payload"}`（行の形は空撃ちと同一。⚠ I19: 空撃ちは失敗も書いたが、失敗を永続化すると再走でも直らない）。`extra` は読むだけの追加キャッシュ（複数の記録を合わせて読む）。`read_only` なら一切書かない。同じ鍵の同時要求は 1 回にまとめる（`asyncio.Future` を共有）。`cache_only` で外れたら `ok=False, error="cache-only miss"`。`calls_live` / `calls_cached` | I/O（ファイル） |
-| `OllamaReader(model, *, host="http://localhost:11434", num_ctx=8192, think=False, timeout=600, retries=3)` | `/api/chat` に `format=schema`・`options.num_ctx`・`think`。`think` を拒む（400 に "think"）モデルには `think` 無しで再送。429 / 5xx は 5·(k+1) 秒待って**初回 ＋ 再送 3 ＝ 最大 4 試行**。`content` は `strip_fence` 後。`urllib` を `asyncio.to_thread` で呼ぶ（⚠ I1: 依存を足さない）。`meta` に `eval_count`・`total_duration`・`prompt_eval_count`（文脈長の切り詰めを事後に見るため） | I/O（HTTP） |
+| `OllamaReader(model, *, name=None, host="http://localhost:11434", num_ctx=8192, think=False, timeout=600, retries=3)` | `name` を変えると鍵が分かれ、同じモデルを別々の読み手として差せる（`model` は同じまま）。 `/api/chat` に `format=schema`・`options.num_ctx`・`think`。`think` を拒む（400 に "think"）モデルには `think` 無しで再送。429 / 5xx は 5·(k+1) 秒待って**初回 ＋ 再送 3 ＝ 最大 4 試行**。`content` は `strip_fence` 後。`urllib` を `asyncio.to_thread` で呼ぶ（⚠ I1: 依存を足さない）。`meta` に `eval_count`・`total_duration`・`prompt_eval_count`（文脈長の切り詰めを事後に見るため） | I/O（HTTP） |
 | `FakeReader(kind, *, seed=0)` | `kind ∈ {all_yes, all_no, all_undetermined, random}`（名前は空撃ちと同じ）。`name = "fake:<kind>"`、`calibration=True`。回答スキーマ（`verdict` を持つ）にだけ答える: `{"verdict": <kind の語>, "evidence": ["s1"]}`（`s1` は単位列の先頭 id なので常に実在。`SILENT` は `[]`）。`random` は `sha1(seed, messages, sample)` で 3 値を決める（**呼び出し順に依存しない**。並列でも同じ）。他のスキーマ（生成・向き）には `ok=False` | 決定論 |
 
 鍵を同一にするために守ること（適合検査 §9 が落ちたらここを疑う）:
@@ -327,6 +328,8 @@ def replay(record: dict, *, thresholds=None, output=None, reparse=False, prompts
    無くて `question_store` があれば、同じ命題と本文の問いの集合を引く。当たれば L1 を飛ばす（`source="stored"`。生成も交差検証も呼ばない）。
    どちらでもなければ `l1.plan`（`source="generated"`）。保存庫があれば作った問いの集合を保存する。生成器の既定は実読み手の先頭。検証役の既定は実読み手（偽読み手を除く）。2 体未満なら交差検証なし
 4. 読み手ごとに `l2.answer_all` → `l3.aggregate` → `l4.to_value`。⚠ I11: **読み手は 1 体ずつ順に**、1 体の中の記述は `workers` 並列（ローカルの読み手を 2 体同時に走らせると GPU を取り合う）
+4.5 1 つのモデルしか使っていないことを `notes` に出す（上流 §10・測定 2026-09-23）: 交差検証をしていない（検証役 2 体未満）／
+   検証役が生成器と同じモデル（自己交差検証）／読み手が全部同じモデル（Δ が Q1 の計器にならない）。黙って飛ばさない
 5. `l3.summarize_readers`
 5.5 判定に使える軸が 0 本なら `RetryHint` を作る（上流 F4′）。`action` は問いの出どころで決まる:
    保存庫を使っていれば `REGENERATE`（`regenerate=True` で作り直す）、使っていなければ `REPLAN`（もう一度 `judge` を呼ぶ）、
@@ -567,6 +570,7 @@ L0 のキャッシュとの違い: キャッシュは「同じ指示・同じモ
 | R14 | 保存庫の受入（critical 1・major 4・minor 14）: 作り直しを同じ時刻に 2 回すると前に退けた問いを失う／キャッシュ越しの作り直しが前と同じ問いを返す／条件の違いが見えない／交差検証していない問いを黙って使う／排他なし（ペア固有 Skill に反する）ほか | 退ける名前に番号・標本の起点をずらす・`Judgment.notes`・ロックファイル・生成の前の置き場所の確認ほか（§4.S）。実接続で、キャッシュ越しの作り直しが生成器を呼び直し、別の生成器・別の軸数での再利用が「# 注意:」に出ることを確かめた |
 | R15 | `CachedPort` に `__len__` があり、空のキャッシュが偽になって `planner or 既定` で黙って別の読み手に差し替わった（テストで踏んだ） | `__len__` をやめて `size` に |
 | R16 | 師匠決定（2026-09-23・受入 M5 の決着）: 軸 0 本は「計器不良」＋理由＋上位が作り直せる材料 | `Reason`（6 種）・`RetryHint`・`Judgment.retry`・`label()` が理由も返す・CLI が理由と打てるコマンドを出して終了コード 3。自動では作り直さない（上流 J20） |
+| R18 | 単一モデル運用の測定（2026-09-23）: 1 モデルだと Q1 の計器も H12 の門も外れるのに、ライブラリは黙って飛ばしていた | `Reader.model`（任意）と `model_of()`。`judge` が `notes` に 3 つの注意を出す（交差検証なし・自己交差検証・読み手が全部同じモデル） |
 | R17 | その受入（critical 0・major 7・minor 13）: 保存庫なしで「もう一度呼べば作り直される」はキャッシュ越しでは嘘／外れたのが一部でも「全軸が外れた」と言う／読み手の故障と根拠の捏造が同じ理由／ι・κ には次の手が無いのに契約は `"readers"` を宣言／CLI に検査が無い／終了コード 2 が argparse と衝突 | `plan_from_cache` を見て文言を変える・外れた数で文言を分ける・`READER_FAILED` と `error_rate`・`scope` は `"question_set"` だけと明記・`retry_command` のテストと引用・終了コードを 3 に |
 
 検査の結果（2026-09-22）:
@@ -620,6 +624,7 @@ L0 のキャッシュとの違い: キャッシュは「同じ指示・同じモ
 
 ## 変更履歴
 
+- v3.6 [2026-09-23]: 単一モデル運用の測定を反映（R18）。`Reader.model` と `model_of()`、1 モデルのときの注意 3 つ
 - v3.5 [2026-09-23]: その受入（R17）。`READER_FAILED` と `Diagnostics.error_rate`、`plan_from_cache`、文言の分け方、`RetryHint.from_dict`、記録 `schema_version: 2`、CLI の終了コード 3 と検査
 - v3.4 [2026-09-23]: 師匠決定（上流 F4′・J20）: 軸 0 本は計器不良・理由つき・作り直しの材料つき（R16）。`Reason`・`RetryHint`・`Judgment.retry`・`Reading.reason`（`note` を統合）・`label()` の戻りが `(Label, Reason | None)`
 - v3.3 [2026-09-23]: 保存庫の受入を反映（R14・R15）。退ける名前の衝突・キャッシュ越しの作り直し（`l1.plan(sample_base=)`）・`Judgment.notes`・ロックファイル・

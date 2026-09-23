@@ -242,6 +242,34 @@ def test_default_planner_and_verifiers_are_the_real_readers():
     assert j.cost.crosscheck.live == N * 2 * 2 * 2 + N * 2
 
 
+def test_missing_or_self_crosscheck_is_reported(monkeypatch):
+    """単一モデル運用: 交差検証が効いていないことを黙って済ませない（測定 2026-09-23）。"""
+    one = run(readers=[reader("r1", 4)], planner=planner(), budget=Budget())      # 検証役が 1 体
+    assert any("交差検証をしていない" in n for n in one.notes) and one.question_set.crosscheck is None
+
+    def both(messages, schema, sample, version):
+        if "axes" in schema["properties"]:
+            return plan_json()
+        if "orientation" in schema["properties"]:
+            c = re.search(r"記述: 「(.*)」", messages[-1]["content"]).group(1)
+            return json.dumps({"orientation": "反証" if c.endswith("しなかった") else "支持"}, ensure_ascii=False)
+        if "compatible" in schema["properties"]:
+            return json.dumps({"compatible": "両立しない"}, ensure_ascii=False)
+        return reader("x", 4)._script(messages, schema, sample, version)
+    # 同じモデルを別名で 2 体の検証役・2 体の読み手として差す（名前は分かれるが model は同じ）
+    def solo(n):
+        return ScriptedReader(f"qwen:4b#{n}", both, model="qwen:4b")
+    self_cc = asyncio.run(judge(TEXT, PROP, Probability(), readers=[solo("a"), solo("b")], planner=solo("plan"),
+                                verifiers=[solo("v1"), solo("v2")], budget=Budget()))
+    assert self_cc.question_set.crosscheck is not None
+    assert any("検証役が生成器と同じモデル" in n for n in self_cc.notes)
+    assert any("読み手が全部同じモデル" in n for n in self_cc.notes)
+    # 別のモデルなら言わない
+    two = asyncio.run(judge(TEXT, PROP, Probability(), readers=[ScriptedReader("m1", both), ScriptedReader("m2", both)],
+                            planner=ScriptedReader("m3", both), budget=Budget()))
+    assert two.notes == []
+
+
 def test_flagged_axes_are_neither_answered_nor_aggregated():
     """交差検証で外した軸は回答も集約もしない（変異試験で見つかった穴）。"""
     def verifier(messages, schema, sample, version):

@@ -43,6 +43,11 @@ class Reader(Protocol):
     """読み手（問いに答える LLM）・生成器・検証役・偽読み手が共有する口（上流 §3.2「同じ口に差せる」）。
 
     version は鍵の材料（指示の版: p3 / p2 / p2:retry / xc2）。例外を投げず、失敗は ok=False で返す。
+
+    name は記録と鍵に使う名前。同じモデルを 2 体として差すときは名前を分ける（鍵が分かれて独立に呼ばれる）。
+    ⚠ `model`（任意）は**下にいるモデル**の名前。名前を分けても model は同じままにする。
+    これが無いと、合成は「読み手も検証役も実は同じモデル」を見分けられない（単一モデル運用の測定 2026-09-23）。
+    省略した実装では name をモデル名とみなす（`model_of()` で引く。口の必須項目にはしない）。
     """
     name: str
     calibration: bool
@@ -103,6 +108,11 @@ def validate(obj: Any, schema: dict, path: str = "$") -> list[str]:
         for i, x in enumerate(obj):
             errs += validate(x, schema["items"], f"{path}[{i}]")
     return errs
+
+
+def model_of(reader: Reader) -> str:
+    """読み手の下にいるモデルの名前。宣言していなければ名前をモデル名とみなす。"""
+    return getattr(reader, "model", None) or reader.name
 
 
 def cache_key(model: str, messages: list[dict], schema: dict, sample: int, version: str) -> str:
@@ -206,6 +216,7 @@ class CachedPort:
         self.reader = reader
         self.name = reader.name
         self.calibration = reader.calibration
+        self.model = model_of(reader)
         self.path = Path(path) if path is not None else None
         self.cache_only = cache_only
         self.read_only = read_only
@@ -297,9 +308,11 @@ class OllamaReader:
     """
     calibration = False
 
-    def __init__(self, model: str, *, host: str = "http://localhost:11434", num_ctx: int = 8192,
+    def __init__(self, model: str, *, name: str | None = None, host: str = "http://localhost:11434", num_ctx: int = 8192,
                  think: bool | None = False, timeout: float = 600, retries: int = 3, backoff: float = 5.0):
-        self.name = model
+        # name を変えると鍵が分かれ、同じモデルを別々の読み手として差せる（model は同じまま）
+        self.name = name or model
+        self.model = model
         self.host = host.rstrip("/")
         self.num_ctx = num_ctx
         self.think = think
@@ -308,7 +321,7 @@ class OllamaReader:
         self.backoff = backoff
 
     def _post(self, messages: list[dict], schema: dict, think: bool | None) -> dict:
-        body: dict[str, Any] = {"model": self.name, "messages": messages, "stream": False, "format": schema,
+        body: dict[str, Any] = {"model": self.model, "messages": messages, "stream": False, "format": schema,
                                 "options": {"num_ctx": self.num_ctx}}
         if think is not None:
             body["think"] = think
@@ -364,7 +377,7 @@ class FakeReader:
             raise ValueError(f"未知の偽読み手: {kind!r}（{', '.join(self.KINDS)}）")
         self.kind = kind
         self.seed = seed
-        self.name = f"fake:{kind}"
+        self.name = self.model = f"fake:{kind}"
 
     async def complete(self, messages: list[dict], schema: dict, *, sample: int, version: str) -> RawReply:  # noqa: ARG002
         verdict = (schema.get("properties") or {}).get("verdict") or {}
