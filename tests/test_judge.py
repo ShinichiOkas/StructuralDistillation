@@ -292,8 +292,8 @@ def test_single_model_notes_do_not_depend_on_where_the_questions_came_from(tmp_p
             assert len(said) == 1, (kw, len(readers_), c.notes)
 
 
-def test_a_reused_question_set_that_crosschecked_itself_is_reported(tmp_path):
-    """受入 2 回目 C-2: 自己交差検証の印は、記録に残った検証役の名前からも読む。"""
+def test_notes_do_not_need_the_generator_to_be_named(tmp_path):
+    """受入 3 回目 C-1（退行）: planner を省くと既定（読み手の先頭）が生成器になる。注意はそのときも出す。"""
     def script(messages, schema, sample, version):
         s = json.dumps(schema)
         if "axes" in s:
@@ -303,8 +303,48 @@ def test_a_reused_question_set_that_crosschecked_itself_is_reported(tmp_path):
         if "compatible" in s:
             return json.dumps({"compatible": "両立しない"}, ensure_ascii=False)
         return reader("x", 4)._script(messages, schema, sample, version)
-    one = ScriptedReader("solo", script, model="qwen:4b")           # 生成器が自分で検証役も兼ねる
-    two = ScriptedReader("solo2", script, model="qwen:4b")
+    a, b = (ScriptedReader(n, script, model="qwen:4b") for n in ("qwen:4b#a", "qwen:4b#b"))
+    j = asyncio.run(judge(TEXT, PROP, Probability(), readers=[a, b], budget=Budget(crosscheck=True)))
+    assert any("検証役が生成器と同じモデル" in n for n in j.notes)     # 既定の検証役 ＝ 偽でない読み手
+    assert any("読み手が全部同じモデル" in n for n in j.notes)
+    assert any("生成器も読み手も同じモデル" in n for n in j.notes)
+
+
+def test_a_generator_that_is_also_a_verifier_has_a_veto(tmp_path):
+    """受入 2 回目 m-5: 検証役 2 体のうち 1 体が生成器だと、自分の軸に拒否権を持つ（全員一致が要る）。"""
+    def script(messages, schema, sample, version):
+        s = json.dumps(schema)
+        if "axes" in s:
+            return plan_json()
+        if "orientation" in s:
+            return json.dumps({"orientation": "支持"}, ensure_ascii=False)
+        if "compatible" in s:
+            return json.dumps({"compatible": "両立しない"}, ensure_ascii=False)
+        return reader("x", 4)._script(messages, schema, sample, version)
+    gen = ScriptedReader("gen", script, model="m1")
+    other = ScriptedReader("other", script, model="m2")
+    j = asyncio.run(judge(TEXT, PROP, Probability(), readers=[gen, other], planner=gen, verifiers=[gen, other],
+                          budget=Budget(crosscheck=True)))
+    assert any("拒否権" in n and "gen" in n for n in j.notes)
+    # 検証役が生成器と別のモデルだけなら言わない
+    k = asyncio.run(judge(TEXT, PROP, Probability(), readers=[gen, other], planner=gen, verifiers=[other, gen2 := ScriptedReader("v3", script, model="m3")],
+                          budget=Budget(crosscheck=True)))
+    assert not any("拒否権" in n for n in k.notes) and gen2 is not None
+
+
+def test_a_reused_question_set_reports_its_recorded_origin(tmp_path):
+    """受入 3 回目 C-2: 再利用した問いでは、生成器と検証役の「名前」を告げる（モデルは分からない）。"""
+    def script(messages, schema, sample, version):
+        s = json.dumps(schema)
+        if "axes" in s:
+            return plan_json()
+        if "orientation" in s:
+            return json.dumps({"orientation": "支持"}, ensure_ascii=False)
+        if "compatible" in s:
+            return json.dumps({"compatible": "両立しない"}, ensure_ascii=False)
+        return reader("x", 4)._script(messages, schema, sample, version)
+    one = ScriptedReader("qwen:4b", script, model="qwen:4b")        # 名前とモデル名が同じ（ふつうの差し方）
+    two = ScriptedReader("qwen:4b#b", script, model="qwen:4b")
     gen = asyncio.run(judge(TEXT, PROP, Probability(), readers=[one, two], planner=one, verifiers=[one, two],
                             budget=Budget(crosscheck=True), question_store=tmp_path))
     assert gen.question_set.crosscheck is not None
@@ -312,13 +352,24 @@ def test_a_reused_question_set_that_crosschecked_itself_is_reported(tmp_path):
                                question_store=tmp_path))
     assert reused.question_set.source == "stored"
     assert any("検証役が生成器と同じモデル" in n for n in gen.notes)
-    # 記録の生成器の名前が読み手のモデル（または名前）と同じなら、再利用でも「1 モデルで回っている」と言い切れる
-    assert any("生成器も読み手も同じモデル（solo）" in n and "問いを作っていない（再利用）" in n for n in reused.notes)
-    # 記録の検証役が生成器 1 体だけなら、再利用した側でも自己交差検証と分かる
-    solo_cc = replace(gen.question_set, crosscheck=replace(gen.question_set.crosscheck, verifiers=["solo"]))
-    given = asyncio.run(judge(TEXT, PROP, Probability(), readers=[one, two], question_set=solo_cc,
+    # 記録の生成器の名前が読み手のモデル名と同じなら、再利用でも「1 モデルで回っている」と言い切れる
+    assert any("生成器も読み手も同じモデル（qwen:4b）" in n and "問いを作っていない（再利用）" in n for n in reused.notes)
+    # 名前しか分からないときは言い切らず、記録の名前（生成器と検証役）を告げる
+    other = [ScriptedReader(f"m2#{i}", script, model="m2") for i in "ab"]
+    given = asyncio.run(judge(TEXT, PROP, Probability(), readers=other, question_set=gen.question_set,
                               budget=Budget(crosscheck=True)))
-    assert any("検証役が生成器と同じモデル" in n for n in given.notes)
+    origin = [n for n in given.notes if "この問いの集合を作った生成器は qwen:4b" in n]
+    assert len(origin) == 1 and "検証役は qwen:4b・qwen:4b#b" in origin[0]
+    assert not any("生成器も読み手も同じモデル" in n for n in given.notes)   # 名前が一致しても実体は別モデル
+    # 記録の名前と読み手の名前が同じでも、モデルが違えば言い切らない（名前とモデル名の衝突）
+    masq = [ScriptedReader(n, script, model="m2") for n in ("qwen:4b", "qwen:4b#b")]
+    m = asyncio.run(judge(TEXT, PROP, Probability(), readers=masq, question_set=gen.question_set,
+                          budget=Budget(crosscheck=True)))
+    assert not any("生成器も読み手も同じモデル" in n for n in m.notes)
+    # 偽読み手だけ（較正の走行）でも黙らない
+    f = asyncio.run(judge(TEXT, PROP, Probability(), readers=[FakeReader("all_yes")], question_set=gen.question_set,
+                          budget=Budget(crosscheck=True)))
+    assert any("偽読み手しかいない" in n for n in f.notes)
 
 
 def test_flagged_axes_are_neither_answered_nor_aggregated():

@@ -158,32 +158,38 @@ def _note_models(qs: QuestionSet, budget: Budget, readers: Sequence[Reader], ver
       ライブラリからは分からないので、問いの集合に記録された**名前**だけで言う（受入 2 回目 C-2）。
     """
     notes = []
+    real = [r for r in readers if not r.calibration]
+    models = {model_of(r) for r in real}
+    if not real:
+        notes.append("偽読み手しかいない（較正だけの走行）。判定の値は返らない")
     if qs.crosscheck is None and budget.crosscheck:
         who = (f"検証役 {len(verifiers)} 体。2 体以上が要る" if generated else
                "保存庫から再利用した問いの集合が交差検証していない" if qs.source == "stored" else
                "渡された問いの集合が交差検証していない")
         notes.append(f"向きの交差検証をしていない（{who}）。生成器が付けた向きの誤りは外されないまま判定に入る")
-    elif qs.crosscheck is not None and (
-            {model_of(v) for v in verifiers} == {model_of(planner)} if generated and planner is not None
-            else set(qs.crosscheck.verifiers) == {qs.planner}):
-        notes.append("検証役が生成器と同じモデル（自己交差検証）。測定では、弱いモデルの自己検証が外せた軸は"
-                     "他系統の検証役の 1/4 だった（拾ったものは正しかったが、取りこぼしが多い）")
-    real = [r for r in readers if not r.calibration]
-    models = {model_of(r) for r in real}
-    names = {r.name for r in real}
+    elif qs.crosscheck is not None and generated and planner is not None:
+        if {model_of(v) for v in verifiers} == {model_of(planner)}:
+            notes.append("検証役が生成器と同じモデル（自己交差検証）。測定では、弱いモデルの自己検証が外せた軸は"
+                         "他系統の検証役の 1/4 だった（拾ったものは正しかったが、取りこぼしが多い）")
+        elif any(v.name == planner.name for v in verifiers) and len(verifiers) == 2:
+            notes.append(f"生成器 {planner.name} が検証役 2 体の 1 体を兼ねている。向きを外すには全員一致が要るので、"
+                         "生成器は自分が作った軸に拒否権を持つ")
     if len(real) == 1:
         notes.append(f"読み手が 1 体（{real[0].name}）。読み手間の差 Δ は測れない（読み手非依存 Q1 の計器が無い）")
     elif len(real) >= 2 and len(models) == 1:
         notes.append(f"読み手が全部同じモデル（{next(iter(models))}）。読み手間の差 Δ は同じモデルの揺れで、"
                      "読み手非依存（Q1）の計器にはならない")
-    same = (planner is not None and model_of(planner) in models) if generated else (qs.planner in models | names)
+    # 問いを作っていないときは、記録に残るのは「名前」だけ。名前がモデル名と同じときにだけ同一と言い切る
+    same = ((planner is not None and model_of(planner) in models) if generated else
+            (qs.planner in models and any(model_of(r) == qs.planner for r in real)))
     if len(models) == 1 and same:
         who = model_of(planner) if generated and planner is not None else qs.planner
         notes.append(f"生成器も読み手も同じモデル（{who}）。測定では、弱いモデル 1 つで全部を回すと想定に合った題材が"
-                     "7/18 まで落ちた（同じ読み手でも、強いモデルが作った軸なら 15/18）"
+                     "7/18 まで落ちた（同じ読み手でも、強いモデルが作った軸なら 13〜15/18。標本数で動く）"
                      + ("" if generated else "。⚠ この判定では問いを作っていない（再利用）"))
     elif len(models) == 1 and not generated:
-        notes.append(f"この問いの集合を作った生成器は {qs.planner}（記録に残った名前）。読み手と同じ系統かどうかは"
+        cc = f"・検証役は {'・'.join(qs.crosscheck.verifiers)}" if qs.crosscheck else "・交差検証なし"
+        notes.append(f"この問いの集合を作った生成器は {qs.planner}{cc}（記録に残った名前）。読み手と同じ系統かどうかは"
                      "ライブラリからは分からない。同じなら、判定は 1 モデルで回っていることになる")
     for n in notes:
         log.warning("%s", n)
@@ -233,6 +239,9 @@ async def judge(text: str, proposition: str, output: OutputType, *,
         raise InputError("question_set を渡すときに regenerate は使えない（渡された問いは利用側の持ち物）")
     units = segment(text, segmentation)
     real = [r for r in readers if not r.calibration]
+    # 既定の生成器・検証役も注意の対象（受入 3 回目 C-1: planner を省いた呼び方で注意が消えていた）
+    resolved_planner = planner if planner is not None else (real[0] if real else None)
+    resolved_verifiers = list(verifiers) if verifiers is not None else real
     meter = Meter()
     sem = asyncio.Semaphore(budget.workers)
     notes: list[str] = []
@@ -257,12 +266,12 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     elif stored is not None:
         qs = replace(stored, source="stored", store_key=key)
     else:
-        gen = planner if planner is not None else (real[0] if real else None)
+        gen = resolved_planner
         if gen is None:
             raise InputError("生成器が要る（偽でない読み手が無いので既定が決まらない）")
         if gen.calibration:
             raise InputError(f"偽読み手 {gen.name} は生成器になれない（答えるだけ）")
-        vs = list(verifiers) if verifiers is not None else real
+        vs = resolved_verifiers
         if any(v.calibration for v in vs):
             raise InputError("偽読み手は検証役になれない")
         if len({v.name for v in vs}) != len(vs):
@@ -280,7 +289,7 @@ async def judge(text: str, proposition: str, output: OutputType, *,
             if regenerate and meter.cost.plan.live == 0 and meter.cost.plan.cached > 0:
                 notes.append("作り直したが、生成の応答はキャッシュから引いた（前と同じ問いの可能性がある）")
     # 1 つのモデルしか使っていないことは、問いをどこから得たかに関わらず知らせる（受入 1 回目 M12・M13／2 回目 C-2）
-    notes += _note_models(qs, budget, readers, list(verifiers) if verifiers is not None else real, planner,
+    notes += _note_models(qs, budget, readers, resolved_verifiers, resolved_planner,
                           generated=qs.source == "generated")
     matrices: list[AnswerMatrix] = []
     readings: dict[str, Reading] = {}
