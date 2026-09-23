@@ -352,15 +352,21 @@ def test_a_reused_question_set_reports_its_recorded_origin(tmp_path):
                                question_store=tmp_path))
     assert reused.question_set.source == "stored"
     assert any("検証役が生成器と同じモデル" in n for n in gen.notes)
-    # 記録の生成器の名前が読み手のモデル名と同じなら、再利用でも「1 モデルで回っている」と言い切れる
-    assert any("生成器も読み手も同じモデル（qwen:4b）" in n and "問いを作っていない（再利用）" in n for n in reused.notes)
+    # 再利用では言い切らない。名前が読み手のモデル名と同じときだけ「可能性が高い」と添える（受入 4 回目 m-12）
+    assert not any("生成器も読み手も同じモデル" in n for n in reused.notes)
+    assert any("この問いの集合を作った生成器は qwen:4b" in n and "可能性が高い" in n for n in reused.notes)
     # 名前しか分からないときは言い切らず、記録の名前（生成器と検証役）を告げる
     other = [ScriptedReader(f"m2#{i}", script, model="m2") for i in "ab"]
     given = asyncio.run(judge(TEXT, PROP, Probability(), readers=other, question_set=gen.question_set,
                               budget=Budget(crosscheck=True)))
     origin = [n for n in given.notes if "この問いの集合を作った生成器は qwen:4b" in n]
-    assert len(origin) == 1 and "検証役は qwen:4b・qwen:4b#b" in origin[0]
+    assert len(origin) == 1 and "検証役は qwen:4b・qwen:4b#b" in origin[0] and "可能性が高い" not in origin[0]
     assert not any("生成器も読み手も同じモデル" in n for n in given.notes)   # 名前が一致しても実体は別モデル
+    # 検出項目だけの問いの集合には、出所の注意を出さない（受入 4 回目 m-4）
+    det = replace(gen.question_set, axes=[replace(gen.question_set.axes[0], kind="detection")],
+                  active_ids=[gen.question_set.axes[0].id], crosscheck=None)
+    d = asyncio.run(judge(TEXT, PROP, Probability(), readers=other, question_set=det, budget=Budget(crosscheck=False)))
+    assert not any("この問いの集合を作った生成器は" in n for n in d.notes)
     # 記録の名前と読み手の名前が同じでも、モデルが違えば言い切らない（名前とモデル名の衝突）
     masq = [ScriptedReader(n, script, model="m2") for n in ("qwen:4b", "qwen:4b#b")]
     m = asyncio.run(judge(TEXT, PROP, Probability(), readers=masq, question_set=gen.question_set,

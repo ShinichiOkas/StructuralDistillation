@@ -160,6 +160,7 @@ def _note_models(qs: QuestionSet, budget: Budget, readers: Sequence[Reader], ver
 
     ⚠ 問いをこの判定で作ったか（generated）で、言えることが変わる。作っていないなら、生成器・検証役の**モデル**は
       ライブラリからは分からないので、問いの集合に記録された**名前**だけで言う（受入 2 回目 C-2）。
+      名前が読み手のモデル名と同じでも言い切らない（受入 4 回目 m-12）。検出項目だけの問いの集合には出さない（同 m-4）。
     """
     notes = []
     real = [r for r in readers if not r.calibration]
@@ -184,18 +185,17 @@ def _note_models(qs: QuestionSet, budget: Budget, readers: Sequence[Reader], ver
     elif len(real) >= 2 and len(models) == 1:
         notes.append(f"読み手が全部同じモデル（{next(iter(models))}）。読み手間の差 Δ は同じモデルの揺れで、"
                      "読み手非依存（Q1）の計器にはならない")
-    # 問いを作っていないときは、記録に残るのは「名前」だけ。名前がモデル名と同じときにだけ同一と言い切る
-    same = ((planner is not None and model_of(planner) in models) if generated else
-            (qs.planner in models and any(model_of(r) == qs.planner for r in real)))
-    if len(models) == 1 and same:
-        who = model_of(planner) if generated and planner is not None else qs.planner
-        notes.append(f"生成器も読み手も同じモデル（{who}）。測定では、弱いモデル 1 つで全部を回すと想定に合った題材が"
-                     "7/18 まで落ちた（同じ読み手でも、強いモデルが作った軸なら 13〜15/18。標本数で動く）"
-                     + ("" if generated else "。⚠ この判定では問いを作っていない（再利用）"))
-    elif len(models) == 1 and not generated:
+    # ⚠ 問いを作っていないときは、記録に残るのは「名前」だけ。名前が読み手のモデル名と同じでも、その生成器が
+    #   同じモデルだったとは限らない（受入 4 回目 m-12）。だから言い切るのは、この判定で作ったときだけ
+    if len(models) == 1 and generated and planner is not None and model_of(planner) in models:
+        notes.append(f"生成器も読み手も同じモデル（{model_of(planner)}）。測定では、弱いモデル 1 つで全部を回すと"
+                     "想定に合った題材が 7/18 まで落ちた（同じ読み手でも、強いモデルが作った軸なら 13〜15/18。"
+                     "標本数で動く）")
+    elif len(models) == 1 and not generated and any(a.kind != "detection" for a in qs.axes):
         cc = f"・検証役は {'・'.join(qs.crosscheck.verifiers)}" if qs.crosscheck else "・交差検証なし"
-        notes.append(f"読み手は全部同じモデル。この問いの集合を作った生成器は {qs.planner}{cc}（記録に残った名前）。"
-                     "名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない")
+        hint = ("。読み手のモデル名と同じ名前なので、1 モデルで回っている可能性が高い" if qs.planner in models else "")
+        notes.append(f"この問いの集合を作った生成器は {qs.planner}{cc}（記録に残った名前）。名前しか残らないので、"
+                     f"生成器が読み手と同じモデルかどうかはライブラリからは分からない{hint}")
     for n in notes:
         log.warning("%s", n)
     return notes
