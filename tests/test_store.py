@@ -150,7 +150,8 @@ def test_differences_from_the_stored_conditions_are_reported(tmp_path, caplog):
     text = " ".join(j.notes)
     assert "生成器 planner" in text and "other-planner" in text and "軸 6 本" in text and "交差検証していない" in text
     assert "読み手が 1 体" in text                                     # 受入 M13: 読み手 1 体も知らせる
-    assert other.calls == [] and v[0].calls == [] and len(caplog.records) == len(j.notes) == 4
+    assert "この問いの集合を作った生成器は planner" in text            # 受入 2 回目 C-2: 作った生成器を名前で告げる
+    assert other.calls == [] and v[0].calls == [] and len(caplog.records) == len(j.notes) == 5
     assert j.question_set.source == "stored"
 
 

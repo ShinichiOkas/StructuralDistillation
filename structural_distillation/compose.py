@@ -140,40 +140,51 @@ def _note_differences(stored: QuestionSet, p: PromptSet, budget: Budget, want_pl
     if not budget.lo <= len(stored.axes) <= budget.hi:
         want = f"{budget.lo}" if budget.lo == budget.hi else f"{budget.lo}〜{budget.hi}"
         notes.append(f"保存された問いは軸 {len(stored.axes)} 本（今回の予算は {want} 本）")
-    if stored.crosscheck is None and budget.crosscheck and n_verifiers >= 2:
-        notes.append("保存された問いは交差検証していない（今回は交差検証を求めているが、保存された問いをそのまま使う）")
+    # ⚠ 交差検証をしていないことは _note_models が 1 か所で言う（受入 2 回目 C-2: 検証役 1 体のとき両方が黙っていた）
     # ⚠ 有効な軸 0 本は Judgment.retry が次の手つきで返すので、ここでは言わない（同じことを 2 つの欄で言わない）
     for n in notes:
         log.warning("問いの保存庫: %s。再利用する", n)
     return notes
 
 
-def _note_models(qs: QuestionSet, budget: Budget, readers: Sequence[Reader], verifiers: Sequence[Reader] | None,
-                 planner: Reader | None) -> list[str]:
+def _note_models(qs: QuestionSet, budget: Budget, readers: Sequence[Reader], verifiers: Sequence[Reader],
+                 planner: Reader | None, *, generated: bool) -> list[str]:
     """1 つのモデルしか使っていないことを黙って済ませない（単一モデル運用の測定 2026-09-23）。
 
-    測定（弱いモデル 1 体・題材 21）: 想定一致 7/18（多系統の基準 16/18）。同じモデルを 2 体に見せても Δ は 0.00。
-    自己交差検証が外せた軸は他系統の検証役の 1/4。
+    測定（弱いモデル 1 体・題材 21）: 想定一致 7/18（多系統の基準 16/18）。壊れていたのは生成器で、同じ弱い読み手でも
+    強いモデルが作った軸なら 15/18 だった。同じモデルを 2 体に見せても Δ は 0.00。自己交差検証が外せた軸は他系統の検証役の 1/4。
+
+    ⚠ 問いをこの判定で作ったか（generated）で、言えることが変わる。作っていないなら、生成器・検証役の**モデル**は
+      ライブラリからは分からないので、問いの集合に記録された**名前**だけで言う（受入 2 回目 C-2）。
     """
     notes = []
-    # 保存庫から再利用したときは、条件の違い（_note_differences）の側で同じことを言うので繰り返さない
-    if qs.crosscheck is None and budget.crosscheck and qs.source != "stored":
-        who = f"検証役 {len(verifiers)} 体。2 体以上が要る" if verifiers is not None else "渡された問いの集合が交差検証していない"
+    if qs.crosscheck is None and budget.crosscheck:
+        who = (f"検証役 {len(verifiers)} 体。2 体以上が要る" if generated else
+               "保存庫から再利用した問いの集合が交差検証していない" if qs.source == "stored" else
+               "渡された問いの集合が交差検証していない")
         notes.append(f"向きの交差検証をしていない（{who}）。生成器が付けた向きの誤りは外されないまま判定に入る")
-    elif qs.crosscheck is not None and verifiers is not None and planner is not None \
-            and {model_of(v) for v in verifiers} == {model_of(planner)}:
+    elif qs.crosscheck is not None and (
+            {model_of(v) for v in verifiers} == {model_of(planner)} if generated and planner is not None
+            else set(qs.crosscheck.verifiers) == {qs.planner}):
         notes.append("検証役が生成器と同じモデル（自己交差検証）。測定では、弱いモデルの自己検証が外せた軸は"
                      "他系統の検証役の 1/4 だった（拾ったものは正しかったが、取りこぼしが多い）")
     real = [r for r in readers if not r.calibration]
     models = {model_of(r) for r in real}
+    names = {r.name for r in real}
     if len(real) == 1:
         notes.append(f"読み手が 1 体（{real[0].name}）。読み手間の差 Δ は測れない（読み手非依存 Q1 の計器が無い）")
     elif len(real) >= 2 and len(models) == 1:
         notes.append(f"読み手が全部同じモデル（{next(iter(models))}）。読み手間の差 Δ は同じモデルの揺れで、"
                      "読み手非依存（Q1）の計器にはならない")
-    if planner is not None and len(models) == 1 and model_of(planner) in models:
-        notes.append(f"生成器も読み手も同じモデル（{model_of(planner)}）。測定では、弱いモデル 1 つで全部を回すと"
-                     "命題に効かない軸ばかりになり、判定が歪んだ")
+    same = (planner is not None and model_of(planner) in models) if generated else (qs.planner in models | names)
+    if len(models) == 1 and same:
+        who = model_of(planner) if generated and planner is not None else qs.planner
+        notes.append(f"生成器も読み手も同じモデル（{who}）。測定では、弱いモデル 1 つで全部を回すと想定に合った題材が"
+                     "7/18 まで落ちた（同じ読み手でも、強いモデルが作った軸なら 15/18）"
+                     + ("" if generated else "。⚠ この判定では問いを作っていない（再利用）"))
+    elif len(models) == 1 and not generated:
+        notes.append(f"この問いの集合を作った生成器は {qs.planner}（記録に残った名前）。読み手と同じ系統かどうかは"
+                     "ライブラリからは分からない。同じなら、判定は 1 モデルで回っていることになる")
     for n in notes:
         log.warning("%s", n)
     return notes
@@ -228,8 +239,6 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     store: QuestionStore | None = None
     key: str | None = None
     stored: QuestionSet | None = None
-    used_verifiers: Sequence[Reader] | None = None
-    used_planner: Reader | None = None
     if question_set is not None and question_store is not None:
         notes.append("問いの集合を渡されたので、問いの保存庫は見ない（保存もしない）")
     if question_set is None and question_store is not None:
@@ -262,7 +271,6 @@ async def judge(text: str, proposition: str, output: OutputType, *,
         base = store.generations(key) * (budget.plan_retries + 1) if (store is not None and key is not None and regenerate) else 0
         qs = await l1.plan(gen, units, proposition, budget=budget, prompts=p, verifiers=vs, sem=sem, meter=meter,
                            sample_base=base)
-        used_verifiers, used_planner = vs, gen
         if store is not None and key is not None:
             qs = replace(qs, store_key=key)
             path, old = store.save(key, qs, units=units, units_rule=rule_version(segmentation), proposition=proposition)
@@ -271,8 +279,9 @@ async def judge(text: str, proposition: str, output: OutputType, *,
                 notes.append(f"作り直した。前の問いの集合は {old.name} に残した")
             if regenerate and meter.cost.plan.live == 0 and meter.cost.plan.cached > 0:
                 notes.append("作り直したが、生成の応答はキャッシュから引いた（前と同じ問いの可能性がある）")
-    # 1 つのモデルしか使っていないことは、問いをどこから得たかに関わらず知らせる（受入 M12・M13）
-    notes += _note_models(qs, budget, readers, used_verifiers, used_planner)
+    # 1 つのモデルしか使っていないことは、問いをどこから得たかに関わらず知らせる（受入 1 回目 M12・M13／2 回目 C-2）
+    notes += _note_models(qs, budget, readers, list(verifiers) if verifiers is not None else real, planner,
+                          generated=qs.source == "generated")
     matrices: list[AnswerMatrix] = []
     readings: dict[str, Reading] = {}
     for r in readers:

@@ -283,10 +283,42 @@ def test_single_model_notes_do_not_depend_on_where_the_questions_came_from(tmp_p
     for kw in ({"question_store": tmp_path}, {"question_set": j.question_set}):
         k = run(readers=[solo("a"), solo("b")], **kw)
         assert any("読み手が全部同じモデル" in n for n in k.notes), kw
-        # 交差検証していない問いの集合は、どこから来ても知らせる（保存庫の側は条件の違いとして 1 度だけ言う）
-        c = run(readers=[solo("a"), solo("b")], budget=Budget(crosscheck=True), **kw)
-        said = [n for n in c.notes if "交差検証していない" in n]
-        assert len(said) == 1, (kw, c.notes)
+        # 受入 2 回目 C-2: 問いを作っていない経路では、生成器のモデルは分からない。記録に残った名前で告げる
+        assert any(f"この問いの集合を作った生成器は {j.question_set.planner}" in n for n in k.notes), kw
+        # 交差検証していない問いの集合は、どこから来ても 1 度だけ知らせる（検証役が 1 体でも黙らない）
+        for readers_ in ([solo("a"), solo("b")], [solo("a")]):
+            c = run(readers=readers_, budget=Budget(crosscheck=True), **kw)
+            said = [n for n in c.notes if "交差検証していない" in n]
+            assert len(said) == 1, (kw, len(readers_), c.notes)
+
+
+def test_a_reused_question_set_that_crosschecked_itself_is_reported(tmp_path):
+    """受入 2 回目 C-2: 自己交差検証の印は、記録に残った検証役の名前からも読む。"""
+    def script(messages, schema, sample, version):
+        s = json.dumps(schema)
+        if "axes" in s:
+            return plan_json()
+        if "orientation" in s:
+            return json.dumps({"orientation": "支持"}, ensure_ascii=False)
+        if "compatible" in s:
+            return json.dumps({"compatible": "両立しない"}, ensure_ascii=False)
+        return reader("x", 4)._script(messages, schema, sample, version)
+    one = ScriptedReader("solo", script, model="qwen:4b")           # 生成器が自分で検証役も兼ねる
+    two = ScriptedReader("solo2", script, model="qwen:4b")
+    gen = asyncio.run(judge(TEXT, PROP, Probability(), readers=[one, two], planner=one, verifiers=[one, two],
+                            budget=Budget(crosscheck=True), question_store=tmp_path))
+    assert gen.question_set.crosscheck is not None
+    reused = asyncio.run(judge(TEXT, PROP, Probability(), readers=[one, two], budget=Budget(crosscheck=True),
+                               question_store=tmp_path))
+    assert reused.question_set.source == "stored"
+    assert any("検証役が生成器と同じモデル" in n for n in gen.notes)
+    # 記録の生成器の名前が読み手のモデル（または名前）と同じなら、再利用でも「1 モデルで回っている」と言い切れる
+    assert any("生成器も読み手も同じモデル（solo）" in n and "問いを作っていない（再利用）" in n for n in reused.notes)
+    # 記録の検証役が生成器 1 体だけなら、再利用した側でも自己交差検証と分かる
+    solo_cc = replace(gen.question_set, crosscheck=replace(gen.question_set.crosscheck, verifiers=["solo"]))
+    given = asyncio.run(judge(TEXT, PROP, Probability(), readers=[one, two], question_set=solo_cc,
+                              budget=Budget(crosscheck=True)))
+    assert any("検証役が生成器と同じモデル" in n for n in given.notes)
 
 
 def test_flagged_axes_are_neither_answered_nor_aggregated():
