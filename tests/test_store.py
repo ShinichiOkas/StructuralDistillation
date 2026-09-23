@@ -144,11 +144,13 @@ def test_differences_from_the_stored_conditions_are_reported(tmp_path, caplog):
     run(tmp_path)                                                     # 生成器 planner・軸 6・交差検証なし
     other = ScriptedReader("other-planner", [plan_json()])
     v = [ScriptedReader("v1", lambda *a: None), ScriptedReader("v2", lambda *a: None)]
+    caplog.clear()                                                     # 1 回目の生成でも注意は出る（読み手 1 体）
     with caplog.at_level("WARNING", logger="structural_distillation.compose"):
         j = run(tmp_path, gen=other, verifiers=v, budget=Budget(axes=8, crosscheck=True))
     text = " ".join(j.notes)
     assert "生成器 planner" in text and "other-planner" in text and "軸 6 本" in text and "交差検証していない" in text
-    assert other.calls == [] and v[0].calls == [] and len(caplog.records) == len(j.notes) == 3
+    assert "読み手が 1 体" in text                                     # 受入 M13: 読み手 1 体も知らせる
+    assert other.calls == [] and v[0].calls == [] and len(caplog.records) == len(j.notes) == 4
     assert j.question_set.source == "stored"
 
 

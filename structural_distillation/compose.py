@@ -148,24 +148,32 @@ def _note_differences(stored: QuestionSet, p: PromptSet, budget: Budget, want_pl
     return notes
 
 
-def _note_models(qs: QuestionSet, budget: Budget, readers: Sequence[Reader], verifiers: Sequence[Reader],
-                 planner: Reader) -> list[str]:
+def _note_models(qs: QuestionSet, budget: Budget, readers: Sequence[Reader], verifiers: Sequence[Reader] | None,
+                 planner: Reader | None) -> list[str]:
     """1 つのモデルしか使っていないことを黙って済ませない（単一モデル運用の測定 2026-09-23）。
 
     測定（弱いモデル 1 体・題材 21）: 想定一致 7/18（多系統の基準 16/18）。同じモデルを 2 体に見せても Δ は 0.00。
     自己交差検証が外せた軸は他系統の検証役の 1/4。
     """
     notes = []
-    if budget.crosscheck and qs.crosscheck is None:
-        notes.append(f"向きの交差検証をしていない（検証役 {len(verifiers)} 体。2 体以上が要る）。"
-                     "生成器が付けた向きの誤りは外されないまま判定に入る")
-    elif qs.crosscheck is not None and {model_of(v) for v in verifiers} == {model_of(planner)}:
+    # 保存庫から再利用したときは、条件の違い（_note_differences）の側で同じことを言うので繰り返さない
+    if qs.crosscheck is None and budget.crosscheck and qs.source != "stored":
+        who = f"検証役 {len(verifiers)} 体。2 体以上が要る" if verifiers is not None else "渡された問いの集合が交差検証していない"
+        notes.append(f"向きの交差検証をしていない（{who}）。生成器が付けた向きの誤りは外されないまま判定に入る")
+    elif qs.crosscheck is not None and verifiers is not None and planner is not None \
+            and {model_of(v) for v in verifiers} == {model_of(planner)}:
         notes.append("検証役が生成器と同じモデル（自己交差検証）。測定では、弱いモデルの自己検証が外せた軸は"
-                     "他系統の検証役の 1/4 だった")
+                     "他系統の検証役の 1/4 だった（拾ったものは正しかったが、取りこぼしが多い）")
     real = [r for r in readers if not r.calibration]
-    if len(real) >= 2 and len({model_of(r) for r in real}) == 1:
-        notes.append(f"読み手が全部同じモデル（{model_of(real[0])}）。読み手間の差 Δ は同じモデルの揺れで、"
+    models = {model_of(r) for r in real}
+    if len(real) == 1:
+        notes.append(f"読み手が 1 体（{real[0].name}）。読み手間の差 Δ は測れない（読み手非依存 Q1 の計器が無い）")
+    elif len(real) >= 2 and len(models) == 1:
+        notes.append(f"読み手が全部同じモデル（{next(iter(models))}）。読み手間の差 Δ は同じモデルの揺れで、"
                      "読み手非依存（Q1）の計器にはならない")
+    if planner is not None and len(models) == 1 and model_of(planner) in models:
+        notes.append(f"生成器も読み手も同じモデル（{model_of(planner)}）。測定では、弱いモデル 1 つで全部を回すと"
+                     "命題に効かない軸ばかりになり、判定が歪んだ")
     for n in notes:
         log.warning("%s", n)
     return notes
@@ -220,6 +228,8 @@ async def judge(text: str, proposition: str, output: OutputType, *,
     store: QuestionStore | None = None
     key: str | None = None
     stored: QuestionSet | None = None
+    used_verifiers: Sequence[Reader] | None = None
+    used_planner: Reader | None = None
     if question_set is not None and question_store is not None:
         notes.append("問いの集合を渡されたので、問いの保存庫は見ない（保存もしない）")
     if question_set is None and question_store is not None:
@@ -252,7 +262,7 @@ async def judge(text: str, proposition: str, output: OutputType, *,
         base = store.generations(key) * (budget.plan_retries + 1) if (store is not None and key is not None and regenerate) else 0
         qs = await l1.plan(gen, units, proposition, budget=budget, prompts=p, verifiers=vs, sem=sem, meter=meter,
                            sample_base=base)
-        notes += _note_models(qs, budget, readers, vs, gen)
+        used_verifiers, used_planner = vs, gen
         if store is not None and key is not None:
             qs = replace(qs, store_key=key)
             path, old = store.save(key, qs, units=units, units_rule=rule_version(segmentation), proposition=proposition)
@@ -261,6 +271,8 @@ async def judge(text: str, proposition: str, output: OutputType, *,
                 notes.append(f"作り直した。前の問いの集合は {old.name} に残した")
             if regenerate and meter.cost.plan.live == 0 and meter.cost.plan.cached > 0:
                 notes.append("作り直したが、生成の応答はキャッシュから引いた（前と同じ問いの可能性がある）")
+    # 1 つのモデルしか使っていないことは、問いをどこから得たかに関わらず知らせる（受入 M12・M13）
+    notes += _note_models(qs, budget, readers, used_verifiers, used_planner)
     matrices: list[AnswerMatrix] = []
     readings: dict[str, Reading] = {}
     for r in readers:

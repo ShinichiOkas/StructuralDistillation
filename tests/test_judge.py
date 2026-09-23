@@ -263,11 +263,30 @@ def test_missing_or_self_crosscheck_is_reported(monkeypatch):
                                 verifiers=[solo("v1"), solo("v2")], budget=Budget()))
     assert self_cc.question_set.crosscheck is not None
     assert any("検証役が生成器と同じモデル" in n for n in self_cc.notes)
-    assert any("読み手が全部同じモデル" in n for n in self_cc.notes)
+    assert any("読み手が全部同じモデル（qwen:4b）" in n for n in self_cc.notes)
+    assert any("生成器も読み手も同じモデル（qwen:4b）" in n for n in self_cc.notes)   # 受入 C4: 1 モデル運用そのもの
     # 別のモデルなら言わない
     two = asyncio.run(judge(TEXT, PROP, Probability(), readers=[ScriptedReader("m1", both), ScriptedReader("m2", both)],
                             planner=ScriptedReader("m3", both), budget=Budget()))
     assert two.notes == []
+
+
+def test_single_model_notes_do_not_depend_on_where_the_questions_came_from(tmp_path):
+    """受入 M12・M13: 注意が出るのは問いを新しく作った経路だけで、読み手 1 体のときは何も出なかった。"""
+    one = run(readers=[reader("r1", 4)], planner=planner())
+    assert any("読み手が 1 体" in n for n in one.notes)
+    # 保存庫から再利用しても、問いの集合を渡しても、同じモデルなら言う
+    def solo(n):
+        return ScriptedReader(f"qwen:4b#{n}", lambda *a: json.dumps({"verdict": "触れていない", "evidence": []},
+                                                                    ensure_ascii=False), model="qwen:4b")
+    j = run(readers=[reader("r1", 4)], planner=planner(), question_store=tmp_path)
+    for kw in ({"question_store": tmp_path}, {"question_set": j.question_set}):
+        k = run(readers=[solo("a"), solo("b")], **kw)
+        assert any("読み手が全部同じモデル" in n for n in k.notes), kw
+        # 交差検証していない問いの集合は、どこから来ても知らせる（保存庫の側は条件の違いとして 1 度だけ言う）
+        c = run(readers=[solo("a"), solo("b")], budget=Budget(crosscheck=True), **kw)
+        said = [n for n in c.notes if "交差検証していない" in n]
+        assert len(said) == 1, (kw, c.notes)
 
 
 def test_flagged_axes_are_neither_answered_nor_aggregated():
