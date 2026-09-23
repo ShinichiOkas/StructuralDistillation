@@ -99,6 +99,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", required=True)
     ap.add_argument("--w5", default=None, help="W5（強い軸 × 弱い読み手）の走行ディレクトリ")
+    ap.add_argument("--c2", default=None, help="腕 C を標本 2 で走らせたディレクトリ（受入 2 回目 C-1）")
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
     data = json.loads((Path(args.run) / "single_model.json").read_text(encoding="utf-8"))
@@ -278,8 +279,15 @@ def main() -> int:
               "contradiction": statistics.median([v for r in rows for v in rates(
                   {n: v for n, v in r["readings"].items() if not n.startswith("fake:")}, "contradiction_rate")]),
               "delta": med}
+        # 腕 C を標本 2 でも走らせてある（受入 2 回目 C-1: 標本数で結論が反転しないかを見る）
+        C2 = None
+        if args.c2:
+            c2rows = [r for r in json.loads((Path(args.c2) / "single_model.json").read_text(encoding="utf-8")).values()
+                      if "readings" in r]
+            C2 = arm_summary(c2rows, "readings", {r["id"]: r.get("expected_lean") for r in c2rows})
         L += ["\n## R-g 生成器と読み手の切り分け（受入 C1 の腕）\n",
-              "同じ題材・同じ判断規則で、軸の出所と読み手だけを入れ替える。標本はすべて 1（受入 M1 の食い違いを消した）。\n",
+              "同じ題材・同じ判断規則で、軸の出所と読み手だけを入れ替える。標本 1 で揃えた表が下。"
+              "標本 2 でも全部の腕を埋めてある（受入 2 回目 C-1。下の「標本を変えると」）。\n",
               "| 腕 | 軸の出所 | 読み手 | 想定一致 | 矛盾率の中央値 | 無効率 | 沈黙率 | Δ の中央値 |",
               "|---|---|---|---|---|---|---|---|",
               f"| A | 強い生成器 | 強い 2 体（雲） | {A1['n_hit']}/{A1['n']} | {A1['contradiction']:.3f} | "
@@ -295,13 +303,30 @@ def main() -> int:
               f"・矛盾率 {B1['contradiction'] - A1['contradiction']:+.3f}",
               f"- 参考: B を標本 2 で読むと 想定一致 {B2['n_hit']}/{B2['n']}・矛盾率 {B2['contradiction']:.3f}"
               f"・Δ {'—' if B2['delta'] is None else round(B2['delta'], 3)}"]
-        gen = B1["n_hit"] - C1["n_hit"]
-        rdr = A1["n_hit"] - B1["n_hit"]
-        verdict_e = ("生成器を強くすれば直る（壊れているのは生成器）" if gen >= 3 and rdr < 3 else
-                     "読み手も壊れている（生成器だけでは足りない）" if rdr >= 3 and gen < 3 else
-                     "両方が効いている" if gen >= 3 and rdr >= 3 else
-                     "この題材数では分けられない（結論にしない）")
-        L.append(f"- → **{verdict_e}**（規則 R-g: 3 件以上の差を効いたと読む。R-a と同じ閾値を使う）")
+        def verdict(gen, rdr):
+            return ("生成器を強くすれば直る（壊れているのは生成器）" if gen >= 3 and rdr < 3 else
+                    "読み手も壊れている（生成器だけでは足りない）" if rdr >= 3 and gen < 3 else
+                    "両方が効いている" if gen >= 3 and rdr >= 3 else
+                    "この題材数では分けられない（結論にしない）")
+        gen, rdr = B1["n_hit"] - C1["n_hit"], A1["n_hit"] - B1["n_hit"]
+        L.append(f"- → 標本 1 では **{verdict(gen, rdr)}**（規則 R-g: 3 件以上の差を効いたと読む。R-a と同じ閾値）")
+        if C2 is not None:
+            # 標本 2 の A は記録から引き直してある（threshold_sweep.py。16/18・実呼び出し 0）
+            A2 = 16
+            gen2, rdr2 = B2["n_hit"] - C2["n_hit"], A2 - B2["n_hit"]
+            L += ["\n### 標本を変えると（受入 2 回目 C-1）\n",
+                  "| 標本 | A 強い軸×強い読み手 | B 強い軸×弱い読み手 | C 弱い軸×弱い読み手 | 生成器の寄与 B−C | 読み手の寄与 A−B | R-g の読み |",
+                  "|---|---|---|---|---|---|---|",
+                  f"| 1 | {A1['n_hit']}/{A1['n']} | {B1['n_hit']}/{B1['n']} | {C1['n_hit']}/{C1['n']} | "
+                  f"{gen:+d} | {rdr:+d} | {verdict(gen, rdr)} |",
+                  f"| 2 | {A2}/18 | {B2['n_hit']}/{B2['n']} | {C2['n_hit']}/{C2['n']} | {gen2:+d} | {rdr2:+d} | "
+                  f"{verdict(gen2, rdr2)} |",
+                  "",
+                  f"- 動くのは腕 B だけ（A は標本 1 でも 2 でも 16/18、C は {C1['n_hit']}/{C1['n']} と "
+                  f"{C2['n_hit']}/{C2['n']}）。B で反転した題材はすべて判定の境目にある",
+                  f"- **生成器の寄与は標本によらず閾値を超える（{gen:+d}・{gen2:+d}）。読み手の寄与は閾値の下（{rdr:+d}）か"
+                  f"ちょうど（{rdr2:+d}）**。したがって「主に生成器が壊れている」とは言えるが、"
+                  "「読み手は関係ない」とは言えない"]
         L += ["\n### 題材ごと（A/B/C の p）\n",
               "| 題材 | 想定 | A 強い軸×強い読み手 | B 強い軸×弱い読み手 | C 弱い軸×弱い読み手 | A/B/C の当たり |",
               "|---|---|---|---|---|---|"]

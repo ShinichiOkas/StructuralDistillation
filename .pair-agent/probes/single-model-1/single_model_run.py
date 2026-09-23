@@ -77,7 +77,7 @@ async def run_material(m: dict, args, out: dict) -> dict:
     readers = [weak(args.model, f"{args.model}#a", lcache, xl), weak(args.model, f"{args.model}#b", lcache, xl),
                FakeReader("all_yes"), FakeReader("all_no"), FakeReader("all_undetermined")]
     verifiers = [weak(args.model, f"{args.model}#v1", lcache, xl), weak(args.model, f"{args.model}#v2", lcache, xl)]
-    budget = Budget(axes=6, samples=1, workers=1, crosscheck=True)
+    budget = Budget(axes=6, samples=args.samples, workers=1, crosscheck=True)
     t0 = time.time()
     try:
         j = await judge(m["text"], m["proposition"], Probability(), readers=readers,
@@ -155,6 +155,7 @@ def main() -> int:
     ap.add_argument("--skip-cloud", action="store_true")
     ap.add_argument("--extra", nargs="*", default=[], help="読むだけの追加キャッシュ（前の走行の out ディレクトリ）")
     ap.add_argument("--cache-only", action="store_true", help="外れても呼ばない（記録の作り直し。LLM の費用 0）")
+    ap.add_argument("--samples", type=int, default=1, help="標本数（受入 C-1: 2×2 を標本 2 でも埋めるため）")
     args = ap.parse_args()
     if args.cache_only:
         CACHE_MODE.update(cache_only=True, read_only=True)

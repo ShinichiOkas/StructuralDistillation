@@ -1,18 +1,31 @@
 """受入 2 回目 M-1: 腕ごとに閾値が違っていた（C は既定 κ=0.667、A・B は測定時の κ=0.5）。
 記録から両方の閾値で数え直し、2×2 が動かないことを確かめる。LLM は呼ばない。"""
 import json
+import os
 import statistics
 import sys
 from pathlib import Path
 
-sys.path.insert(0, r"S:/work/develop/StructuralDistillation")
+W5 = Path(__file__).resolve().parent            # .pair-agent/probes/single-model-1/w5
+PROBE = W5.parent
+
+
+def find_repo() -> Path:
+    """リポジトリの場所（受入 m10: 絶対パスを直書きしない）。環境変数 SD_REPO ＞ 自分の上 ＞ いまいる場所。"""
+    env = os.environ.get("SD_REPO")
+    if env:
+        return Path(env)
+    for p in [*W5.parents, Path.cwd(), *Path.cwd().parents]:
+        if (p / "structural_distillation" / "compose.py").exists():
+            return p
+    raise SystemExit("リポジトリが見つからない。環境変数 SD_REPO にリポジトリのパスを入れて走らせる")
+
+
+sys.path.insert(0, str(find_repo()))
 sys.stdout.reconfigure(encoding="utf-8")
 
 from structural_distillation import l3                                  # noqa: E402
 from structural_distillation.contracts import AnswerMatrix, Thresholds  # noqa: E402
-
-PROBE = Path(r"S:/work/develop/StructuralDistillation/.pair-agent/probes/single-model-1")
-W5 = Path("w5")
 EXCLUDE = {"m11", "m12", "m17"}
 SETS = {"既定（κ=0.667）": Thresholds(), "測定時（κ=0.5）": Thresholds(iota=0.3, kappa=0.5, rho=0.5, omega=0.5)}
 
@@ -54,8 +67,8 @@ for r in w5_recs:
     by_key[key] = r
 
 print(f"{'腕':<34}", "  ".join(f"{k:<16}" for k in SETS))
-for arm, samples, weak in (("A 強い軸 × 強い読み手（標本 1）", 1, False), ("B 強い軸 × 弱い読み手（標本 1）", 1, True),
-                           ("B 強い軸 × 弱い読み手（標本 2）", 2, True)):
+for arm, samples, weak in (("B 強い軸 × 弱い読み手（標本 1）", 1, True),
+                           ("B 強い軸 × 弱い読み手（標本 2）", 2, True)):   # A は記録が無いので下で引き直す
     line = []
     for name, th in SETS.items():
         n = d = 0
@@ -88,7 +101,7 @@ print(f"{'C 弱い軸 × 弱い読み手（標本 1）':<30}", "  ".join(f"{x:<1
 # A は記録を残していない（強い読み手はキャッシュからの引き直し）。ここで両方の閾値で引き直す（呼び出し 0）
 import asyncio  # noqa: E402
 
-sys.path.insert(0, r"S:/work/develop/StructuralDistillation/tools")
+sys.path.insert(0, str(find_repo() / "tools"))
 from probe_records import OUT4, load_materials, load_results          # noqa: E402
 
 from structural_distillation import judge                              # noqa: E402
