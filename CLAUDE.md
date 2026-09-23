@@ -10,6 +10,15 @@
 - 概念の正典は `doc/structural_distillation.md`、先行する実測は `doc/LESSONS_FROM_THE_FIRST_CONSUMER.md`、
   上流設計は `doc/UPSTREAM_DESIGN.md`。設計は仮説であり、実測と師匠の言葉が優先する
 
+## 師匠の宣言（2026-09-23）
+
+> D1は増やさないこの場はLLM非依存のライブラリとしたい。
+> LLMプロバイダ対応はライブラリを利用する側の責務。
+
+- **このライブラリは LLM 非依存に保つ。** 接続先を増やさない（同梱の Ollama アダプタは参照実装）
+- **LLM プロバイダ対応は利用側の責務。** 利用側が `Reader` の口を実装して差す
+- 他プロジェクト（`LLMProviderlib` など）は参照しない。アダプタのために取り込まない
+
 ## Pair Agent の作業ディレクトリ
 
 - 合意ドキュメント: `.pair-agent/agreements/<goal-slug>.md`

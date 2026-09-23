@@ -1,6 +1,6 @@
 # Structural Distillation 上流設計
 
-- 版: v3.9（2026-09-23）。差分は末尾の変更履歴と、合意ドキュメント（`upstream-design.md`・`measurement-2.md`・`implementation-design.md`）の「協議エンジンの指摘と処理」「実行中の発見」「師匠決定」
+- 版: v3.10（2026-09-23）。差分は末尾の変更履歴と、合意ドキュメント（`upstream-design.md`・`measurement-2.md`・`implementation-design.md`）の「協議エンジンの指摘と処理」「実行中の発見」「師匠決定」
 - 実装設計: [`IMPLEMENTATION_DESIGN.md`](IMPLEMENTATION_DESIGN.md)（この文書を「どう組むか」に落としたもの。付録 A に項目ごとの対応）
 - 合意: `.pair-agent/agreements/upstream-design.md`
 - 概念の正典: [`structural_distillation.md`](structural_distillation.md) / 先行する実測: [`LESSONS_FROM_THE_FIRST_CONSUMER.md`](LESSONS_FROM_THE_FIRST_CONSUMER.md)
@@ -513,7 +513,20 @@ LLM に申告させない。数えられる量を**そのまま並べて返す**
 
 - `doc/structural_distillation.md` はコピー元と二重管理になっている（README §出典）。正本をどちらにするかは別途伺う
 
+## 12.5 師匠決定（2026-09-23）: このライブラリは LLM 非依存に保つ
+
+> D1は増やさないこの場はLLM非依存のライブラリとしたい。
+> LLMプロバイダ対応はライブラリを利用する側の責務。
+
+- **接続先を増やさない。** 同梱の Ollama アダプタは参照実装であって、対応表を広げる対象ではない
+- **LLM プロバイダへの対応は利用側の責務。** 利用側が `Reader` の口（`complete(messages, schema, *, sample, version)`）を
+  実装して差す。ライブラリは口の形と三段構えの構造化出力だけを決める
+- 他プロジェクト（`LLMProviderlib` など）は**参照しない**。アダプタのために取り込まない
+- ⚠ これは README §設計上の約束 5 と同じ境界。**判定の仕組み**と**どのモデルにどう繋ぐか**は別の関心事として切る
+
 ## 13. 次の一手（実験の段）
+
+⚠ **当面ペンディング（師匠 2026-09-23「上流は当面ペンディング」）。** 以下は次に再開するときの入口として残す。
 
 空撃ちは 3 周回した（`.pair-agent/probes/upstream-probe-1/`）。記録は `out/`（p2・同数の記述・ローカル）、`out3/`（p3・排他な対・ローカル）、
 `out4/`（測定 2 周目・クラウド 3 家系・題材 21・9 腕。読みは `out4/report.md` と `.pair-agent/agreements/measurement-2.md`）。
@@ -549,6 +562,7 @@ LLM に申告させない。数えられる量を**そのまま並べて返す**
 ## 変更履歴
 
 - v1 [2026-09-21]: 初版。師匠の言葉（§0）を根拠に、品質特性・入出力契約・層・ハーネス規則・集約・シナリオ・未決を置いた
+- v3.10 [2026-09-23]: **師匠決定**: このライブラリは LLM 非依存に保つ。接続先を増やさず、LLM プロバイダ対応は利用側の責務（§12.5）。§13 は当面ペンディング
 - v3.9 [2026-09-23]: **受入の訂正 2〜5 回目**。2×2 を標本 1・2 の両方で埋め（腕 C も標本 2 で走らせた）、読みを
   「主に生成器。ただし読み手の寄与は 0 とは言えない」に。腕の間で揃っていない 3 つ（閾値・交差検証・偽読み手）と
   その確かめ方を明記。非排他は同じ検証役で 5.6 倍。注意（`Judgment.notes`）の適用範囲を §10 に。p の中央値に定義を付けた
