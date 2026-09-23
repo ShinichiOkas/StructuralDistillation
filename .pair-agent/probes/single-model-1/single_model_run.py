@@ -13,11 +13,24 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import os
 import sys
 import time
 from pathlib import Path
 
-REPO = Path(r"S:/work/develop/StructuralDistillation")
+
+def find_repo() -> Path:
+    """リポジトリの場所（受入 m10: 絶対パスを直書きしない）。環境変数 SD_REPO ＞ 自分の上 ＞ いまいる場所。"""
+    env = os.environ.get("SD_REPO")
+    if env:
+        return Path(env)
+    for p in [*Path(__file__).resolve().parents, Path.cwd(), *Path.cwd().parents]:
+        if (p / "structural_distillation" / "compose.py").exists():
+            return p
+    raise SystemExit("リポジトリが見つからない。環境変数 SD_REPO にリポジトリのパスを入れて走らせる")
+
+
+REPO = find_repo()
 sys.path.insert(0, str(REPO / "tools"))
 
 from structural_distillation import judge, l1                       # noqa: E402
@@ -32,22 +45,20 @@ CLOUD_VERIFIERS = ["glm-5.2:cloud", "qwen3.5:397b-cloud"]
 ABSENT_CLAIM = "この出来事は月面の基地で起きた"   # どの題材にも無い（機械的に作る。LLM には作らせない）
 
 
-class Named:
-    """同じモデルを別名の読み手として差す（見かけの複数体）。鍵が分かれるので、独立に呼ばれる。"""
+def weak(model: str, name: str, cache: Path, extra=()) -> CachedPort:
+    """同じモデルを別名の読み手として差す（見かけの複数体）。鍵は名前で分かれるので、独立に呼ばれる。
 
-    def __init__(self, inner, name: str):
-        self.inner, self.name, self.calibration = inner, name, inner.calibration
-
-    async def complete(self, messages, schema, *, sample, version):
-        return await self.inner.complete(messages, schema, sample=sample, version=version)
-
-
-def weak(model: str, name: str, cache: Path) -> CachedPort:
-    return CachedPort(Named(OllamaReader(model, num_ctx=8192), name), cache)
+    ⚠ 包み（自前のラッパ）にしない。下のモデル名を宣言しない読み手だと、判定が「全部同じモデル」に
+      気づけず注意（Judgment.notes）が出なかった（受入 C4）。name と model を分けて宣言する。
+    """
+    return CachedPort(OllamaReader(model, name=name, num_ctx=8192), cache, extra=extra, **CACHE_MODE)
 
 
-def cloud(model: str, cache: Path) -> CachedPort:
-    return CachedPort(OllamaReader(model), cache)
+def cloud(model: str, cache: Path, extra=()) -> CachedPort:
+    return CachedPort(OllamaReader(model), cache, extra=extra, **CACHE_MODE)
+
+
+CACHE_MODE: dict = {}      # --cache-only のとき {"cache_only": True, "read_only": True}
 
 
 def detection_axis(units) -> Axis:
@@ -60,15 +71,17 @@ async def run_material(m: dict, args, out: dict) -> dict:
     p = PromptSet.builtin("ja")
     units = segment(m["text"])
     lcache, ccache = Path(args.out) / "local_cache.jsonl", Path(args.out) / "cloud_cache.jsonl"
+    xl = [Path(x) / "local_cache.jsonl" for x in args.extra]
+    xc = [Path(x) / "cloud_cache.jsonl" for x in args.extra]
     store = QuestionStore(Path(args.out) / "questions")
-    readers = [weak(args.model, f"{args.model}#a", lcache), weak(args.model, f"{args.model}#b", lcache),
+    readers = [weak(args.model, f"{args.model}#a", lcache, xl), weak(args.model, f"{args.model}#b", lcache, xl),
                FakeReader("all_yes"), FakeReader("all_no"), FakeReader("all_undetermined")]
-    verifiers = [weak(args.model, f"{args.model}#v1", lcache), weak(args.model, f"{args.model}#v2", lcache)]
+    verifiers = [weak(args.model, f"{args.model}#v1", lcache, xl), weak(args.model, f"{args.model}#v2", lcache, xl)]
     budget = Budget(axes=6, samples=1, workers=1, crosscheck=True)
     t0 = time.time()
     try:
         j = await judge(m["text"], m["proposition"], Probability(), readers=readers,
-                        planner=weak(args.model, f"{args.model}#plan", lcache), verifiers=verifiers,
+                        planner=weak(args.model, f"{args.model}#plan", lcache, xl), verifiers=verifiers,
                         budget=budget, prompts=p, question_store=store,
                         record_path=Path(args.out) / "records.jsonl")
     except PlanningFailed as e:
@@ -100,7 +113,7 @@ async def run_material(m: dict, args, out: dict) -> dict:
     # W4 同じ弱い軸に、クラウドの検証役で交差検証
     if not args.skip_cloud:
         meter = Meter()
-        cc = await l1.crosscheck([cloud(v, ccache) for v in CLOUD_VERIFIERS], m["proposition"], j.question_set.axes,
+        cc = await l1.crosscheck([cloud(v, ccache, xc) for v in CLOUD_VERIFIERS], m["proposition"], j.question_set.axes,
                                  prompts=p, sem=asyncio.Semaphore(6), meter=meter)
         row["cloud_crosscheck"] = {"flagged": cc.flagged, "weak": cc.weak, "nonexclusive": cc.nonexclusive,
                                    "calls": meter.cost.crosscheck.live}
@@ -140,7 +153,11 @@ def main() -> int:
     ap.add_argument("--only", nargs="*", default=None)
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--skip-cloud", action="store_true")
+    ap.add_argument("--extra", nargs="*", default=[], help="読むだけの追加キャッシュ（前の走行の out ディレクトリ）")
+    ap.add_argument("--cache-only", action="store_true", help="外れても呼ばない（記録の作り直し。LLM の費用 0）")
     args = ap.parse_args()
+    if args.cache_only:
+        CACHE_MODE.update(cache_only=True, read_only=True)
     return asyncio.run(main_async(args))
 
 

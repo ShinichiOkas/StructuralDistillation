@@ -1,0 +1,4769 @@
+{
+ "m01": {
+  "id": "m01",
+  "proposition": "ゲンは悪人である",
+  "expected_lean": "split",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "座礁した船員を救助しなかった",
+    "refute": "座礁した船員を救助した"
+   },
+   {
+    "id": "a02",
+    "support": "拾った反物を所有者に返さず売却した",
+    "refute": "拾った反物を所有者に届け出たか返還した"
+   },
+   {
+    "id": "a03",
+    "support": "自分が船員を助けたことを他者に伏せた",
+    "refute": "自分が船員を助けたことを他者に公表した"
+   },
+   {
+    "id": "a04",
+    "support": "反物の売却益を贅沢品などの私欲に充てた",
+    "refute": "反物の売却益を薬代などの生存に必要な費用に充てた"
+   },
+   {
+    "id": "a05",
+    "support": "救助した船員に代価を請求したか不当な扱いをした",
+    "refute": "救助した船員に無償で食事や看護を提供した"
+   },
+   {
+    "id": "a06",
+    "support": "周囲の人々から盗人と呼ばれた",
+    "refute": "周囲の人々から善人と呼ばれた"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 2,
+     "u4": 0
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.08333333333333333,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     0,
+     0,
+     1,
+     -1,
+     -1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 3,
+     "u4": 0
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     0,
+     0,
+     1,
+     -1,
+     0,
+     1
+    ]
+   }
+  },
+  "delta_s2": 0.16666666666666663,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.4,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     0,
+     1,
+     -1,
+     -1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.6,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 1
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     0,
+     1
+    ]
+   }
+  },
+  "delta_s1": 0.19999999999999996,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     -1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     -1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 109.2
+ },
+ "m01b": {
+  "id": "m01b",
+  "proposition": "ゲンには医者の娘がいる",
+  "expected_lean": "none",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "ゲンに子供がいる。",
+    "refute": "ゲンに子供がいない。"
+   },
+   {
+    "id": "a02",
+    "support": "ゲンの子供は娘である。",
+    "refute": "ゲンの子供は息子である。"
+   },
+   {
+    "id": "a03",
+    "support": "ゲンの娘は医師である。",
+    "refute": "ゲンの娘は医師ではない。"
+   },
+   {
+    "id": "a04",
+    "support": "ゲンと医師の女性は実の親子である。",
+    "refute": "ゲンと医師の女性は血縁関係にない。"
+   },
+   {
+    "id": "a05",
+    "support": "本文にゲンの娘についての記述がある。",
+    "refute": "本文にゲンの娘についての記述がない。"
+   },
+   {
+    "id": "a06",
+    "support": "ゲンの親族に医療従事者が含まれている。",
+    "refute": "ゲンの親族に医療従事者が含まれていない。"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta_s2": null,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta_s1": null,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "strong_delta_s1": null,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 108.4
+ },
+ "m02": {
+  "id": "m02",
+  "proposition": "この報告には再現に必要な手順が揃っている",
+  "expected_lean": "support",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "OS、アプリのバージョン、画面設定などの環境情報が記述されている",
+    "refute": "OSやアプリのバージョンなど、環境情報の一部または全部が記述されていない"
+   },
+   {
+    "id": "a02",
+    "support": "アプリの起動から事象の発生までの一連の操作手順がすべて記述されている",
+    "refute": "事象の発生に至るまでの操作手順に不足している箇所がある"
+   },
+   {
+    "id": "a03",
+    "support": "どのタブのどの項目を操作したかが具体的に記述されている",
+    "refute": "操作した設定項目が具体的に記述されていない"
+   },
+   {
+    "id": "a04",
+    "support": "本来起こるべき正常な動作について記述されている",
+    "refute": "本来起こるべき正常な動作について記述されていない"
+   },
+   {
+    "id": "a05",
+    "support": "エラー発生時にどのような状態になったかが具体的に記述されている",
+    "refute": "エラー発生時の状態が具体的に記述されていない"
+   },
+   {
+    "id": "a06",
+    "support": "試行回数と再現した回数が数値で記述されている",
+    "refute": "試行回数と再現した回数が数値で記述されていない"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 3,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 2,
+     "u4": 1
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     0,
+     0,
+     1,
+     0,
+     1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 1
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.25,
+    "d": [
+     0,
+     0,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "delta_s2": 0.0,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     0,
+     0,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     0,
+     0,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "delta_s1": 0.0,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.3
+ },
+ "m03": {
+  "id": "m03",
+  "proposition": "この会議で新機能の採用が決定された",
+  "expected_lean": "refute",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "本日の会議で採否を判断した。",
+    "refute": "採否の判断を次回の会議に持ち越した。"
+   },
+   {
+    "id": "a02",
+    "support": "決定事項として新機能の採用が記されている。",
+    "refute": "決定事項が「なし」と記されている。"
+   },
+   {
+    "id": "a03",
+    "support": "議長が新機能の採用を承認した。",
+    "refute": "議長が仕様の整理を指示し、判断を保留した。"
+   },
+   {
+    "id": "a04",
+    "support": "開発担当者が実装に着手することを承諾した。",
+    "refute": "開発担当者が仕様確定後の再見積もりを条件とした。"
+   },
+   {
+    "id": "a05",
+    "support": "運用上の懸念がすべて解消され、導入に合意した。",
+    "refute": "運用上の懸念について論点をまとめる宿題が残った。"
+   },
+   {
+    "id": "a06",
+    "support": "機能を採用するという結論が本文中に明記されている。",
+    "refute": "機能を採用するという結論が本文中に明記されていない。"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 2,
+     "u4": 0
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.3333333333333333,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     0,
+     -1,
+     0,
+     -1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.25,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     0,
+     -1,
+     -1,
+     -1,
+     0
+    ]
+   }
+  },
+  "delta_s2": 0.0,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.25,
+    "w": 0.5,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 1,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 2,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.3333333333333333,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     0,
+     -1,
+     1,
+     -1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 5,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     0
+    ]
+   }
+  },
+  "delta_s1": 0.25,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 109.0
+ },
+ "m04": {
+  "id": "m04",
+  "proposition": "レビュアーはこの製品に満足している",
+  "expected_lean": "split",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "以前の製品よりもゴミが取れると述べている",
+    "refute": "以前の製品よりもゴミが取れないと述べている"
+   },
+   {
+    "id": "a02",
+    "support": "本体の軽さにより掃除が楽になったと述べている",
+    "refute": "本体の重さにより掃除に支障が出ていると述べている"
+   },
+   {
+    "id": "a03",
+    "support": "音が静かであるため時間帯を問わず使用できると述べている",
+    "refute": "音が大きいため使用できない時間帯があると述べている"
+   },
+   {
+    "id": "a04",
+    "support": "一度の充電で家全体の掃除が完了すると述べている",
+    "refute": "掃除の途中でバッテリーが切れると述べている"
+   },
+   {
+    "id": "a05",
+    "support": "ゴミ捨て時に粉が舞わず快適であると述べている",
+    "refute": "ゴミ捨て時に粉が舞うことを気にしていると述べている"
+   },
+   {
+    "id": "a06",
+    "support": "次回も迷わず同じ機種を購入すると述べている",
+    "refute": "次回は別の機種も検討すると述べている"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.2,
+    "w": 0.4,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 1,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     1,
+     0,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "delta_s2": 0.1333333333333333,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "delta_s1": 0.0,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 109.8
+ },
+ "m05": {
+  "id": "m05",
+  "proposition": "応募者は求人の必須要件をすべて満たしている",
+  "expected_lean": "refute",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "Pythonでの業務経験が三年以上ある",
+    "refute": "Pythonでの業務経験が三年未満である"
+   },
+   {
+    "id": "a02",
+    "support": "英語で顧客と会話ができる",
+    "refute": "英語で顧客と会話ができない"
+   },
+   {
+    "id": "a03",
+    "support": "大阪の事業所に勤務できる",
+    "refute": "大阪の事業所に勤務できない"
+   },
+   {
+    "id": "a04",
+    "support": "Pythonでの開発経験を有している",
+    "refute": "Pythonでの開発経験を有していない"
+   },
+   {
+    "id": "a05",
+    "support": "実務で英語を用いた顧客対応の経験がある",
+    "refute": "実務で英語を用いた顧客対応の経験がない"
+   },
+   {
+    "id": "a06",
+    "support": "大阪への転居が可能である",
+    "refute": "大阪への転居が不可能である"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.75,
+    "w": 0.5,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 3,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 2,
+     "u4": 0
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.75,
+    "w": 0.5,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 3,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 2,
+     "u4": 0
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     1,
+     -1,
+     0,
+     1,
+     0
+    ]
+   }
+  },
+  "delta_s2": 0.0,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.8,
+    "w": 0.4,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 1
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 4,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     1,
+     1,
+     -1
+    ]
+   }
+  },
+  "delta_s1": 0.13333333333333341,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 4,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     1,
+     1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.8,
+    "w": 0.4,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 1
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.13333333333333341,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.3
+ },
+ "m06": {
+  "id": "m06",
+  "proposition": "旅は計画どおりに進んだ",
+  "expected_lean": "refute",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "計画していたすべての町を訪れた。",
+    "refute": "計画していた町のうち、訪れなかった町がある。"
+   },
+   {
+    "id": "a02",
+    "support": "各町を計画していた日に訪問した。",
+    "refute": "訪問する町が計画していた日とは異なる日に変更された。"
+   },
+   {
+    "id": "a03",
+    "support": "計画していた交通手段が予定通りに運行し利用できた。",
+    "refute": "計画していた交通手段が運行停止や満席などで利用できなかった。"
+   },
+   {
+    "id": "a04",
+    "support": "各町に計画していた時間帯に到着した。",
+    "refute": "到着時間が計画よりも大幅に遅れた。"
+   },
+   {
+    "id": "a05",
+    "support": "宿泊先はすべて予約通りに確保されていた。",
+    "refute": "宿泊予約に不備があったか、予定外の変更が生じた。"
+   },
+   {
+    "id": "a06",
+    "support": "三日目に帰宅した。",
+    "refute": "三日目以外に帰宅した。"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.25,
+    "w": 0.5,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 1,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 2,
+     "u4": 0
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.08333333333333333,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     0,
+     1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 2,
+     "u4": 0
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     -1,
+     0,
+     -1,
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  "delta_s2": 0.25,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     1,
+     1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "delta_s1": 0.16666666666666669,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.7
+ },
+ "m07": {
+  "id": "m07",
+  "proposition": "書き手は弟に優しい",
+  "expected_lean": "split",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "弟が頼んだゲームを貸した",
+    "refute": "弟が頼んだゲームを貸さなかった"
+   },
+   {
+    "id": "a02",
+    "support": "弟がなくした物を一緒に探した",
+    "refute": "弟がなくした物を一緒に探さなかった"
+   },
+   {
+    "id": "a03",
+    "support": "弟の宿題を教えた",
+    "refute": "弟の宿題を教えなかった"
+   },
+   {
+    "id": "a04",
+    "support": "弟が理解できるように丁寧に教え切った",
+    "refute": "弟の宿題の答えを代わりに書き込んだ"
+   },
+   {
+    "id": "a05",
+    "support": "弟に対して肯定的な感情を抱いている",
+    "refute": "弟に対して「ずるい」などの否定的な感情を抱いている"
+   },
+   {
+    "id": "a06",
+    "support": "弟に対して身体的な攻撃や暴言を行っていない",
+    "refute": "弟に対して身体的な攻撃や暴言を行った"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.4,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     -1,
+     1,
+     0,
+     -1,
+     -1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.4,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.08333333333333333,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     -1,
+     0
+    ]
+   }
+  },
+  "delta_s2": 0.0,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     -1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     -1,
+     1
+    ]
+   }
+  },
+  "delta_s1": 0.0,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.4,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     -1,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 1
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     0,
+     0
+    ]
+   }
+  },
+  "strong_delta_s1": 0.09999999999999998,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.5
+ },
+ "m08": {
+  "id": "m08",
+  "proposition": "この実験は仮説を支持した",
+  "expected_lean": "refute",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "肥料Aを投与した組の発芽数が、水のみの組の発芽数を上回った。",
+    "refute": "肥料Aを投与した組の発芽数が、水のみの組の発芽数以下であった。"
+   },
+   {
+    "id": "a02",
+    "support": "温度と日照などの外部条件が二組で同一に保たれていた。",
+    "refute": "温度や日照などの外部条件に二組間で差異があった。"
+   },
+   {
+    "id": "a03",
+    "support": "肥料Aを投与しない比較用の組が用意されていた。",
+    "refute": "肥料Aを投与しない比較用の組が用意されていなかった。"
+   },
+   {
+    "id": "a04",
+    "support": "使用した土の種類や量が二組で同一であった。",
+    "refute": "使用した土の種類や量に二組間で差異があった。"
+   },
+   {
+    "id": "a05",
+    "support": "発芽の判定に十分な日数が経過した後に計測が行われた。",
+    "refute": "発芽の判定に不十分な日数で計測を終了した。"
+   },
+   {
+    "id": "a06",
+    "support": "二組間の発芽数の差が、誤差の範囲を超えて肥料Aによる影響であると判断された。",
+    "refute": "二組間の発芽数の差が、誤差の範囲内であるか、あるいは肥料Aによる効果が見られないと判断された。"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 4,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     1,
+     1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.6,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     1,
+     0,
+     -1
+    ]
+   }
+  },
+  "delta_s2": 0.06666666666666665,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 4,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     1,
+     1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "delta_s1": 0.16666666666666663,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.6,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     1,
+     0,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.6,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     1,
+     0,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.0
+ },
+ "m09": {
+  "id": "m09",
+  "proposition": "差出人は相手に謝罪している",
+  "expected_lean": "support",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "「申し訳ありません」などの謝罪の言葉が記述されている。",
+    "refute": "謝罪の言葉が記述されていない。"
+   },
+   {
+    "id": "a02",
+    "support": "自身の不注意やミスがあったことを認めている。",
+    "refute": "自身の過失を否定している、または相手に責任があるとしている。"
+   },
+   {
+    "id": "a03",
+    "support": "理由を述べつつも、それを言い訳にしないとしている。",
+    "refute": "理由を述べて自身の正当性を主張している。"
+   },
+   {
+    "id": "a04",
+    "support": "相手に不利益や迷惑を与えた事実に触れている。",
+    "refute": "相手に不利益を与えた事実に触れていない。"
+   },
+   {
+    "id": "a05",
+    "support": "食事代の負担など、埋め合わせの提案をしている。",
+    "refute": "埋め合わせの提案をしていない。"
+   },
+   {
+    "id": "a06",
+    "support": "再び会いたいという旨の要望を伝えている。",
+    "refute": "関係を断絶したい、あるいは現状維持を望む記述がある。"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 3,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 2,
+     "u4": 1
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     0,
+     0,
+     0,
+     1,
+     1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 2,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 3,
+     "u4": 1
+    },
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  "delta_s2": null,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "s": 3,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 3
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.5,
+    "d": [
+     0,
+     0,
+     0,
+     1,
+     1,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     1,
+     0,
+     1,
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  "delta_s1": null,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.3
+ },
+ "m10": {
+  "id": "m10",
+  "proposition": "この規約では解約は無料でできる",
+  "expected_lean": "split",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "契約日から十四日以内の解約は無料である。",
+    "refute": "契約日から十四日以内の解約であっても費用が発生する。"
+   },
+   {
+    "id": "a02",
+    "support": "契約日から十五日目以降の解約においても手数料はかからない。",
+    "refute": "契約日から十五日目以降の解約には解約手数料がかかる。"
+   },
+   {
+    "id": "a03",
+    "support": "当社の責めに帰すべき事由でサービスが停止した場合、手数料なしで解約できる。",
+    "refute": "当社の責めに帰すべき事由でサービスが停止した場合でも手数料がかかる。"
+   },
+   {
+    "id": "a04",
+    "support": "理由を問わずすべての解約が無料である。",
+    "refute": "理由によっては解約手数料が発生する。"
+   },
+   {
+    "id": "a05",
+    "support": "指定のフォーム以外の手段で申し出ても無料で解約できる。",
+    "refute": "指定のフォーム以外の手続きでは解約が認められない、または費用が発生する。"
+   },
+   {
+    "id": "a06",
+    "support": "解約時に請求される費用は一切ない。",
+    "refute": "解約月の利用料金と合わせて解約手数料が請求される。"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.4,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     1,
+     -1,
+     1,
+     -1,
+     0,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.4,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     1,
+     -1,
+     1,
+     -1,
+     0,
+     -1
+    ]
+   }
+  },
+  "delta_s2": 0.0,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     -1,
+     1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     -1,
+     1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "delta_s1": 0.0,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     -1,
+     1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     -1,
+     1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.5
+ },
+ "m11": {
+  "id": "m11",
+  "proposition": "この議事録には、会議で何が決まったかが書かれている",
+  "expected_lean": "support",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "決定事項を明記する項目やセクションが存在する",
+    "refute": "決定事項を明記する項目やセクションが存在しない"
+   },
+   {
+    "id": "a02",
+    "support": "夏祭りの開催日が具体的に指定されている",
+    "refute": "夏祭りの開催日が具体的に指定されていない"
+   },
+   {
+    "id": "a03",
+    "support": "屋台の出店料の金額が確定して記載されている",
+    "refute": "屋台の出店料の金額が確定して記載されていない"
+   },
+   {
+    "id": "a04",
+    "support": "案に対する採択や合意の結果が記述されている",
+    "refute": "案が出されたことのみで、採択の結果が記述されていない"
+   },
+   {
+    "id": "a05",
+    "support": "誰がいつまでに何をすべきかという決定事項が記載されている",
+    "refute": "誰がいつまでに何をすべきかという決定事項が記載されていない"
+   },
+   {
+    "id": "a06",
+    "support": "提示された議題すべてについて結論が記載されている",
+    "refute": "提示された議題の中に結論が記載されていないものがある"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "s": 1,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 2,
+     "u4": 2
+    },
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.5,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 4,
+     "u4": 2
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.08333333333333333,
+    "contradiction_rate": 0.5833333333333334,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta_s2": null,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "s": 2,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 3
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.5,
+    "d": [
+     0,
+     0,
+     0,
+     1,
+     1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "s": 2,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 3
+    },
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.5,
+    "d": [
+     0,
+     1,
+     0,
+     0,
+     1,
+     0
+    ]
+   }
+  },
+  "delta_s1": null,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 5,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 1
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 111.1
+ },
+ "m12": {
+  "id": "m12",
+  "proposition": "この契約書には契約を途中で終了する条件が書かれている",
+  "expected_lean": "refute",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "契約期間の途中で契約を解除できる旨の規定がある",
+    "refute": "契約期間の途中で契約を解除できる旨の規定がない"
+   },
+   {
+    "id": "a02",
+    "support": "解約を申し出るべき通知期限についての記述がある",
+    "refute": "解約を申し出るべき通知期限についての記述がない"
+   },
+   {
+    "id": "a03",
+    "support": "契約違反などの特定の条件を満たした場合に終了できる旨の記述がある",
+    "refute": "契約違反などの特定の条件を満たした場合に終了できる旨の記述がない"
+   },
+   {
+    "id": "a04",
+    "support": "甲乙双方が合意した場合に契約を終了できる旨の記述がある",
+    "refute": "甲乙双方が合意した場合に契約を終了できる旨の記述がない"
+   },
+   {
+    "id": "a05",
+    "support": "事前の通知なく直ちに契約を終了させることができる権利に関する記述がある",
+    "refute": "事前の通知なく直ちに契約を終了させることができる権利に関する記述がない"
+   },
+   {
+    "id": "a06",
+    "support": "契約期間の満了以外に、契約が終了する事由が明記されている",
+    "refute": "契約期間の満了以外に、契約が終了する事由が明記されていない"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta_s2": null,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta_s1": null,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 0,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 4,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.6666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     0,
+     0,
+     0,
+     0,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s1": null,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 108.7
+ },
+ "m13": {
+  "id": "m13",
+  "proposition": "この点検では安全点検の項目がすべて完了している",
+  "expected_lean": "support",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "項目一について確認済みであると記述されている",
+    "refute": "項目一について確認済みではない、または未実施であると記述されている"
+   },
+   {
+    "id": "a02",
+    "support": "項目二について確認済みであると記述されている",
+    "refute": "項目二について確認済みではない、または未実施であると記述されている"
+   },
+   {
+    "id": "a03",
+    "support": "項目三について確認済みであると記述されている",
+    "refute": "項目三について確認済みではない、または未実施であると記述されている"
+   },
+   {
+    "id": "a04",
+    "support": "項目四について確認済みであると記述されている",
+    "refute": "項目四について確認済みではない、または未実施であると記述されている"
+   },
+   {
+    "id": "a05",
+    "support": "項目五について確認済みであると記述されている",
+    "refute": "項目五について確認済みではない、または未実施であると記述されている"
+   },
+   {
+    "id": "a06",
+    "support": "本文に記載された項目以外に点検すべき項目は存在しない",
+    "refute": "本文に記載された項目以外に点検すべき項目が存在する"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 1,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 4,
+     "u4": 0
+    },
+    "valid_rate": 0.16666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 1
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.08333333333333333,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     0
+    ]
+   }
+  },
+  "delta_s2": null,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 3,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     1,
+     0,
+     0,
+     1,
+     1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 1
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     0
+    ]
+   }
+  },
+  "delta_s1": 0.0,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 5,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 5,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.1
+ },
+ "m14": {
+  "id": "m14",
+  "proposition": "井口は部下に厳しい",
+  "expected_lean": "split",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "誤字などを本人に一文ずつ直させる。",
+    "refute": "誤字などの修正を井口が代行するか、大まかな指示に留める。"
+   },
+   {
+    "id": "a02",
+    "support": "理由を聞く前に謝罪を求める。",
+    "refute": "謝罪を求める前に遅延の理由を確認する。"
+   },
+   {
+    "id": "a03",
+    "support": "部下の失敗を部下自身に責任を持って対処させる。",
+    "refute": "部下の失敗に対して井口が先に謝罪に行く。"
+   },
+   {
+    "id": "a04",
+    "support": "残業が続く部下の仕事をそのままにさせる。",
+    "refute": "残業が続く部下の仕事を井口が引き取る。"
+   },
+   {
+    "id": "a05",
+    "support": "部下に対して褒める言葉をかけない。",
+    "refute": "部下に対して褒める言葉をかける。"
+   },
+   {
+    "id": "a06",
+    "support": "部下が井口に対して恐怖心を抱いている。",
+    "refute": "部下が井口に対して恐怖心を抱いていない。"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.75,
+    "w": 0.5,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 3,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 2,
+     "u4": 0
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.08333333333333333,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     1,
+     1,
+     0,
+     -1,
+     0,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 1,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 3,
+     "u4": 0
+    },
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.25,
+    "d": [
+     0,
+     1,
+     0,
+     -1,
+     0,
+     0
+    ]
+   }
+  },
+  "delta_s2": null,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.6,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     0,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     1,
+     1,
+     0,
+     -1,
+     0,
+     0
+    ]
+   }
+  },
+  "delta_s1": 0.06666666666666665,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 4,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 4,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 109.7
+ },
+ "m15": {
+  "id": "m15",
+  "proposition": "宮下は客に対して誠実である",
+  "expected_lean": "support",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "客が多すぎた金を後で返している",
+    "refute": "客が多すぎた金を返していない"
+   },
+   {
+    "id": "a02",
+    "support": "客が気づく前に商品の欠陥を伝えている",
+    "refute": "客が気づくまで商品の欠陥を伝えていない"
+   },
+   {
+    "id": "a03",
+    "support": "修理ができなかった場合に料金を受け取っていない",
+    "refute": "修理ができなかった場合でも料金を受け取っている"
+   },
+   {
+    "id": "a04",
+    "support": "売掛金を一円単位で正確に記録している",
+    "refute": "売掛金の記録に曖昧な点がある"
+   },
+   {
+    "id": "a05",
+    "support": "分からない由来について分からないと答えている",
+    "refute": "分からない由来について適当な答えを述べている"
+   },
+   {
+    "id": "a06",
+    "support": "自身の利益を削ってでも客に不利益がない対応をしている",
+    "refute": "客の不利益を承知で自身の利益を優先している"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 2
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.4166666666666667,
+    "d": [
+     1,
+     0,
+     1,
+     -1,
+     0,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 3,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 3,
+     "u4": 0
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     1,
+     0,
+     1,
+     0,
+     1,
+     0
+    ]
+   }
+  },
+  "delta_s2": 0.33333333333333337,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.75,
+    "w": 0.5,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 3,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     1,
+     0,
+     1,
+     -1,
+     1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 2,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.3333333333333333,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     0
+    ]
+   }
+  },
+  "delta_s1": 0.25,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 109.9
+ },
+ "m16": {
+  "id": "m16",
+  "proposition": "この週は雨の日が多かった",
+  "expected_lean": "refute",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "1週間の中で雨が降った日が過半数である",
+    "refute": "1週間の中で雨が降った日が過半数未満である"
+   },
+   {
+    "id": "a02",
+    "support": "雨が降った日が複数日ある",
+    "refute": "雨が降った日が1日だけである"
+   },
+   {
+    "id": "a03",
+    "support": "週のまとめにおいて雨の日が多かったと記述されている",
+    "refute": "週のまとめにおいて雨の日が少なかったと記述されている"
+   },
+   {
+    "id": "a04",
+    "support": "晴れの日が少ない",
+    "refute": "晴れの日が多い"
+   },
+   {
+    "id": "a05",
+    "support": "連日雨が降った",
+    "refute": "雨が降らなかった日が連続していた"
+   },
+   {
+    "id": "a06",
+    "support": "曇りの日が少なく、その多くで雨が降った",
+    "refute": "曇りの日があっても雨は降らなかった"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 0,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 4,
+     "u4": 0
+    },
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.08333333333333333,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     0,
+     -1,
+     0,
+     0,
+     0,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 3,
+     "u4": 0
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.08333333333333333,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     0,
+     -1,
+     -1,
+     0,
+     0,
+     -1
+    ]
+   }
+  },
+  "delta_s2": null,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     0,
+     -1,
+     -1,
+     0,
+     0,
+     -1
+    ]
+   }
+  },
+  "delta_s1": 0.0,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.4
+ },
+ "m17": {
+  "id": "m17",
+  "proposition": "このレシピは分量と火加減と時間を数値で指定している",
+  "expected_lean": "split",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "すべての材料の分量が数値で指定されている。",
+    "refute": "数値で指定されていない材料がある。"
+   },
+   {
+    "id": "a02",
+    "support": "火加減が温度やレベルなどの数値で指定されている。",
+    "refute": "火加減が中火などの名称で指定されているか、指定がない。"
+   },
+   {
+    "id": "a03",
+    "support": "各工程の調理時間が数値で指定されている。",
+    "refute": "数値で指定されていない工程がある。"
+   },
+   {
+    "id": "a04",
+    "support": "分量の数値にグラムや大さじなどの単位が併記されている。",
+    "refute": "単位の記述がない分量がある。"
+   },
+   {
+    "id": "a05",
+    "support": "時間の数値に分や秒などの単位が併記されている。",
+    "refute": "単位の記述がない時間がある。"
+   },
+   {
+    "id": "a06",
+    "support": "分量、火加減、時間のすべてにおいて数値が使われている。",
+    "refute": "分量、火加減、時間のうち、数値が使われていない項目がある。"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 2,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 2,
+     "u4": 2
+    },
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     0,
+     0,
+     1,
+     0,
+     0,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": null,
+    "w": null,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 2,
+     "u4": 3
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.3333333333333333,
+    "contradiction_rate": 0.5,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta_s2": null,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 2,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 2,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.3333333333333333,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     0,
+     0,
+     1,
+     0,
+     0,
+     1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 1,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 3,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.16666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.5,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     1
+    ]
+   }
+  },
+  "delta_s1": null,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.2,
+    "w": 0.4,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 1,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 1
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     -1,
+     -1,
+     -1,
+     0,
+     -1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "INSTRUMENT_FAULT",
+    "reason": "contradictory_axes",
+    "s": 3,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 3
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.5,
+    "d": [
+     0,
+     0,
+     1,
+     1,
+     0,
+     1
+    ]
+   }
+  },
+  "strong_delta_s1": null,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.2
+ },
+ "m18": {
+  "id": "m18",
+  "proposition": "二人は旅行の計画について合意に達した",
+  "expected_lean": "split",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "二人が十月の三連休に旅行することに同意している",
+    "refute": "日程について合意していない、または異なる日程を希望している"
+   },
+   {
+    "id": "a02",
+    "support": "二人が温泉に行くことに同意している",
+    "refute": "目的地について合意していない、または異なる目的地を希望している"
+   },
+   {
+    "id": "a03",
+    "support": "一泊の宿泊費について、二人が同一の金額または範囲で合意している",
+    "refute": "宿泊費の金額について、二人の意見が分かれている"
+   },
+   {
+    "id": "a04",
+    "support": "宿の食事を利用するか外食にするかについて、二人が合意している",
+    "refute": "食事をどこで摂るかについて、二人の意見が分かれている"
+   },
+   {
+    "id": "a05",
+    "support": "宿泊する宿が具体的に決定している",
+    "refute": "宿泊する宿について、検討を継続することになっている"
+   },
+   {
+    "id": "a06",
+    "support": "旅行計画のすべての項目について、合意した旨の記述がある",
+    "refute": "一部の項目について、合意に至っていない旨の記述がある"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 0,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 4,
+     "u4": 0
+    },
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.25,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     -1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 0,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 4,
+     "u4": 1
+    },
+    "valid_rate": 0.16666666666666666,
+    "invalid_rate": 0.08333333333333333,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     0,
+     0,
+     -1,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta_s2": null,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     0,
+     1,
+     1,
+     0,
+     -1,
+     -1
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 1,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 1,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.5,
+    "invalid_rate": 0.08333333333333333,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     1,
+     0,
+     -1,
+     0,
+     -1,
+     0
+    ]
+   }
+  },
+  "delta_s1": 0.16666666666666669,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.6
+ },
+ "m19": {
+  "id": "m19",
+  "proposition": "新型掃除ロボットの発売は予定どおり行われた",
+  "expected_lean": "refute",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "四月一日に発売された",
+    "refute": "四月一日以外に発売された"
+   },
+   {
+    "id": "a02",
+    "support": "発売日の変更が行われなかった",
+    "refute": "発売日の延期が行われた"
+   },
+   {
+    "id": "a03",
+    "support": "部品の不具合が発売前に解消され、予定日に影響しなかった",
+    "refute": "部品の不具合により発売日が変更された"
+   },
+   {
+    "id": "a04",
+    "support": "部品の供給が予定通りに行われ、発売日に影響しなかった",
+    "refute": "部品の供給不足により発売日が変更された"
+   },
+   {
+    "id": "a05",
+    "support": "量販店での販売開始日が四月一日であった",
+    "refute": "量販店での販売開始日が四月一日ではなかった"
+   },
+   {
+    "id": "a06",
+    "support": "顧客への発売延期の案内は送られなかった",
+    "refute": "顧客へ発売延期の案内が送られた"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 5,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "delta_s2": 0.0,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 5,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 1
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "delta_s1": 0.0,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s1": 0.0,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 110.6
+ },
+ "m20": {
+  "id": "m20",
+  "proposition": "この記録を付けた人は農家である",
+  "expected_lean": "none",
+  "axes": [
+   {
+    "id": "a01",
+    "support": "作物の成長や管理に関する記述がある",
+    "refute": "作物の成長や管理に関する記述が一切ない"
+   },
+   {
+    "id": "a02",
+    "support": "農機具やビニールハウスなどの農業設備について述べている",
+    "refute": "農業設備について述べていない"
+   },
+   {
+    "id": "a03",
+    "support": "降水量や気温など、農業経営に不可欠な気象データを詳細に記録している",
+    "refute": "洗濯物の乾き具合など、日常生活の視点で気象を記録している"
+   },
+   {
+    "id": "a04",
+    "support": "所有または管理している土地を耕作地として利用している",
+    "refute": "所有または管理している土地を庭などの観賞・生活用として利用している"
+   },
+   {
+    "id": "a05",
+    "support": "種まきや収穫などの農作業に従事した記述がある",
+    "refute": "農作業に従事した記述がない"
+   },
+   {
+    "id": "a06",
+    "support": "日々の活動が農作物の管理サイクルに基づいている",
+    "refute": "日々の活動が家事や事務などの非農業的な生活サイクルに基づいている"
+   }
+  ],
+  "weak_readers_s2": {
+   "qwen3.5:4b#a": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 0,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 5,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.16666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.8333333333333334,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     -1,
+     0,
+     0,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 4,
+     "u2": 0,
+     "u3": 2,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.8333333333333334,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta_s2": null,
+  "cost_s2": {
+   "live": 48,
+   "cached": 0,
+   "missed": 0
+  },
+  "notes": [
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+  ],
+  "weak_readers_s1": {
+   "qwen3.5:4b#a": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 0,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 5,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.16666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.8333333333333334,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     -1,
+     0,
+     0,
+     0
+    ]
+   },
+   "qwen3.5:4b#b": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 1,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 5,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.16666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.8333333333333334,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "delta_s1": null,
+  "cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "strong_readers_s1": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 0,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 5,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.16666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.8333333333333334,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     -1,
+     0,
+     0,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 0,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 4,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.6666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     -1,
+     -1,
+     0,
+     0
+    ]
+   }
+  },
+  "strong_delta_s1": null,
+  "strong_cost_s1": {
+   "live": 0,
+   "cached": 24,
+   "missed": 0
+  },
+  "seconds": 108.2
+ }
+}
