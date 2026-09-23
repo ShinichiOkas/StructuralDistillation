@@ -93,12 +93,13 @@
   },
   "delta_s2": 0.16666666666666663,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -224,7 +225,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 109.2
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     -1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     -1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m01b": {
   "id": "m01b",
@@ -320,12 +383,13 @@
   },
   "delta_s2": null,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -451,7 +515,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 108.4
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "strong_delta_s2": null,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m02": {
   "id": "m02",
@@ -547,12 +673,13 @@
   },
   "delta_s2": 0.0,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -678,7 +805,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.3
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 2
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.3333333333333333,
+    "d": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m03": {
   "id": "m03",
@@ -774,12 +963,13 @@
   },
   "delta_s2": 0.0,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -905,7 +1095,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 109.0
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m04": {
   "id": "m04",
@@ -1001,12 +1253,13 @@
   },
   "delta_s2": 0.1333333333333333,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -1132,7 +1385,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 109.8
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m05": {
   "id": "m05",
@@ -1228,12 +1543,13 @@
   },
   "delta_s2": 0.0,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -1359,7 +1675,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.3
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 4,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     1,
+     1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.8,
+    "w": 0.4,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 4,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.13333333333333341,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m06": {
   "id": "m06",
@@ -1455,12 +1833,13 @@
   },
   "delta_s2": 0.25,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -1586,7 +1965,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.7
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m07": {
   "id": "m07",
@@ -1682,12 +2123,13 @@
   },
   "delta_s2": 0.0,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -1813,7 +2255,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.5
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.4,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 3,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     -1,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.5,
+    "w": 1.0,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     -1,
+     1,
+     1,
+     -1,
+     0,
+     0
+    ]
+   }
+  },
+  "strong_delta_s2": 0.09999999999999998,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m08": {
   "id": "m08",
@@ -1909,12 +2413,13 @@
   },
   "delta_s2": 0.06666666666666665,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -2040,7 +2545,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.0
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.6,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     1,
+     0,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.6,
+    "w": 0.8,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 3,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     1,
+     1,
+     1,
+     0,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m09": {
   "id": "m09",
@@ -2136,12 +2703,13 @@
   },
   "delta_s2": null,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -2267,7 +2835,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.3
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m10": {
   "id": "m10",
@@ -2363,12 +2993,13 @@
   },
   "delta_s2": 0.0,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -2494,7 +3125,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.5
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     -1,
+     1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     -1,
+     1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m11": {
   "id": "m11",
@@ -2590,12 +3283,13 @@
   },
   "delta_s2": null,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -2721,7 +3415,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 111.1
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 5,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 1
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m12": {
   "id": "m12",
@@ -2817,12 +3573,13 @@
   },
   "delta_s2": null,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -2948,7 +3705,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 108.7
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 6,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 1.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": null,
+    "w": null,
+    "label": "NO_EVIDENCE",
+    "reason": "no_definite_axis",
+    "s": 0,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 3,
+     "u2": 0,
+     "u3": 3,
+     "u4": 0
+    },
+    "valid_rate": 0.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.75,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "strong_delta_s2": null,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m13": {
   "id": "m13",
@@ -3044,12 +3863,13 @@
   },
   "delta_s2": null,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -3175,7 +3995,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.1
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 5,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 5,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 1,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.16666666666666666,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m14": {
   "id": "m14",
@@ -3271,12 +4153,13 @@
   },
   "delta_s2": null,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -3402,7 +4285,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 109.7
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 4,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.6666666666666666,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 4,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m15": {
   "id": "m15",
@@ -3498,12 +4443,13 @@
   },
   "delta_s2": 0.33333333333333337,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -3629,7 +4575,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 109.9
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "LEAN_SUPPORT",
+    "reason": null,
+    "s": 6,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m16": {
   "id": "m16",
@@ -3725,12 +4733,13 @@
   },
   "delta_s2": null,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -3856,7 +4865,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.4
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 5,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.8333333333333334,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.08333333333333333,
+    "d": [
+     -1,
+     -1,
+     -1,
+     0,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m17": {
   "id": "m17",
@@ -3952,12 +5023,13 @@
   },
   "delta_s2": null,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -4083,7 +5155,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.2
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 1,
+     "u4": 1
+    },
+    "valid_rate": 0.6666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.16666666666666666,
+    "d": [
+     -1,
+     -1,
+     -1,
+     0,
+     -1,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 1.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 1,
+    "r": 0,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 5,
+     "u4": 0
+    },
+    "valid_rate": 0.16666666666666666,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.4166666666666667,
+    "d": [
+     0,
+     0,
+     0,
+     1,
+     0,
+     0
+    ]
+   }
+  },
+  "strong_delta_s2": null,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m18": {
   "id": "m18",
@@ -4179,12 +5313,13 @@
   },
   "delta_s2": null,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -4310,7 +5445,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.6
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.3333333333333333,
+    "w": 0.6666666666666666,
+    "label": "SPLIT",
+    "reason": null,
+    "s": 2,
+    "r": 4,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     1,
+     1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m19": {
   "id": "m19",
@@ -4406,12 +5603,13 @@
   },
   "delta_s2": 0.0,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -4537,7 +5735,69 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 110.6
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "LEAN_REFUTE",
+    "reason": null,
+    "s": 0,
+    "r": 6,
+    "n": 6,
+    "u": {
+     "u1": 0,
+     "u2": 0,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 1.0,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.0,
+    "contradiction_rate": 0.0,
+    "d": [
+     -1,
+     -1,
+     -1,
+     -1,
+     -1,
+     -1
+    ]
+   }
+  },
+  "strong_delta_s2": 0.0,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  },
  "m20": {
   "id": "m20",
@@ -4633,12 +5893,13 @@
   },
   "delta_s2": null,
   "cost_s2": {
-   "live": 48,
-   "cached": 0,
+   "live": 0,
+   "cached": 48,
    "missed": 0
   },
   "notes": [
-   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない"
+   "読み手が全部同じモデル（qwen3.5:4b）。読み手間の差 Δ は同じモデルの揺れで、読み手非依存（Q1）の計器にはならない",
+   "読み手は全部同じモデル。この問いの集合を作った生成器は gemma4:31b-cloud・交差検証なし（記録に残った名前）。名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない"
   ],
   "weak_readers_s1": {
    "qwen3.5:4b#a": {
@@ -4764,6 +6025,68 @@
    "cached": 24,
    "missed": 0
   },
-  "seconds": 108.2
+  "strong_readers_s2": {
+   "qwen3.5:397b-cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 0,
+    "r": 1,
+    "n": 6,
+    "u": {
+     "u1": 4,
+     "u2": 1,
+     "u3": 0,
+     "u4": 0
+    },
+    "valid_rate": 0.16666666666666666,
+    "invalid_rate": 0.041666666666666664,
+    "silent_rate": 0.75,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     -1,
+     0,
+     0,
+     0
+    ]
+   },
+   "glm-5.2:cloud": {
+    "p": 0.0,
+    "w": 0.0,
+    "label": "NO_EVIDENCE",
+    "reason": "low_valid_rate",
+    "s": 0,
+    "r": 2,
+    "n": 6,
+    "u": {
+     "u1": 3,
+     "u2": 0,
+     "u3": 1,
+     "u4": 0
+    },
+    "valid_rate": 0.3333333333333333,
+    "invalid_rate": 0.0,
+    "silent_rate": 0.5833333333333334,
+    "contradiction_rate": 0.0,
+    "d": [
+     0,
+     0,
+     -1,
+     -1,
+     0,
+     0
+    ]
+   }
+  },
+  "strong_delta_s2": null,
+  "strong_cost_s2": {
+   "live": 0,
+   "cached": 48,
+   "missed": 0
+  },
+  "seconds": 0.1
  }
 }

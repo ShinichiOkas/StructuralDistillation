@@ -56,6 +56,7 @@ def score(matrices, active, expected, th):
 
 
 c_rows = json.loads((PROBE / "single_model.json").read_text(encoding="utf-8"))
+c2_dir = PROBE / "c_samples2"                       # 腕 C の標本 2（受入 3 回目 m-1）
 w5_rows = json.loads((W5 / "w5.json").read_text(encoding="utf-8"))
 c_recs = {tuple(a["claim_support"] for a in r["question_set"]["axes"]): r
           for r in read_rows(PROBE / "records.jsonl") if len(r["question_set"]["axes"]) > 1}
@@ -84,19 +85,27 @@ for arm, samples, weak in (("B 強い軸 × 弱い読み手（標本 1）", 1, T
                 n += bool(h)
         line.append(f"{n}/{d}")
     print(f"{arm:<30}", "  ".join(f"{x:<18}" for x in line))
-line = []
-for name, th in SETS.items():
-    n = d = 0
-    for mid, row in c_rows.items():
-        if mid in EXCLUDE:
-            continue
-        rec = c_recs.get(tuple(a["support"] for a in row["axes"]))
-        h = score(rec["matrices"], row["active"], row.get("expected_lean"), th)
-        if h is not None:
-            d += 1
-            n += bool(h)
-    line.append(f"{n}/{d}")
-print(f"{'C 弱い軸 × 弱い読み手（標本 1）':<30}", "  ".join(f"{x:<18}" for x in line))
+for label, rows_path, recs_path in (("C 弱い軸 × 弱い読み手（標本 1）", PROBE / "single_model.json", PROBE / "records.jsonl"),
+                                    ("C 弱い軸 × 弱い読み手（標本 2）", c2_dir / "single_model.json",
+                                     c2_dir / "records.jsonl")):
+    if not rows_path.exists():
+        continue
+    rows = json.loads(rows_path.read_text(encoding="utf-8"))
+    recs = {tuple(a["claim_support"] for a in r["question_set"]["axes"]): r
+            for r in read_rows(recs_path) if len(r["question_set"]["axes"]) > 1}
+    line = []
+    for name, th in SETS.items():
+        n = d = 0
+        for mid, row in rows.items():
+            if mid in EXCLUDE:
+                continue
+            h = score(recs[tuple(a["support"] for a in row["axes"])]["matrices"], row["active"],
+                      row.get("expected_lean"), th)
+            if h is not None:
+                d += 1
+                n += bool(h)
+        line.append(f"{n}/{d}")
+    print(f"{label:<30}", "  ".join(f"{x:<18}" for x in line))
 
 # A は記録を残していない（強い読み手はキャッシュからの引き直し）。ここで両方の閾値で引き直す（呼び出し 0）
 import asyncio  # noqa: E402

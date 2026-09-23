@@ -151,8 +151,12 @@ def _note_models(qs: QuestionSet, budget: Budget, readers: Sequence[Reader], ver
                  planner: Reader | None, *, generated: bool) -> list[str]:
     """1 つのモデルしか使っていないことを黙って済ませない（単一モデル運用の測定 2026-09-23）。
 
-    測定（弱いモデル 1 体・題材 21）: 想定一致 7/18（多系統の基準 16/18）。壊れていたのは生成器で、同じ弱い読み手でも
-    強いモデルが作った軸なら 15/18 だった。同じモデルを 2 体に見せても Δ は 0.00。自己交差検証が外せた軸は他系統の検証役の 1/4。
+    測定（弱いモデル 1 体・題材 21）: 想定一致 7/18（多系統の基準 16/18）。主に壊れていたのは生成器で、同じ弱い読み手でも
+    強いモデルが作った軸なら 13〜15/18 だった（標本数で動く）。同じモデルを 2 体に見せても Δ は 0.00。
+    自己交差検証が外せた軸は他系統の検証役の 1/4。
+
+    ⚠ 1 モデル運用とは別に、「生成器が検証役 2 体の 1 体を兼ねている」（既定でよく起きる）も出す。これはモデルが
+      別々でも出る注意で、向きを外すのに全員一致が要る規則（H12）の帰結。
 
     ⚠ 問いをこの判定で作ったか（generated）で、言えることが変わる。作っていないなら、生成器・検証役の**モデル**は
       ライブラリからは分からないので、問いの集合に記録された**名前**だけで言う（受入 2 回目 C-2）。
@@ -173,7 +177,8 @@ def _note_models(qs: QuestionSet, budget: Budget, readers: Sequence[Reader], ver
                          "他系統の検証役の 1/4 だった（拾ったものは正しかったが、取りこぼしが多い）")
         elif any(v.name == planner.name for v in verifiers) and len(verifiers) == 2:
             notes.append(f"生成器 {planner.name} が検証役 2 体の 1 体を兼ねている。向きを外すには全員一致が要るので、"
-                         "生成器は自分が作った軸に拒否権を持つ")
+                         "生成器は自分が作った軸に拒否権を持つ（測定では、生成器を検証役に入れても外した軸の数は"
+                         "同等だった。⚠ これは 1 モデル運用とは別の注意で、別々のモデルでも出る）")
     if len(real) == 1:
         notes.append(f"読み手が 1 体（{real[0].name}）。読み手間の差 Δ は測れない（読み手非依存 Q1 の計器が無い）")
     elif len(real) >= 2 and len(models) == 1:
@@ -189,8 +194,8 @@ def _note_models(qs: QuestionSet, budget: Budget, readers: Sequence[Reader], ver
                      + ("" if generated else "。⚠ この判定では問いを作っていない（再利用）"))
     elif len(models) == 1 and not generated:
         cc = f"・検証役は {'・'.join(qs.crosscheck.verifiers)}" if qs.crosscheck else "・交差検証なし"
-        notes.append(f"この問いの集合を作った生成器は {qs.planner}{cc}（記録に残った名前）。読み手と同じ系統かどうかは"
-                     "ライブラリからは分からない。同じなら、判定は 1 モデルで回っていることになる")
+        notes.append(f"読み手は全部同じモデル。この問いの集合を作った生成器は {qs.planner}{cc}（記録に残った名前）。"
+                     "名前しか残らないので、生成器が読み手と同じモデルかどうかはライブラリからは分からない")
     for n in notes:
         log.warning("%s", n)
     return notes

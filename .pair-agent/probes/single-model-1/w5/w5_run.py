@@ -107,13 +107,14 @@ async def main_async(args) -> int:
             row[f"delta_s{samples}"] = j.summary.delta
             row[f"cost_s{samples}"] = {"live": j.cost.live, "cached": j.cost.cached, "missed": j.cost.missed}
             row["notes"] = j.notes
-        # A 強い軸 × 強い読み手を標本 1 で引き直す（out4 のキャッシュ。呼び出し 0）
-        budget1 = Budget(samples=1, workers=8, crosscheck=False)
-        a1 = await judge(m["text"], m["proposition"], Probability(), readers=[strong(r) for r in STRONG_READERS],
-                         question_set=question_set(recs[mid], budget1), budget=budget1, thresholds=RUN_TIME, prompts=p)
-        row["strong_readers_s1"] = reading_row(a1)
-        row["strong_delta_s1"] = a1.summary.delta
-        row["strong_cost_s1"] = {"live": a1.cost.live, "cached": a1.cost.cached, "missed": a1.cost.missed}
+        # A 強い軸 × 強い読み手を標本 1・2 で引き直す（out4 のキャッシュ。呼び出し 0。受入 3 回目 m-2: 定数で埋めない）
+        for samples in (1, 2):
+            b = Budget(samples=samples, workers=8, crosscheck=False)
+            a = await judge(m["text"], m["proposition"], Probability(), readers=[strong(r) for r in STRONG_READERS],
+                            question_set=question_set(recs[mid], b), budget=b, thresholds=RUN_TIME, prompts=p)
+            row[f"strong_readers_s{samples}"] = reading_row(a)
+            row[f"strong_delta_s{samples}"] = a.summary.delta
+            row[f"strong_cost_s{samples}"] = {"live": a.cost.live, "cached": a.cost.cached, "missed": a.cost.missed}
         row["seconds"] = round(time.time() - t0, 1)
         out[mid] = row
         res_path.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")

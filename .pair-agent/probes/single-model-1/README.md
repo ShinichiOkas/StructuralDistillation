@@ -39,6 +39,8 @@ W5 は強い生成器が作った軸（`out4/base21`）を弱い読み手 2 体�
 標本 2 では読み手の寄与も規則の閾値（3 件）にちょうど届くので、「読み手は関係ない」とは言えない（受入 2 回目 C-1）。
 ローカル 1,008 呼び出し（21 題材 × 6 軸 × 2 側 × 標本 2 × 読み手 2 体）・約 38 分。
 腕 C の標本 2 は `c_samples2/`（488 呼び出し・約 20 分。問いは保存庫から再利用したので生成も交差検証も呼んでいない）。
+⚠ `c_samples2/run.log` の先頭が `[m01] 済み` なのは、道具を確かめるために m01 だけ先に走らせたため。
+`single_model.json` の `seconds` の合計（19.0 分）には m01 の時計が別の呼び出しのものとして入っている（受入 3 回目 m-11）。
 閾値（既定 κ=0.667 と測定時 κ=0.5）を入れ替えても 4 つの数字は動かない（`w5/threshold_sweep.py`）。
 
 ## `records.jsonl` は作り直してある（注意を載せるため）
@@ -53,6 +55,7 @@ W5 は強い生成器が作った軸（`out4/base21`）を弱い読み手 2 体�
 ## 再現
 
 ```bash
-python single_model_report.py --run . --w5 w5 --c2 c_samples2   # 読みだけ引き直す（LLM を呼ばない）
-python w5/threshold_sweep.py                                     # 閾値を入れ替えて 2×2 を数え直す
+python single_model_report.py --run . --w5 w5 --c2 c_samples2   # 読みだけ引き直す（LLM を呼ばない。report.md と完全一致）
+python w5/threshold_sweep.py                                     # 閾値を入れ替えて 6 つの升目を数え直す
+python w5/w5_run.py --out <作業ディレクトリ>                      # W5 を引き直す（キャッシュを置けば呼び出し 0）
 ```

@@ -319,8 +319,8 @@ def main() -> int:
               "",
               f"- 生成器の寄与（B − C・読み手は同じ）: 想定一致 {B1['n_hit'] - C1['n_hit']:+d} 件"
               f"・矛盾率 {B1['contradiction'] - C1['contradiction']:+.3f}",
-              f"- 読み手の寄与（B − A・軸は同じ）: 想定一致 {B1['n_hit'] - A1['n_hit']:+d} 件"
-              f"・矛盾率 {B1['contradiction'] - A1['contradiction']:+.3f}",
+              f"- 読み手の寄与（A − B・軸は同じ）: 想定一致 {A1['n_hit'] - B1['n_hit']:+d} 件"
+              f"・矛盾率 {A1['contradiction'] - B1['contradiction']:+.3f}",
               f"- 参考: B を標本 2 で読むと 想定一致 {B2['n_hit']}/{B2['n']}・矛盾率 {B2['contradiction']:.3f}"
               f"・Δ {'—' if B2['delta'] is None else round(B2['delta'], 3)}"]
         def verdict(gen, rdr):
@@ -331,15 +331,15 @@ def main() -> int:
         gen, rdr = B1["n_hit"] - C1["n_hit"], A1["n_hit"] - B1["n_hit"]
         L.append(f"- → 標本 1 では **{verdict(gen, rdr)}**（規則 R-g: 3 件以上の差を効いたと読む。R-a と同じ閾値）")
         if C2 is not None:
-            # 標本 2 の A は記録から引き直してある（threshold_sweep.py。16/18・実呼び出し 0）
-            A2 = 16
+            A2s = arm_summary(w5rows, "strong_readers_s2", exp5)   # 受入 3 回目 m-2: 定数で埋めず自分で数える
+            A2 = A2s["n_hit"]
             gen2, rdr2 = B2["n_hit"] - C2["n_hit"], A2 - B2["n_hit"]
             L += ["\n### 標本を変えると（受入 2 回目 C-1）\n",
                   "| 標本 | A 強い軸×強い読み手 | B 強い軸×弱い読み手 | C 弱い軸×弱い読み手 | 生成器の寄与 B−C | 読み手の寄与 A−B | R-g の読み |",
                   "|---|---|---|---|---|---|---|",
                   f"| 1 | {A1['n_hit']}/{A1['n']} | {B1['n_hit']}/{B1['n']} | {C1['n_hit']}/{C1['n']} | "
                   f"{gen:+d} | {rdr:+d} | {verdict(gen, rdr)} |",
-                  f"| 2 | {A2}/18 | {B2['n_hit']}/{B2['n']} | {C2['n_hit']}/{C2['n']} | {gen2:+d} | {rdr2:+d} | "
+                  f"| 2 | {A2}/{A2s['n']} | {B2['n_hit']}/{B2['n']} | {C2['n_hit']}/{C2['n']} | {gen2:+d} | {rdr2:+d} | "
                   f"{verdict(gen2, rdr2)} |",
                   "",
                   f"- 数が動くのは腕 B だけ（A は標本 1 でも 2 でも 16/18、C は {C1['n_hit']}/{C1['n']} と "
@@ -390,7 +390,7 @@ def main() -> int:
     if args.out:
         Path(args.out).write_text(text, encoding="utf-8")
     sys.stdout.reconfigure(encoding="utf-8")
-    print(text)
+    print(text, end="")           # 受入 3 回目 m-7: 引き直しと report.md が末尾の空行で違わないように
     return 0
 
 
